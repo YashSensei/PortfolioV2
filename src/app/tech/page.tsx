@@ -1,82 +1,198 @@
 "use client";
 
-import { motion } from "framer-motion";
-import Link from "next/link";
+import { ScrollNarrativeContainer } from "@/components/scroll-narrative";
+import {
+  EntryPhase,
+  HeroPhase,
+  PhilosophyPhase,
+  TimelinePhase,
+  ProjectsPhase,
+  SkillsPhase,
+  GitHubStatsPhase,
+  ContactPhase,
+} from "@/components/scroll-narrative/phases";
+import { AnimatedStorySection } from "@/components/scroll-narrative/StorySection";
 
 /**
- * Tech section landing page
- * User arrives here after choosing the Blue pill
+ * Tech Page - Blue Pill Path
+ * Scroll-driven narrative experience showcasing technical journey
+ * Focus: Experience, Projects, GitHub Stats, Skills
  */
+
+const heroContent = {
+  name: "Yash Agrawal",
+  title: "Full Stack Developer",
+  headline: {
+    line1: "Building",
+    highlighted: "Scalable",
+    line2: "Systems & Products.",
+  },
+  subtitle:
+    "Full Stack Developer with a product mindset. From 0 to 190k users — I build systems that scale, ship features that matter, and write code that lasts.",
+};
+
+const philosophyContent = {
+  paragraphs: [
+    "I believe that code is more than syntax; it's the language of problem-solving. Clean architecture, scalable systems, and user-centric design drive everything I build.",
+    "From real-time WebSocket applications to AI-powered platforms, my journey is defined by shipping fast and iterating faster.",
+    "I don't just write code; I architect solutions. Every commit is intentional, every system designed to evolve with the product.",
+  ],
+  highlightWords: ["problem-solving", "scalable systems", "shipping fast", "architect"],
+};
+
+// Experience timeline - focused on developer roles
+const experienceContent = [
+  {
+    period: "Oct 2025 - Present",
+    title: "Product Manager / Engineer",
+    company: "MegaLLM.io",
+    description:
+      "Scaled the platform from 0 to 190k users. Led frontend/backend development, API debugging, and cross-team coordination. Built core features that drove user acquisition and retention.",
+    skills: ["Node.js", "React", "API Design", "Team Leadership"],
+    isCurrent: true,
+  },
+  {
+    period: "Jul 2025 - Sept 2025",
+    title: "Full Stack Developer Intern",
+    company: "Matiks.com",
+    description:
+      "Built daily questions system with streak tracking and real-time chat using WebSockets. Developed backend services with Go (Gin-Gonic), TypeScript, and MongoDB.",
+    skills: ["Go", "TypeScript", "MongoDB", "WebSockets"],
+    isCurrent: false,
+  },
+  {
+    period: "Feb 2025 - Sept 2025",
+    title: "Full Stack Developer",
+    company: "Health Nivaran",
+    description:
+      "Developed healthcare solutions and optimized WhatsApp chatbot workflows. Built integrations that improved patient engagement and operational efficiency.",
+    skills: ["Node.js", "WhatsApp API", "MongoDB", "Healthcare Tech"],
+    isCurrent: false,
+  },
+  {
+    period: "Jun 2024 - Jan 2025",
+    title: "Frontend Developer / Technical Writer",
+    company: "MagnumKare",
+    description:
+      "Built responsive healthcare portals using React. Authored technical documentation that improved developer onboarding and reduced support tickets.",
+    skills: ["React", "TypeScript", "Technical Writing", "UI/UX"],
+    isCurrent: false,
+  },
+];
+
+// Projects from resume
+const projectsContent = [
+  {
+    name: "URL Shortener with Rate Limiting",
+    description:
+      "Built a scalable URL shortening service with Redis-based IP rate limiting. Containerized the backend using Docker for consistent deployments across environments.",
+    tech: ["Node.js", "Redis", "Docker", "REST APIs"],
+    githubUrl: "https://github.com/YashSensei/url-shortner",
+    highlight: "Production-ready",
+  },
+  {
+    name: "AlgoWars",
+    description:
+      "Designed a 1v1 competitive coding platform with ELO-based matchmaking. Planned VJudge-style problem aggregation for diverse problem sets.",
+    tech: ["System Design", "Backend Architecture", "WebSockets"],
+    highlight: "MVP / Concept",
+  },
+  {
+    name: "Chatify",
+    description:
+      "Real-time chat application with JWT authentication, online presence tracking, and instant message delivery using Socket.io.",
+    tech: ["MERN Stack", "Socket.io", "JWT", "Real-time"],
+    liveUrl: "https://mern-stack-project-vefu.onrender.com/",
+    githubUrl: "https://github.com/YashSensei/Chatify",
+    highlight: "Live Demo",
+  },
+];
+
+const skillsContent = [
+  {
+    name: "Languages",
+    items: ["JavaScript", "TypeScript", "Go", "SQL", "Python"],
+  },
+  {
+    name: "Backend",
+    items: ["Node.js", "Express", "Gin-Gonic", "MongoDB", "Redis", "WebSockets"],
+  },
+  {
+    name: "DevOps & Tools",
+    items: ["Docker", "Git", "Vercel", "REST APIs", "CI/CD"],
+  },
+];
+
+const contactContent = {
+  email: "yashagrawalrkt123@gmail.com",
+  socials: {
+    github: "https://github.com/YashSensei",
+    linkedin: "https://linkedin.com/in/yash-agrawal-208841307",
+    twitter: "https://x.com/Yash__Sensei",
+  },
+};
+
 export default function TechPage() {
+  // 7 sections: Hero, Philosophy, Experience, Projects, GitHub Stats, Skills, Contact
+  const TOTAL_SECTIONS = 7;
+
   return (
-    <main className="min-h-screen bg-black flex flex-col items-center justify-center px-4 py-8 overflow-hidden">
-      {/* Entry animation - fade in from blue wash */}
-      <motion.div
-        className="fixed inset-0 bg-blue-500 z-50 pointer-events-none"
-        initial={{ opacity: 0.9 }}
-        animate={{ opacity: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-      />
+    <ScrollNarrativeContainer totalSections={TOTAL_SECTIONS} accentColor="blue">
+      {/* Phase 0: Entry - Color wash from landing */}
+      <EntryPhase accentColor="blue" />
 
-      {/* Content container */}
-      <motion.div
-        className="flex flex-col items-center justify-center text-center"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.3 }}
-      >
-        {/* Blue glow accent */}
-        <motion.div
-          className="w-4 h-4 rounded-full bg-blue-500 mb-8"
-          animate={{
-            boxShadow: [
-              "0 0 20px 5px rgba(59, 130, 246, 0.5)",
-              "0 0 40px 10px rgba(59, 130, 246, 0.8)",
-              "0 0 20px 5px rgba(59, 130, 246, 0.5)",
-            ],
-          }}
-          transition={{ duration: 2, repeat: Infinity }}
+      {/* Section 0: Hero */}
+      <AnimatedStorySection index={0}>
+        <HeroPhase
+          accentColor="blue"
+          name={heroContent.name}
+          title={heroContent.title}
+          headline={heroContent.headline}
+          subtitle={heroContent.subtitle}
+          sectionIndex={0}
+          portraitImage="/myimages/mypotraitfortechpage.jpeg"
         />
+      </AnimatedStorySection>
 
-        <h1 className="text-4xl md:text-6xl font-light tracking-[0.2em] text-blue-400 mb-4 uppercase">
-          Tech
-        </h1>
+      {/* Section 1: Philosophy */}
+      <AnimatedStorySection index={1}>
+        <PhilosophyPhase
+          accentColor="blue"
+          paragraphs={philosophyContent.paragraphs}
+          highlightWords={philosophyContent.highlightWords}
+          sectionIndex={1}
+        />
+      </AnimatedStorySection>
 
-        <p className="text-lg md:text-xl text-white/60 max-w-md mb-12 font-light">
-          You chose the blue pill. Welcome to the technical side.
-        </p>
+      {/* Section 2: Experience Timeline */}
+      <AnimatedStorySection index={2}>
+        <TimelinePhase accentColor="blue" items={experienceContent} sectionIndex={2} />
+      </AnimatedStorySection>
 
-        {/* Placeholder content - to be expanded */}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 max-w-4xl">
-          {["Projects", "Skills", "Experience"].map((item, index) => (
-            <motion.div
-              key={item}
-              className="p-6 border border-blue-500/30 rounded-lg bg-blue-500/5 hover:bg-blue-500/10 transition-colors"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.5 + index * 0.1 }}
-            >
-              <h3 className="text-lg font-medium text-blue-300 mb-2">{item}</h3>
-              <p className="text-sm text-white/40">Coming soon...</p>
-            </motion.div>
-          ))}
-        </div>
+      {/* Section 3: Projects */}
+      <AnimatedStorySection index={3}>
+        <ProjectsPhase accentColor="blue" projects={projectsContent} sectionIndex={3} />
+      </AnimatedStorySection>
 
-        {/* Back link */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 1 }}
-          className="mt-16"
-        >
-          <Link
-            href="/"
-            className="text-sm text-white/40 hover:text-blue-400 transition-colors tracking-wider"
-          >
-            ← Choose again
-          </Link>
-        </motion.div>
-      </motion.div>
-    </main>
+      {/* Section 4: GitHub Stats */}
+      <AnimatedStorySection index={4}>
+        <GitHubStatsPhase accentColor="blue" username="YashSensei" sectionIndex={4} />
+      </AnimatedStorySection>
+
+      {/* Section 5: Skills */}
+      <AnimatedStorySection index={5}>
+        <SkillsPhase accentColor="blue" categories={skillsContent} sectionIndex={5} />
+      </AnimatedStorySection>
+
+      {/* Section 6: Contact */}
+      <AnimatedStorySection index={6}>
+        <ContactPhase
+          accentColor="blue"
+          email={contactContent.email}
+          socials={contactContent.socials}
+          sectionIndex={6}
+        />
+      </AnimatedStorySection>
+    </ScrollNarrativeContainer>
   );
 }
