@@ -27,16 +27,17 @@ function PillHitbox({ type, hoveredPill, selectedPill, onHover, onClick }: PillH
 
   // Position and styling based on pill type
   // Blue pill is on the LEFT hand, Red pill is on the RIGHT hand
+  // Extended hitbox to cover hand + pill area for better UX
   const positionClasses = isBlue
-    ? "left-[12%] bottom-[28%]" // Blue pill position (left hand)
-    : "right-[12%] bottom-[28%]"; // Red pill position (right hand)
+    ? "left-[5%] bottom-[15%]" // Blue pill position (left hand + pill area)
+    : "right-[5%] bottom-[15%]"; // Red pill position (right hand + pill area)
 
   const glowColor = isBlue ? "rgba(59, 130, 246, 0.8)" : "rgba(239, 68, 68, 0.8)";
   const label = isBlue ? "Tech" : "Growth";
 
   return (
     <motion.button
-      className={`absolute ${positionClasses} w-[18%] h-[12%] cursor-pointer z-10 rounded-full`}
+      className={`absolute ${positionClasses} w-[28%] h-[35%] cursor-pointer z-10 rounded-2xl`}
       onMouseEnter={() => onHover(type)}
       onMouseLeave={() => onHover(null)}
       onClick={() => onClick(type)}
@@ -44,24 +45,32 @@ function PillHitbox({ type, hoveredPill, selectedPill, onHover, onClick }: PillH
       // 3D transform and animation
       initial={{ scale: 1, z: 0 }}
       animate={{
-        scale: isSelected ? 2.5 : isHovered ? 1.15 : 1,
+        scale: isSelected ? 1.3 : isHovered ? 1.08 : 1,
         z: isSelected ? 100 : isHovered ? 30 : 0,
-        opacity: isOtherHovered ? 0.5 : 1,
+        opacity: isSelected ? 1 : isOtherHovered ? 0.3 : 1,
       }}
-      transition={{
-        type: "spring",
-        stiffness: 300,
-        damping: 20,
-        duration: isSelected ? 0.4 : 0.2,
-      }}
+      transition={
+        isSelected
+          ? {
+              scale: { duration: 0.6, ease: [0.34, 1.56, 0.64, 1] }, // Elastic ease out
+              opacity: { duration: 0.3 },
+            }
+          : {
+              type: "spring",
+              stiffness: 400,
+              damping: 25,
+            }
+      }
       style={{
         transformStyle: "preserve-3d",
         perspective: "1000px",
-        // Glow effect on hover
-        boxShadow:
-          isHovered || isSelected
-            ? `0 0 30px 10px ${glowColor}, 0 0 60px 20px ${glowColor}40`
+        // Glow effect - more intense on selection
+        boxShadow: isSelected
+          ? `0 0 60px 20px ${glowColor}, 0 0 100px 40px ${glowColor}60, 0 0 140px 60px ${glowColor}30`
+          : isHovered
+            ? `0 0 40px 15px ${glowColor}, 0 0 80px 30px ${glowColor}40`
             : "none",
+        transition: "box-shadow 0.4s ease-out",
       }}
       aria-label={`Choose ${label} path`}
     >
@@ -69,15 +78,16 @@ function PillHitbox({ type, hoveredPill, selectedPill, onHover, onClick }: PillH
       <AnimatePresence>
         {(isHovered || isSelected) && (
           <motion.span
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: -30 }}
-            exit={{ opacity: 0, y: 10 }}
-            transition={{ duration: 0.2 }}
-            className={`absolute left-1/2 -translate-x-1/2 whitespace-nowrap text-sm md:text-base font-medium tracking-wider uppercase ${
+            initial={{ opacity: 0, y: 20, scale: 0.8 }}
+            animate={{ opacity: 1, y: -40, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.8 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            className={`absolute left-1/2 -translate-x-1/2 whitespace-nowrap text-xl md:text-2xl lg:text-3xl font-black tracking-widest uppercase ${
               isBlue ? "text-blue-400" : "text-red-400"
             }`}
             style={{
-              textShadow: `0 0 10px ${glowColor}`,
+              textShadow: `0 0 20px ${glowColor}, 0 0 40px ${glowColor}, 0 0 60px ${glowColor}50`,
+              letterSpacing: "0.15em",
             }}
           >
             {label}
@@ -90,6 +100,7 @@ function PillHitbox({ type, hoveredPill, selectedPill, onHover, onClick }: PillH
 
 /**
  * Color wash overlay that appears during transition
+ * Smooth radial expansion from the selected pill with centered text
  */
 function ColorWashOverlay({
   color,
@@ -98,19 +109,51 @@ function ColorWashOverlay({
   color: "blue" | "red" | null;
   isActive: boolean;
 }) {
-  const bgColor =
-    color === "blue" ? "bg-blue-500" : color === "red" ? "bg-red-500" : "bg-transparent";
+  const isBlue = color === "blue";
+  const gradientColor = isBlue ? "59, 130, 246" : "239, 68, 68"; // RGB values
+  // Origin from the pill position (left for blue, right for red)
+  const originX = isBlue ? "25%" : "75%";
+  const message = isBlue ? "Tech it is.." : "Growth it is..";
 
   return (
     <AnimatePresence>
       {isActive && color && (
         <motion.div
-          className={`fixed inset-0 ${bgColor} z-50 pointer-events-none`}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.9 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.4, ease: "easeInOut" }}
-        />
+          className="fixed inset-0 z-50 pointer-events-none flex items-center justify-center"
+          initial={{
+            opacity: 0,
+            background: `radial-gradient(circle at ${originX} 60%, rgba(${gradientColor}, 0.95) 0%, rgba(${gradientColor}, 0.8) 30%, rgba(${gradientColor}, 0) 70%)`,
+          }}
+          animate={{
+            opacity: 1,
+            background: `radial-gradient(circle at ${originX} 60%, rgba(${gradientColor}, 0.98) 0%, rgba(${gradientColor}, 0.95) 50%, rgba(${gradientColor}, 0.9) 100%)`,
+          }}
+          exit={{
+            opacity: 0,
+          }}
+          transition={{
+            duration: 0.7,
+            ease: [0.4, 0, 0.2, 1], // Smooth cubic bezier
+          }}
+        >
+          {/* Centered message */}
+          <motion.span
+            initial={{ opacity: 0, y: 20, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{
+              delay: 0.2,
+              duration: 0.5,
+              ease: [0.4, 0, 0.2, 1],
+            }}
+            className="text-3xl md:text-5xl lg:text-6xl font-black text-white tracking-wide"
+            style={{
+              textShadow: "0 0 30px rgba(255,255,255,0.5), 0 0 60px rgba(255,255,255,0.3)",
+            }}
+          >
+            {message}
+          </motion.span>
+        </motion.div>
       )}
     </AnimatePresence>
   );
@@ -137,10 +180,10 @@ export default function PillChoice() {
       // Blue = Tech, Red = Growth
       const route = pill === "blue" ? "/tech" : "/growth";
 
-      // Delay navigation to allow animation to complete
+      // Delay navigation to allow smooth animation to complete
       setTimeout(() => {
         router.push(route);
-      }, 500); // 500ms for animation to complete before route change
+      }, 700); // 700ms for smooth animation before route change
     },
     [selectedPill, router]
   );
