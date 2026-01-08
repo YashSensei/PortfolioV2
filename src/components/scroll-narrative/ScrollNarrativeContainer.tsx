@@ -1,6 +1,9 @@
 "use client";
 
-import { ReactNode, createContext, useContext } from "react";
+import type { ReactNode } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 import { useScrollProgress } from "@/hooks/useScrollProgress";
 
 interface ScrollContextValue {
@@ -37,6 +40,24 @@ export default function ScrollNarrativeContainer({
   accentColor = "blue",
 }: ScrollNarrativeContainerProps) {
   const scrollState = useScrollProgress({ totalSections });
+  const router = useRouter();
+  const [isExiting, setIsExiting] = useState(false);
+
+  // ESC key to return to landing page
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && !isExiting) {
+        setIsExiting(true);
+        // Navigate after animation
+        setTimeout(() => {
+          router.push("/");
+        }, 600);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [router, isExiting]);
 
   const contextValue: ScrollContextValue = {
     ...scrollState,
@@ -49,9 +70,48 @@ export default function ScrollNarrativeContainer({
   return (
     <ScrollContext.Provider value={contextValue}>
       <div className="fixed inset-0 bg-[#0a0a0b] overflow-hidden">
+        {/* Exit animation overlay */}
+        <AnimatePresence>
+          {isExiting && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+              className={`fixed inset-0 z-[100] ${
+                accentColor === "blue" ? "bg-blue-900" : "bg-red-900"
+              }`}
+            />
+          )}
+        </AnimatePresence>
+
         {/* Main content area */}
-        <div className="relative w-full h-full">
-          {children}
+        <div className="relative w-full h-full">{children}</div>
+
+        {/* ESC hint - top left */}
+        <div className="fixed top-6 left-6 z-50">
+          <div
+            className="flex items-center gap-2 text-white/30 hover:text-white/60 transition-colors cursor-pointer group"
+            onClick={() => {
+              if (!isExiting) {
+                setIsExiting(true);
+                setTimeout(() => router.push("/"), 600);
+              }
+            }}
+          >
+            <kbd
+              className={`px-2 py-1 text-xs rounded border ${
+                accentColor === "blue"
+                  ? "border-blue-500/30 group-hover:border-blue-500/60"
+                  : "border-red-500/30 group-hover:border-red-500/60"
+              } bg-white/5`}
+            >
+              ESC
+            </kbd>
+            <span className="text-xs tracking-wide opacity-0 group-hover:opacity-100 transition-opacity">
+              Back
+            </span>
+          </div>
         </div>
 
         {/* Progress indicator - right side */}
@@ -79,12 +139,7 @@ export default function ScrollNarrativeContainer({
           <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 animate-bounce">
             <div className="flex flex-col items-center gap-2 text-white/40">
               <span className="text-xs tracking-widest uppercase">Scroll</span>
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"

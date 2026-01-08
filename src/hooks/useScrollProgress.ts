@@ -21,7 +21,7 @@ interface ScrollProgressState {
  */
 export function useScrollProgress({
   totalSections,
-  scrollPerSection = 800
+  scrollPerSection = 800,
 }: ScrollProgressOptions): ScrollProgressState {
   const [state, setState] = useState<ScrollProgressState>({
     currentSection: 0,
@@ -32,35 +32,35 @@ export function useScrollProgress({
 
   const accumulatedScroll = useRef(0);
   const lastScrollTime = useRef(0);
-  const isScrolling = useRef(false);
 
   const totalScrollHeight = totalSections * scrollPerSection;
 
-  const updateProgress = useCallback((delta: number) => {
-    const now = Date.now();
-    const timeDiff = now - lastScrollTime.current;
-    lastScrollTime.current = now;
+  const updateProgress = useCallback(
+    (delta: number) => {
+      lastScrollTime.current = Date.now();
 
-    // Smooth out rapid scroll events
-    const normalizedDelta = Math.sign(delta) * Math.min(Math.abs(delta), 100);
+      // Smooth out rapid scroll events
+      const normalizedDelta = Math.sign(delta) * Math.min(Math.abs(delta), 100);
 
-    accumulatedScroll.current = Math.max(
-      0,
-      Math.min(totalScrollHeight, accumulatedScroll.current + normalizedDelta)
-    );
+      accumulatedScroll.current = Math.max(
+        0,
+        Math.min(totalScrollHeight, accumulatedScroll.current + normalizedDelta)
+      );
 
-    const totalProgress = accumulatedScroll.current / totalScrollHeight;
-    const exactSection = totalProgress * totalSections;
-    const currentSection = Math.min(Math.floor(exactSection), totalSections - 1);
-    const sectionProgress = exactSection - currentSection;
+      const totalProgress = accumulatedScroll.current / totalScrollHeight;
+      const exactSection = totalProgress * totalSections;
+      const currentSection = Math.min(Math.floor(exactSection), totalSections - 1);
+      const sectionProgress = exactSection - currentSection;
 
-    setState(prev => ({
-      currentSection,
-      sectionProgress: Math.min(1, sectionProgress),
-      totalProgress,
-      direction: delta > 0 ? "down" : delta < 0 ? "up" : prev.direction,
-    }));
-  }, [totalSections, totalScrollHeight]);
+      setState((prev) => ({
+        currentSection,
+        sectionProgress: Math.min(1, sectionProgress),
+        totalProgress,
+        direction: delta > 0 ? "down" : delta < 0 ? "up" : prev.direction,
+      }));
+    },
+    [totalSections, totalScrollHeight]
+  );
 
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {

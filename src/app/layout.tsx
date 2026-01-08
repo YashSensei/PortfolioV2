@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Choose Your Path",
+  title: "Choose your pill",
   description: "A portfolio experience - Tech or Growth, the choice is yours.",
 };
 

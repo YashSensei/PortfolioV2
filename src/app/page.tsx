@@ -21,7 +21,7 @@ export default function Home() {
           textShadow: "0 0 30px rgba(255,255,255,0.3)",
         }}
       >
-        Choose your path
+        Choose your pill
       </motion.h1>
 
       {/* Hero image with interactive pills */}

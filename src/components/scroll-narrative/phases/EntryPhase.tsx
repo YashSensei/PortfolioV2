@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 interface EntryPhaseProps {
   accentColor: "blue" | "red";
@@ -14,12 +14,9 @@ interface EntryPhaseProps {
  * Sets the tone for the narrative experience
  */
 export default function EntryPhase({ accentColor, onComplete }: EntryPhaseProps) {
-  const [isComplete, setIsComplete] = useState(false);
-
   useEffect(() => {
     // Auto-complete entry after animation
     const timer = setTimeout(() => {
-      setIsComplete(true);
       onComplete?.();
     }, 1500);
     return () => clearTimeout(timer);

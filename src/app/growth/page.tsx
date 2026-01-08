@@ -116,7 +116,12 @@ const skillsContent = [
   },
   {
     name: "Execution",
-    items: ["Cross-functional Leadership", "Agile", "Data-Driven Decisions", "Stakeholder Management"],
+    items: [
+      "Cross-functional Leadership",
+      "Agile",
+      "Data-Driven Decisions",
+      "Stakeholder Management",
+    ],
   },
 ];
 
@@ -144,6 +149,7 @@ export default function GrowthPage() {
           headline={heroContent.headline}
           subtitle={heroContent.subtitle}
           sectionIndex={0}
+          portraitImage="/myimages/mypotraitforgrowthpage.jpeg"
         />
       </AnimatedStorySection>
 

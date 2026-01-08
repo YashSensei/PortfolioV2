@@ -18,7 +18,11 @@ interface SkillsPhaseProps {
  * Phase 4 - Skills / Stack
  * Skills reveal sequentially with slight parallax depth
  */
-export default function SkillsPhase({ accentColor, categories, sectionIndex = 5 }: SkillsPhaseProps) {
+export default function SkillsPhase({
+  accentColor,
+  categories,
+  sectionIndex = 5,
+}: SkillsPhaseProps) {
   const { currentSection, sectionProgress } = useScrollContext();
   const isActive = currentSection === sectionIndex;
 
@@ -28,8 +32,6 @@ export default function SkillsPhase({ accentColor, categories, sectionIndex = 5 
     Math.floor(sectionProgress * categoryCount),
     categoryCount - 1
   );
-  const categoryProgress = (sectionProgress * categoryCount) % 1;
-
   const accentBgClass = accentColor === "blue" ? "bg-blue-500" : "bg-red-500";
   const accentTextClass = accentColor === "blue" ? "text-blue-400" : "text-red-400";
   const accentBorderClass = accentColor === "blue" ? "border-blue-500/30" : "border-red-500/30";
@@ -46,9 +48,7 @@ export default function SkillsPhase({ accentColor, categories, sectionIndex = 5 
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-2xl md:text-4xl font-bold text-white tracking-tight">
-            Core Stack
-          </h2>
+          <h2 className="text-2xl md:text-4xl font-bold text-white tracking-tight">Core Stack</h2>
           <div className={`h-1 w-16 ${accentBgClass} mx-auto mt-4 rounded-full`} />
         </motion.div>
 
@@ -87,9 +87,7 @@ export default function SkillsPhase({ accentColor, categories, sectionIndex = 5 
                     }}
                     className={`px-4 md:px-6 py-2 md:py-3 rounded-xl border ${accentBorderClass} bg-white/5 backdrop-blur-sm`}
                   >
-                    <span className="text-sm md:text-base text-white font-medium">
-                      {skill}
-                    </span>
+                    <span className="text-sm md:text-base text-white font-medium">{skill}</span>
                   </motion.div>
                 ))}
               </div>

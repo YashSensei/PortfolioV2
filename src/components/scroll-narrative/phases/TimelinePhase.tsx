@@ -23,20 +23,19 @@ interface TimelinePhaseProps {
  * Timeline cards animate into focus one at a time
  * Central spine remains static, cards alternate left/right
  */
-export default function TimelinePhase({ accentColor, items, sectionIndex = 2 }: TimelinePhaseProps) {
+export default function TimelinePhase({
+  accentColor,
+  items,
+  sectionIndex = 2,
+}: TimelinePhaseProps) {
   const { currentSection, sectionProgress } = useScrollContext();
   const isActive = currentSection === sectionIndex;
 
   // Determine which card is in focus
   const itemCount = items.length;
-  const currentItemIndex = Math.min(
-    Math.floor(sectionProgress * itemCount),
-    itemCount - 1
-  );
+  const currentItemIndex = Math.min(Math.floor(sectionProgress * itemCount), itemCount - 1);
 
   const accentBgClass = accentColor === "blue" ? "bg-blue-500" : "bg-red-500";
-  const accentBorderClass = accentColor === "blue" ? "border-blue-500" : "border-red-500";
-  const accentTextClass = accentColor === "blue" ? "text-blue-400" : "text-red-400";
 
   if (!isActive) return null;
 
@@ -86,11 +85,7 @@ export default function TimelinePhase({ accentColor, items, sectionIndex = 2 }: 
                   currentItemIndex % 2 === 0 ? "md:ml-auto md:mr-12" : "md:mr-auto md:ml-12"
                 }`}
               >
-                <TimelineCard
-                  item={items[currentItemIndex]}
-                  accentColor={accentColor}
-                  isAlternate={currentItemIndex % 2 !== 0}
-                />
+                <TimelineCard item={items[currentItemIndex]} accentColor={accentColor} />
               </motion.div>
             </AnimatePresence>
           </div>
@@ -116,15 +111,7 @@ export default function TimelinePhase({ accentColor, items, sectionIndex = 2 }: 
   );
 }
 
-function TimelineCard({
-  item,
-  accentColor,
-  isAlternate,
-}: {
-  item: TimelineItem;
-  accentColor: "blue" | "red";
-  isAlternate: boolean;
-}) {
+function TimelineCard({ item, accentColor }: { item: TimelineItem; accentColor: "blue" | "red" }) {
   const accentTextClass = accentColor === "blue" ? "text-blue-400" : "text-red-400";
   const accentBgClass = accentColor === "blue" ? "bg-blue-500" : "bg-red-500";
 
@@ -132,7 +119,9 @@ function TimelineCard({
     <div className="bg-[#18181b] p-6 md:p-8 rounded-2xl border border-gray-800 hover:border-gray-700 transition-colors">
       <div className="flex justify-between items-start mb-4">
         <div>
-          <div className={`text-sm font-bold ${item.isCurrent ? accentTextClass : "text-gray-500"} uppercase tracking-wider mb-1`}>
+          <div
+            className={`text-sm font-bold ${item.isCurrent ? accentTextClass : "text-gray-500"} uppercase tracking-wider mb-1`}
+          >
             {item.period}
           </div>
           <h3 className="text-xl md:text-2xl font-bold text-white">{item.title}</h3>
@@ -155,9 +144,7 @@ function TimelineCard({
         </div>
       </div>
 
-      <p className="text-gray-300 mb-6 leading-relaxed text-sm md:text-base">
-        {item.description}
-      </p>
+      <p className="text-gray-300 mb-6 leading-relaxed text-sm md:text-base">{item.description}</p>
 
       <div className="flex flex-wrap gap-2">
         {item.skills.map((skill) => (

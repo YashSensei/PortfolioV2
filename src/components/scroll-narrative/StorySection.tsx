@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useScrollContext } from "./ScrollNarrativeContainer";
 
@@ -14,16 +14,10 @@ interface StorySectionProps {
  * Individual story section that shows/hides based on scroll position
  * Each section occupies the full viewport and transitions smoothly
  */
-export default function StorySection({
-  index,
-  children,
-  className = "",
-}: StorySectionProps) {
-  const { currentSection, sectionProgress, direction } = useScrollContext();
+export default function StorySection({ index, children, className = "" }: StorySectionProps) {
+  const { currentSection, sectionProgress } = useScrollContext();
 
   const isActive = currentSection === index;
-  const isPast = currentSection > index;
-  const isFuture = currentSection < index;
 
   // Calculate opacity based on transition state
   const getOpacity = () => {
@@ -42,7 +36,8 @@ export default function StorySection({
   };
 
   // Only render if active or about to become active
-  const shouldRender = isActive ||
+  const shouldRender =
+    isActive ||
     (currentSection === index - 1 && sectionProgress > 0.7) ||
     (currentSection === index + 1 && sectionProgress < 0.3);
 
@@ -63,12 +58,8 @@ export default function StorySection({
 /**
  * Variant for sections that need more control over their animation
  */
-export function AnimatedStorySection({
-  index,
-  children,
-  className = "",
-}: StorySectionProps) {
-  const { currentSection, sectionProgress } = useScrollContext();
+export function AnimatedStorySection({ index, children, className = "" }: StorySectionProps) {
+  const { currentSection } = useScrollContext();
   const isActive = currentSection === index;
 
   return (

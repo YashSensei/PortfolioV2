@@ -2,7 +2,6 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useScrollContext } from "../ScrollNarrativeContainer";
-import { interpolate } from "@/hooks/useScrollProgress";
 
 interface PhilosophyPhaseProps {
   accentColor: "blue" | "red";
@@ -25,27 +24,17 @@ export default function PhilosophyPhase({
   const { currentSection, sectionProgress } = useScrollContext();
   const isActive = currentSection === sectionIndex;
 
+  // Guard against empty paragraphs array
+  if (!isActive || paragraphs.length === 0) return null;
+
   // Determine which paragraph to show based on progress
   const paragraphCount = paragraphs.length;
   const currentParagraphIndex = Math.min(
     Math.floor(sectionProgress * paragraphCount),
     paragraphCount - 1
   );
-  const paragraphProgress = (sectionProgress * paragraphCount) % 1;
 
   const accentColorClass = accentColor === "blue" ? "text-blue-400" : "text-red-400";
-
-  // Highlight specific words in text
-  const highlightText = (text: string) => {
-    let result = text;
-    highlightWords.forEach(word => {
-      const regex = new RegExp(`(${word})`, "gi");
-      result = result.replace(regex, `<highlight>$1</highlight>`);
-    });
-    return result;
-  };
-
-  if (!isActive) return null;
 
   return (
     <div className="w-full h-full flex items-center justify-center px-6 md:px-12">
@@ -63,12 +52,12 @@ export default function PhilosophyPhase({
             animate={{ scale: [1, 1.1, 1] }}
             transition={{ duration: 2, repeat: Infinity }}
           >
-            "
+            &quot;
           </motion.div>
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
-            The Philosophy
-          </h2>
-          <div className={`h-1 w-16 ${accentColor === "blue" ? "bg-blue-500" : "bg-red-500"} mx-auto rounded-full`} />
+          <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">The Philosophy</h2>
+          <div
+            className={`h-1 w-16 ${accentColor === "blue" ? "bg-blue-500" : "bg-red-500"} mx-auto rounded-full`}
+          />
         </motion.div>
 
         {/* Paragraph display - one at a time */}
@@ -88,8 +77,8 @@ export default function PhilosophyPhase({
                 }`}
               >
                 {paragraphs[currentParagraphIndex].split(" ").map((word, i) => {
-                  const isHighlighted = highlightWords.some(
-                    hw => word.toLowerCase().includes(hw.toLowerCase())
+                  const isHighlighted = highlightWords.some((hw) =>
+                    word.toLowerCase().includes(hw.toLowerCase())
                   );
                   return (
                     <motion.span

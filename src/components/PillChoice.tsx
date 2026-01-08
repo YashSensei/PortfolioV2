@@ -58,9 +58,10 @@ function PillHitbox({ type, hoveredPill, selectedPill, onHover, onClick }: PillH
         transformStyle: "preserve-3d",
         perspective: "1000px",
         // Glow effect on hover
-        boxShadow: isHovered || isSelected
-          ? `0 0 30px 10px ${glowColor}, 0 0 60px 20px ${glowColor}40`
-          : "none",
+        boxShadow:
+          isHovered || isSelected
+            ? `0 0 30px 10px ${glowColor}, 0 0 60px 20px ${glowColor}40`
+            : "none",
       }}
       aria-label={`Choose ${label} path`}
     >
@@ -90,12 +91,15 @@ function PillHitbox({ type, hoveredPill, selectedPill, onHover, onClick }: PillH
 /**
  * Color wash overlay that appears during transition
  */
-function ColorWashOverlay({ color, isActive }: { color: "blue" | "red" | null; isActive: boolean }) {
-  const bgColor = color === "blue"
-    ? "bg-blue-500"
-    : color === "red"
-      ? "bg-red-500"
-      : "bg-transparent";
+function ColorWashOverlay({
+  color,
+  isActive,
+}: {
+  color: "blue" | "red" | null;
+  isActive: boolean;
+}) {
+  const bgColor =
+    color === "blue" ? "bg-blue-500" : color === "red" ? "bg-red-500" : "bg-transparent";
 
   return (
     <AnimatePresence>
@@ -122,21 +126,24 @@ export default function PillChoice() {
   const [selectedPill, setSelectedPill] = useState<PillType>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
-  const handlePillClick = useCallback((pill: "blue" | "red") => {
-    if (selectedPill !== null) return; // Prevent double-clicks
+  const handlePillClick = useCallback(
+    (pill: "blue" | "red") => {
+      if (selectedPill !== null) return; // Prevent double-clicks
 
-    setSelectedPill(pill);
-    setIsTransitioning(true);
+      setSelectedPill(pill);
+      setIsTransitioning(true);
 
-    // Route based on pill choice
-    // Blue = Tech, Red = Growth
-    const route = pill === "blue" ? "/tech" : "/growth";
+      // Route based on pill choice
+      // Blue = Tech, Red = Growth
+      const route = pill === "blue" ? "/tech" : "/growth";
 
-    // Delay navigation to allow animation to complete
-    setTimeout(() => {
-      router.push(route);
-    }, 500); // 500ms for animation to complete before route change
-  }, [selectedPill, router]);
+      // Delay navigation to allow animation to complete
+      setTimeout(() => {
+        router.push(route);
+      }, 500); // 500ms for animation to complete before route change
+    },
+    [selectedPill, router]
+  );
 
   return (
     <div className="relative flex-1 w-full flex items-center justify-center max-h-[70vh]">
@@ -151,7 +158,7 @@ export default function PillChoice() {
         {/* The hero image */}
         <img
           src="/redpillbluepillmeme.jpg"
-          alt="Choose your path - Blue pill for Tech, Red pill for Growth"
+          alt="Choose your pill - Blue pill for Tech, Red pill for Growth"
           className="w-full h-full object-contain select-none pointer-events-none"
           draggable={false}
         />
