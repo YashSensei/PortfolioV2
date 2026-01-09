@@ -9,9 +9,9 @@ import {
   ProjectsPhase,
   SkillsPhase,
   GitHubStatsPhase,
+  ContactPhase,
 } from "@/components/scroll-narrative/phases";
 import { AnimatedStorySection } from "@/components/scroll-narrative/StorySection";
-import ContactFooter from "@/components/ContactFooter";
 
 /**
  * Growth Page - Red Pill Path
@@ -125,8 +125,17 @@ const skillsContent = [
   },
 ];
 
+const contactContent = {
+  email: "yashagrawalrkt123@gmail.com",
+  socials: {
+    github: "https://github.com/YashSensei",
+    linkedin: "https://linkedin.com/in/yash-agrawal-208841307",
+    twitter: "https://x.com/Yash__Sensei",
+  },
+};
+
 export default function GrowthPage() {
-  const TOTAL_SECTIONS = 6;
+  const TOTAL_SECTIONS = 7;
 
   return (
     <ScrollNarrativeContainer totalSections={TOTAL_SECTIONS} accentColor="red">
@@ -169,7 +178,14 @@ export default function GrowthPage() {
         <SkillsPhase accentColor="red" categories={skillsContent} sectionIndex={5} />
       </AnimatedStorySection>
 
-      <ContactFooter accentColor="red" />
+      <AnimatedStorySection index={6}>
+        <ContactPhase
+          accentColor="red"
+          email={contactContent.email}
+          socials={contactContent.socials}
+          sectionIndex={6}
+        />
+      </AnimatedStorySection>
     </ScrollNarrativeContainer>
   );
 }

@@ -6,6 +6,8 @@ import Link from "next/link";
 
 interface ContactFooterProps {
   accentColor: "blue" | "red";
+  /** Whether to use sticky positioning for parallax effect (default: false) */
+  sticky?: boolean;
 }
 
 interface FormData {
@@ -29,7 +31,7 @@ const PROJECT_TYPES = {
  * Dark grainy background, bold typography, minimal form fields
  * Scrolls up with parallax effect
  */
-export default function ContactFooter({ accentColor }: ContactFooterProps) {
+export default function ContactFooter({ accentColor, sticky = false }: ContactFooterProps) {
   const [formData, setFormData] = useState<FormData>({
     fullName: "",
     company: "",
@@ -81,7 +83,9 @@ export default function ContactFooter({ accentColor }: ContactFooterProps) {
   };
 
   return (
-    <footer className="sticky bottom-0 left-0 right-0 bg-[#0a0a0a] overflow-hidden z-10">
+    <footer
+      className={`${sticky ? "sticky bottom-0 z-10" : "relative"} left-0 right-0 bg-[#0a0a0a] overflow-hidden`}
+    >
       {/* Grain texture overlay */}
       <div
         className="absolute inset-0 opacity-[0.15] pointer-events-none"

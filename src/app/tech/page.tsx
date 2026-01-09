@@ -689,7 +689,7 @@ export default function TechPage() {
       <SkillsSection />
       {/* Footer wrapper - creates the parallax reveal effect */}
       <div className="relative">
-        <ContactFooter accentColor="blue" />
+        <ContactFooter accentColor="blue" sticky />
       </div>
     </main>
   );
