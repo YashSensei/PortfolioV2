@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring, type MotionValue } from "framer-motion";
 import { useRef, useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import ContactFooter from "@/components/ContactFooter";
@@ -31,34 +31,58 @@ const PHILOSOPHY_LINES = [
   "Every system designed to evolve.",
 ];
 
-const EXPERIENCE_DATA = [
+/**
+ * Experience data structured for scroll-driven narrative
+ * Each state represents a phase in the professional journey
+ */
+const EXPERIENCE_STATES = [
   {
-    period: "2025 - Present",
-    role: "Product Manager / Engineer",
-    company: "MegaLLM.io",
-    impact: "0 → 190k users",
-    description: "Led frontend/backend development, API design, and cross-team coordination.",
-  },
-  {
-    period: "2025",
-    role: "Full Stack Developer",
-    company: "Matiks.com",
-    impact: "Real-time systems",
-    description: "Built daily questions system with streak tracking and real-time chat.",
-  },
-  {
-    period: "2025",
-    role: "Full Stack Developer",
-    company: "Health Nivaran",
-    impact: "Healthcare tech",
-    description: "Developed solutions and optimized WhatsApp chatbot workflows.",
-  },
-  {
-    period: "2024",
+    id: "foundation",
     role: "Frontend Developer",
     company: "MagnumKare",
-    impact: "Developer docs",
-    description: "Built responsive healthcare portals and technical documentation.",
+    period: "2024",
+    headline: "First real build.",
+    subtext: "Built production features. Shipped real code.",
+    metadata: "Healthcare Portals · Documentation · Early-stage team",
+    // Background intensity: calm, foundational
+    bgIntensity: 0.3,
+    gridDensity: "sparse",
+  },
+  {
+    id: "growth",
+    role: "Full Stack Developer",
+    company: "Health Nivaran",
+    period: "2025",
+    headline: "Owned features end-to-end.",
+    subtext: "From database to deployment. Real users, real problems.",
+    metadata: "APIs · WhatsApp Chatbots · Healthcare Tech",
+    // Background intensity: growing complexity
+    bgIntensity: 0.5,
+    gridDensity: "medium",
+  },
+  {
+    id: "realtime",
+    role: "Full Stack Developer",
+    company: "Matiks.com",
+    period: "2025",
+    headline: "Building real-time systems.",
+    subtext: "Streak tracking. Live chat. Systems that respond instantly.",
+    metadata: "WebSockets · Real-time · User Engagement",
+    // Background intensity: active, dynamic
+    bgIntensity: 0.7,
+    gridDensity: "dense",
+  },
+  {
+    id: "scale",
+    role: "Product Manager / Engineer",
+    company: "MegaLLM.io",
+    period: "2025 - Present",
+    headline: "Scaling to 190k users.",
+    subtext: "From zero to production at scale. Architecture that lasts.",
+    metadata: "0 → 190k · API Design · Cross-team Leadership",
+    // Background intensity: controlled, confident
+    bgIntensity: 0.4,
+    gridDensity: "aligned",
   },
 ];
 
@@ -344,85 +368,310 @@ function PhilosophyLine({
 }
 
 /**
- * Experience Section - Timeline with scroll animation
+ * Experience Section - Scroll-driven narrative
+ *
+ * Architecture:
+ * - Full viewport, scroll controls which experience is active
+ * - One experience visible at a time with crossfade transitions
+ * - Background layers react to scroll with subtle parallax
+ * - No blur, no gimmicks - confident and restrained
  */
 function ExperienceSection() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start end", "end start"],
+    offset: ["start start", "end end"],
   });
 
-  const progress = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
+  // Map scroll progress to experience index
+  const experienceCount = EXPERIENCE_STATES.length;
+
+  // Track scroll progress to determine active experience
+  useEffect(() => {
+    const unsubscribe = scrollYProgress.on("change", (progress) => {
+      // Map progress (0-1) to experience index
+      const index = Math.min(Math.floor(progress * experienceCount), experienceCount - 1);
+      setActiveIndex(index);
+    });
+    return () => unsubscribe();
+  }, [scrollYProgress, experienceCount]);
+
+  // Calculate progress within current experience state
+  const stateProgress = useTransform(scrollYProgress, [0, 1], [0, experienceCount]);
 
   return (
-    <section ref={containerRef} className="min-h-screen py-32 px-6">
-      <div className="max-w-5xl mx-auto">
-        {/* Section header */}
-        <motion.div
-          className="text-center mb-20"
-          style={{
-            opacity: useTransform(progress, [0, 0.2], [0, 1]),
-            y: useTransform(progress, [0, 0.2], [30, 0]),
-          }}
-        >
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Experience</h2>
-          <div className="h-1 w-20 bg-blue-500 mx-auto rounded-full" />
-        </motion.div>
+    <section
+      ref={containerRef}
+      className="relative bg-black"
+      // Height creates scroll space: each experience gets ~100vh of scroll
+      style={{ height: `${experienceCount * 100}vh` }}
+    >
+      {/* Sticky container - stays in viewport while scrolling */}
+      <div className="sticky top-0 h-screen w-full overflow-hidden">
+        {/* Background layers - react to scroll */}
+        <ExperienceBackground activeIndex={activeIndex} progress={stateProgress} />
 
-        {/* Timeline */}
-        <div className="space-y-12">
-          {EXPERIENCE_DATA.map((exp, i) => (
-            <ExperienceCard key={i} experience={exp} index={i} progress={progress} />
+        {/* Content layer */}
+        <div className="relative z-10 h-full flex items-center justify-center px-6">
+          <div className="max-w-3xl w-full text-center">
+            {/* Experience content with crossfade */}
+            <ExperienceContent experiences={EXPERIENCE_STATES} activeIndex={activeIndex} />
+          </div>
+        </div>
+
+        {/* Progress indicator - right side */}
+        <div className="absolute right-6 top-1/2 -translate-y-1/2 z-20 flex flex-col gap-3">
+          {EXPERIENCE_STATES.map((_, i) => (
+            <div
+              key={i}
+              className={`w-2 h-2 rounded-full transition-all duration-500 ${
+                i === activeIndex
+                  ? "bg-blue-500 scale-125"
+                  : i < activeIndex
+                    ? "bg-blue-500/50"
+                    : "bg-white/20"
+              }`}
+            />
           ))}
         </div>
+
+        {/* Scroll hint - only show at start */}
+        {activeIndex === 0 && (
+          <motion.div
+            className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+          >
+            <div className="flex flex-col items-center gap-2 text-white/30">
+              <span className="text-xs tracking-widest uppercase">Scroll</span>
+              <motion.div
+                animate={{ y: [0, 8, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 14l-7 7m0 0l-7-7m7 7V3"
+                  />
+                </svg>
+              </motion.div>
+            </div>
+          </motion.div>
+        )}
       </div>
     </section>
   );
 }
 
-function ExperienceCard({
-  experience,
-  index,
+/**
+ * Background layers that react to experience state
+ * Subtle grid system with parallax depth
+ */
+function ExperienceBackground({
+  activeIndex,
   progress,
 }: {
-  experience: (typeof EXPERIENCE_DATA)[0];
-  index: number;
-  progress: ReturnType<typeof useSpring>;
+  activeIndex: number;
+  progress: MotionValue<number>;
 }) {
-  const start = 0.15 + index * 0.15;
-  const end = start + 0.2;
+  const currentExp = EXPERIENCE_STATES[activeIndex];
 
-  const cardProgress = useTransform(progress, [start, end], [0, 1]);
+  // Parallax values for background layers
+  const layer1Y = useTransform(progress, [0, EXPERIENCE_STATES.length], [0, -100]);
+  const layer2Y = useTransform(progress, [0, EXPERIENCE_STATES.length], [0, -50]);
+  const layer3Y = useTransform(progress, [0, EXPERIENCE_STATES.length], [0, -25]);
+
+  // Grid density based on current state - brighter values
+  const getGridOpacity = () => {
+    switch (currentExp.gridDensity) {
+      case "sparse":
+        return 0.08;
+      case "medium":
+        return 0.12;
+      case "dense":
+        return 0.18;
+      case "aligned":
+        return 0.1;
+      default:
+        return 0.1;
+    }
+  };
+
+  const getGridSize = () => {
+    switch (currentExp.gridDensity) {
+      case "sparse":
+        return 80;
+      case "medium":
+        return 60;
+      case "dense":
+        return 40;
+      case "aligned":
+        return 50;
+      default:
+        return 60;
+    }
+  };
 
   return (
-    <motion.div
-      className="grid md:grid-cols-[200px_1fr] gap-6 items-start"
-      style={{
-        opacity: useTransform(cardProgress, [0, 0.5], [0, 1]),
-        x: useTransform(cardProgress, [0, 0.5], [index % 2 === 0 ? -50 : 50, 0]),
-        filter: useTransform(cardProgress, [0, 0.5], ["blur(10px)", "blur(0px)"]),
-        willChange: "transform, opacity, filter",
-      }}
-    >
-      {/* Period */}
-      <div className="text-gray-500 text-sm font-medium">{experience.period}</div>
+    <div className="absolute inset-0">
+      {/* Base gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black via-[#0a0a0f] to-black" />
 
-      {/* Content */}
-      <div className="bg-[#111113] p-6 rounded-2xl border border-gray-800 hover:border-blue-500/30 transition-colors">
-        <div className="flex justify-between items-start mb-3">
-          <div>
-            <h3 className="text-xl font-bold text-white">{experience.role}</h3>
-            <p className="text-gray-400">{experience.company}</p>
-          </div>
-          <span className="px-3 py-1 text-xs font-medium bg-blue-500/10 text-blue-400 rounded-full">
-            {experience.impact}
+      {/* Grid layer 1 - slow parallax */}
+      <motion.div
+        className="absolute inset-0 transition-opacity duration-1000"
+        style={{
+          y: layer1Y,
+          opacity: getGridOpacity(),
+        }}
+      >
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `
+              linear-gradient(to right, rgba(59, 130, 246, 0.8) 1px, transparent 1px),
+              linear-gradient(to bottom, rgba(59, 130, 246, 0.8) 1px, transparent 1px)
+            `,
+            backgroundSize: `${getGridSize()}px ${getGridSize()}px`,
+          }}
+        />
+      </motion.div>
+
+      {/* Grid layer 2 - medium parallax */}
+      <motion.div
+        className="absolute inset-0 transition-opacity duration-1000"
+        style={{
+          y: layer2Y,
+          opacity: getGridOpacity() * 0.5,
+        }}
+      >
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `
+              linear-gradient(to right, rgba(59, 130, 246, 0.6) 1px, transparent 1px),
+              linear-gradient(to bottom, rgba(59, 130, 246, 0.6) 1px, transparent 1px)
+            `,
+            backgroundSize: `${getGridSize() * 2}px ${getGridSize() * 2}px`,
+          }}
+        />
+      </motion.div>
+
+      {/* Floating accent shapes - subtle depth */}
+      <motion.div className="absolute inset-0 overflow-hidden" style={{ y: layer3Y }}>
+        {/* Top-left gradient orb */}
+        <motion.div
+          className="absolute -top-1/4 -left-1/4 w-1/2 h-1/2 rounded-full transition-opacity duration-1000"
+          style={{
+            background: `radial-gradient(circle, rgba(59, 130, 246, ${currentExp.bgIntensity * 0.25}) 0%, transparent 70%)`,
+          }}
+          animate={{
+            scale: [1, 1.1, 1],
+            x: [0, 20, 0],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: "linear",
+          }}
+        />
+
+        {/* Bottom-right gradient orb */}
+        <motion.div
+          className="absolute -bottom-1/4 -right-1/4 w-1/2 h-1/2 rounded-full transition-opacity duration-1000"
+          style={{
+            background: `radial-gradient(circle, rgba(59, 130, 246, ${currentExp.bgIntensity * 0.2}) 0%, transparent 70%)`,
+          }}
+          animate={{
+            scale: [1, 1.15, 1],
+            y: [0, -30, 0],
+          }}
+          transition={{
+            duration: 25,
+            repeat: Infinity,
+            ease: "linear",
+          }}
+        />
+      </motion.div>
+
+      {/* Vignette overlay */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: "radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.4) 100%)",
+        }}
+      />
+    </div>
+  );
+}
+
+/**
+ * Experience content with smooth crossfade transitions
+ * One experience visible at a time
+ */
+function ExperienceContent({
+  experiences,
+  activeIndex,
+}: {
+  experiences: typeof EXPERIENCE_STATES;
+  activeIndex: number;
+}) {
+  return (
+    <div className="relative">
+      {experiences.map((exp, i) => (
+        <motion.div
+          key={exp.id}
+          className="absolute inset-0 flex flex-col items-center justify-center"
+          initial={{ opacity: 0 }}
+          animate={{
+            opacity: i === activeIndex ? 1 : 0,
+            y: i === activeIndex ? 0 : i < activeIndex ? -20 : 20,
+          }}
+          transition={{
+            duration: 0.6,
+            ease: [0.25, 0.1, 0.25, 1],
+          }}
+          style={{
+            pointerEvents: i === activeIndex ? "auto" : "none",
+          }}
+        >
+          {/* Period - small, quiet */}
+          <span className="text-blue-500/60 text-sm font-medium tracking-wider mb-4">
+            {exp.period}
           </span>
-        </div>
-        <p className="text-gray-400 text-sm leading-relaxed">{experience.description}</p>
+
+          {/* Role - prominent */}
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2">{exp.role}</h2>
+
+          {/* Company */}
+          <p className="text-xl md:text-2xl text-gray-400 mb-8">{exp.company}</p>
+
+          {/* Headline - the story */}
+          <p className="text-2xl md:text-3xl text-white font-light mb-4 max-w-xl">{exp.headline}</p>
+
+          {/* Subtext */}
+          <p className="text-lg text-gray-400 mb-8 max-w-lg">{exp.subtext}</p>
+
+          {/* Metadata - small, quiet */}
+          <p className="text-sm text-gray-500 tracking-wide">{exp.metadata}</p>
+        </motion.div>
+      ))}
+
+      {/* Spacer for layout - matches content height */}
+      <div className="invisible">
+        <span className="text-sm mb-4 block">placeholder</span>
+        <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-2">placeholder</h2>
+        <p className="text-xl md:text-2xl mb-8">placeholder</p>
+        <p className="text-2xl md:text-3xl mb-4">placeholder</p>
+        <p className="text-lg mb-8">placeholder</p>
+        <p className="text-sm">placeholder</p>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
