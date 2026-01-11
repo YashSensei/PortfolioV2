@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import PixelTransition from "./PixelTransition";
 
 type PillType = "blue" | "red" | null;
 
@@ -99,67 +100,6 @@ function PillHitbox({ type, hoveredPill, selectedPill, onHover, onClick }: PillH
 }
 
 /**
- * Color wash overlay that appears during transition
- * Smooth radial expansion from the selected pill with centered text
- */
-function ColorWashOverlay({
-  color,
-  isActive,
-}: {
-  color: "blue" | "red" | null;
-  isActive: boolean;
-}) {
-  const isBlue = color === "blue";
-  const gradientColor = isBlue ? "59, 130, 246" : "239, 68, 68"; // RGB values
-  // Origin from the pill position (left for blue, right for red)
-  const originX = isBlue ? "25%" : "75%";
-  const message = isBlue ? "Tech it is.." : "Growth it is..";
-
-  return (
-    <AnimatePresence>
-      {isActive && color && (
-        <motion.div
-          className="fixed inset-0 z-50 pointer-events-none flex items-center justify-center"
-          initial={{
-            opacity: 0,
-            background: `radial-gradient(circle at ${originX} 60%, rgba(${gradientColor}, 0.95) 0%, rgba(${gradientColor}, 0.8) 30%, rgba(${gradientColor}, 0) 70%)`,
-          }}
-          animate={{
-            opacity: 1,
-            background: `radial-gradient(circle at ${originX} 60%, rgba(${gradientColor}, 0.98) 0%, rgba(${gradientColor}, 0.95) 50%, rgba(${gradientColor}, 0.9) 100%)`,
-          }}
-          exit={{
-            opacity: 0,
-          }}
-          transition={{
-            duration: 0.7,
-            ease: [0.4, 0, 0.2, 1], // Smooth cubic bezier
-          }}
-        >
-          {/* Centered message */}
-          <motion.span
-            initial={{ opacity: 0, y: 20, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{
-              delay: 0.2,
-              duration: 0.5,
-              ease: [0.4, 0, 0.2, 1],
-            }}
-            className="text-3xl md:text-5xl lg:text-6xl font-black text-white tracking-wide"
-            style={{
-              textShadow: "0 0 30px rgba(255,255,255,0.5), 0 0 60px rgba(255,255,255,0.3)",
-            }}
-          >
-            {message}
-          </motion.span>
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
-}
-
-/**
  * Main PillChoice component
  * Renders the hero image with interactive pill overlays
  */
@@ -180,10 +120,10 @@ export default function PillChoice() {
       // Blue = Tech, Red = Growth
       const route = pill === "blue" ? "/tech" : "/growth";
 
-      // Delay navigation to allow smooth animation to complete
+      // Delay navigation to allow pixel invasion animation to complete
       setTimeout(() => {
         router.push(route);
-      }, 700); // 700ms for smooth animation before route change
+      }, 1400); // 1400ms for pixel invasion + circle reveal animation
     },
     [selectedPill, router]
   );
@@ -223,8 +163,8 @@ export default function PillChoice() {
         />
       </motion.div>
 
-      {/* Color wash overlay for transition */}
-      <ColorWashOverlay color={selectedPill} isActive={isTransitioning} />
+      {/* Pixel invasion transition */}
+      <PixelTransition color={selectedPill} isActive={isTransitioning} />
     </div>
   );
 }

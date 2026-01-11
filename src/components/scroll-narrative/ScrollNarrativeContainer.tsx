@@ -28,6 +28,7 @@ interface ScrollNarrativeContainerProps {
   children: ReactNode;
   totalSections: number;
   accentColor?: "blue" | "red";
+  scrollPerSection?: number;
 }
 
 /**
@@ -38,8 +39,9 @@ export default function ScrollNarrativeContainer({
   children,
   totalSections,
   accentColor = "blue",
+  scrollPerSection = 1200,
 }: ScrollNarrativeContainerProps) {
-  const scrollState = useScrollProgress({ totalSections });
+  const scrollState = useScrollProgress({ totalSections, scrollPerSection });
   const router = useRouter();
   const [isExiting, setIsExiting] = useState(false);
 
