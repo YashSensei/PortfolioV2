@@ -1,6 +1,7 @@
 "use client";
 
 import { ScrollNarrativeContainer } from "@/components/scroll-narrative";
+import ResumeButton from "@/components/ResumeButton";
 import {
   EntryPhase,
   HeroPhase,
@@ -139,6 +140,7 @@ export default function GrowthPage() {
 
   return (
     <ScrollNarrativeContainer totalSections={TOTAL_SECTIONS} accentColor="red">
+      <ResumeButton accentColor="red" />
       <EntryPhase accentColor="red" />
 
       <AnimatedStorySection index={0}>

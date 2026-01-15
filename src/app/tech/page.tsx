@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform, useSpring, type MotionValue } from "fr
 import { useRef, useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import ContactFooter from "@/components/ContactFooter";
+import ResumeButton from "@/components/ResumeButton";
 import { PortraitReveal, CinematicOverlay, GlitchText } from "@/components/cinematic";
 
 /**
@@ -929,6 +930,9 @@ export default function TechPage() {
 
       {/* ESC navigation */}
       <EscapeNav />
+
+      {/* Resume download button */}
+      <ResumeButton accentColor="blue" />
 
       {/* Sections */}
       <HeroSection />
