@@ -1,128 +1,109 @@
 "use client";
 
-import { ScrollNarrativeContainer } from "@/components/scroll-narrative";
+import { useEffect, useRef, useState } from "react";
 import ResumeButton from "@/components/ResumeButton";
-import {
-  EntryPhase,
-  HeroPhase,
-  PhilosophyPhase,
-  TimelinePhase,
-  ProjectsPhase,
-  SkillsPhase,
-  GitHubStatsPhase,
-  ContactPhase,
-} from "@/components/scroll-narrative/phases";
-import { AnimatedStorySection } from "@/components/scroll-narrative/StorySection";
+import ContactFooter from "@/components/ContactFooter";
+import Link from "next/link";
 
 /**
- * Growth Page - Red Pill Path
- * Scroll-driven narrative experience showcasing growth/product journey
- * Focus: Product thinking, Growth metrics, Impact
+ * Growth Page - Clean, Professional, To the Point
+ * Inspired by minimal portfolio aesthetics with subtle scroll reveals
  */
 
 const heroContent = {
   name: "Yash Agrawal",
-  title: "Growth Engineer",
+  title: "Growth & Operations",
   headline: {
-    line1: "Scaling",
-    highlighted: "Products",
-    line2: "From 0 to 190k.",
+    line1: "0 to 160k",
+    highlighted: "Users",
+    line2: "In 3 Days.",
   },
   subtitle:
-    "Growth Engineer bridging product and engineering. I build systems that acquire, engage, and retain users at scale. Data-driven decisions, rapid iteration, measurable impact.",
+    "I find the right people, craft the right message, and make products go viral. Strategic outreach, influencer partnerships, and relentless execution.",
 };
 
 const philosophyContent = {
   paragraphs: [
-    "Growth isn't just about numbers; it's about understanding users deeply and building systems that serve them at scale. Every metric tells a story.",
-    "From community-led growth to rapid iteration cycles, I've learned that the best products are built by listening, shipping, and never stopping.",
-    "I don't just ship features; I ship outcomes. Every decision is data-informed, every launch is a learning opportunity, every user matters.",
+    "Growth isn't about hacks or tricks. It's about finding the right people who genuinely love your product and giving them a reason to share it.",
+    "One DM to the right influencer changed everything. She believed in the product, shared it with her community, and the rest is history.",
+    "I don't wait for growth to happen. I go out, build relationships, and create opportunities. Every viral moment starts with a single conversation.",
   ],
-  highlightWords: ["users", "scale", "community-led", "data-informed", "outcomes"],
 };
 
 const experienceContent = [
   {
     period: "Oct 2025 - Present",
-    title: "Product Manager / Growth Lead",
+    title: "Growth & Operations",
     company: "MegaLLM.io",
     description:
-      "Scaled from 0 to 190k users through strategic distribution, community building, and rapid product iteration. Led growth experiments and cross-functional coordination.",
-    skills: ["Growth Strategy", "Community Building", "Product-Led Growth", "Analytics"],
+      "Led outreach and operations. Identified and partnered with a Russian Telegram influencer whose promotion drove 0 to 160k users in 3 days. Managed X account (@megallmio) and coordinated growth initiatives.",
+    skills: ["Influencer Outreach", "Operations", "Social Media", "Viral Growth"],
     isCurrent: true,
   },
   {
-    period: "Jul 2025 - Sept 2025",
-    title: "Product Developer",
-    company: "Matiks.com",
+    period: "2024 - Present",
+    title: "Freelance Growth Consultant",
+    company: "Independent",
     description:
-      "Designed engagement features like streak tracking and live chat. Focused on user retention and daily active user growth through gamification.",
-    skills: ["User Engagement", "Gamification", "Retention"],
-    isCurrent: false,
+      "Managed X (Twitter) accounts for multiple clients. Built content strategies, grew engagement, and helped brands establish their social presence.",
+    skills: ["X/Twitter Management", "Content Strategy", "Brand Building"],
+    isCurrent: true,
   },
   {
-    period: "Feb 2025 - Sept 2025",
-    title: "Product & Growth",
-    company: "Health Nivaran",
+    period: "2025",
+    title: "Growth Advisor",
+    company: "Early-Stage Startup",
     description:
-      "Optimized WhatsApp chatbot workflows for patient engagement. Improved conversion funnels and user activation in healthcare tech.",
-    skills: ["Chatbot UX", "Conversion Optimization", "Healthcare"],
-    isCurrent: false,
-  },
-  {
-    period: "Jun 2024 - Jan 2025",
-    title: "Frontend & Documentation",
-    company: "MagnumKare",
-    description:
-      "Created user-facing portals and documentation that improved onboarding. Focused on reducing friction in user journeys.",
-    skills: ["User Onboarding", "Documentation", "UX"],
+      "Helped a friend's startup build their growth infrastructure from scratch. Created pipeline layouts, distribution strategies, and go-to-market plans.",
+    skills: ["Pipeline Building", "Distribution Strategy", "GTM Planning"],
     isCurrent: false,
   },
 ];
 
 const projectsContent = [
   {
-    name: "MegaLLM.io Growth",
+    name: "MegaLLM Viral Launch",
     description:
-      "Led the growth from 0 to 190k users through distribution strategy, community engagement, and rapid iteration on product features based on user feedback.",
-    tech: ["Growth Hacking", "Community", "Analytics", "A/B Testing"],
-    highlight: "190k Users",
+      "Identified a Russian Telegram influencer, pitched the product, and secured a partnership. Her promotion to her community resulted in explosive growth - 0 to 160k users in just 3 days.",
+    tech: ["Outreach", "Telegram", "Influencer Marketing", "Referral Systems"],
+    highlight: "160k in 3 Days",
   },
   {
-    name: "Chatify - Real-Time Chat",
+    name: "MegaLLM X Account",
     description:
-      "Built with engagement in mind. JWT authentication, online presence tracking, and instant message delivery created a sticky user experience.",
-    tech: ["MERN Stack", "Socket.io", "User Engagement"],
-    liveUrl: "https://mern-stack-project-vefu.onrender.com/",
-    githubUrl: "https://github.com/YashSensei/Chatify",
-    highlight: "Live Demo",
+      "Managing the official X (Twitter) presence for MegaLLM. Building brand voice, engaging with the AI community, and driving organic awareness.",
+    tech: ["X/Twitter", "Content Creation", "Community Engagement"],
+    liveUrl: "https://x.com/megallmio",
+    highlight: "Live",
   },
   {
-    name: "AlgoWars - Competitive Coding",
+    name: "Freelance X Management",
     description:
-      "Designed with virality in mind. 1v1 battles create shareable moments, ELO rankings drive competition, leaderboards fuel retention.",
-    tech: ["Product Design", "Gamification", "Viral Loops"],
-    highlight: "Concept",
+      "Handled multiple client X accounts. Developed posting schedules, content themes, and engagement strategies tailored to each brand's audience.",
+    tech: ["Social Media", "Brand Strategy", "Content Planning"],
+    highlight: "Multiple Clients",
+  },
+  {
+    name: "Startup Growth Infrastructure",
+    description:
+      "Built the growth foundation for an early-stage startup. Created distribution pipelines, identified target channels, and developed go-to-market strategy.",
+    tech: ["GTM Strategy", "Pipeline Design", "Distribution"],
+    highlight: "Strategy",
   },
 ];
 
 const skillsContent = [
   {
-    name: "Growth",
-    items: ["Product-Led Growth", "Community Building", "A/B Testing", "Analytics", "SEO"],
+    name: "Outreach",
+    items: ["Influencer Partnerships", "Cold DMs", "Telegram Communities", "Relationship Building"],
   },
   {
-    name: "Product",
-    items: ["User Research", "Rapid Prototyping", "Feature Prioritization", "Roadmapping"],
+    name: "Social Media",
+    items: ["X/Twitter Management", "Content Strategy", "Brand Voice", "Engagement"],
   },
   {
-    name: "Execution",
-    items: [
-      "Cross-functional Leadership",
-      "Agile",
-      "Data-Driven Decisions",
-      "Stakeholder Management",
-    ],
+    name: "Strategy",
+    items: ["Distribution Planning", "GTM Strategy", "Pipeline Building", "Growth Experiments"],
   },
 ];
 
@@ -135,59 +116,368 @@ const contactContent = {
   },
 };
 
-export default function GrowthPage() {
-  const TOTAL_SECTIONS = 7;
+// StatCounter Component
+function StatCounter({
+  target,
+  suffix = "",
+  label,
+  started,
+}: {
+  target: number;
+  suffix?: string;
+  label: string;
+  started: boolean;
+}) {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!started) return;
+
+    const duration = 2000;
+    const steps = 60;
+    const increment = target / steps;
+    const stepDuration = duration / steps;
+    let current = 0;
+
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= target) {
+        setCount(target);
+        clearInterval(timer);
+      } else {
+        setCount(Math.floor(current));
+      }
+    }, stepDuration);
+
+    return () => clearInterval(timer);
+  }, [started, target]);
 
   return (
-    <ScrollNarrativeContainer totalSections={TOTAL_SECTIONS} accentColor="red">
+    <div className="text-center">
+      <div className="text-4xl md:text-5xl font-black text-red-500 mb-2">
+        {count}
+        {suffix}
+      </div>
+      <div className="text-sm md:text-base text-gray-400 uppercase tracking-wider">{label}</div>
+    </div>
+  );
+}
+
+export default function GrowthPage() {
+  const [countersStarted, setCountersStarted] = useState(false);
+  const statsRef = useRef<HTMLDivElement>(null);
+
+  // Scroll reveal observer
+  useEffect(() => {
+    const revealElements = document.querySelectorAll(".scroll-reveal");
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("revealed");
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+    );
+
+    revealElements.forEach((el) => revealObserver.observe(el));
+    return () => revealObserver.disconnect();
+  }, []);
+
+  // Counter animation observer
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !countersStarted) {
+          setCountersStarted(true);
+        }
+      },
+      { threshold: 0.5 }
+    );
+    if (statsRef.current) {
+      observer.observe(statsRef.current);
+    }
+    return () => observer.disconnect();
+  }, [countersStarted]);
+
+  return (
+    <div className="min-h-screen bg-[#0a0a0b] text-white">
+      <style jsx>{`
+        .scroll-reveal {
+          opacity: 0;
+          transform: translateY(30px);
+          transition:
+            opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+            transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .scroll-reveal.revealed {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        .delay-1 {
+          transition-delay: 0.1s;
+        }
+        .delay-2 {
+          transition-delay: 0.2s;
+        }
+        .delay-3 {
+          transition-delay: 0.3s;
+        }
+      `}</style>
+
       <ResumeButton accentColor="red" />
-      <EntryPhase accentColor="red" />
 
-      <AnimatedStorySection index={0}>
-        <HeroPhase
-          accentColor="red"
-          name={heroContent.name}
-          title={heroContent.title}
-          headline={heroContent.headline}
-          subtitle={heroContent.subtitle}
-          sectionIndex={0}
-          portraitImage="/myimages/mypotraitforgrowthpage.jpeg"
-        />
-      </AnimatedStorySection>
+      {/* Back to home */}
+      <div className="fixed top-6 left-6 z-40">
+        <Link
+          href="/"
+          className="flex items-center gap-2 text-white/30 hover:text-white/60 transition-colors text-sm"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+          ESC
+        </Link>
+      </div>
 
-      <AnimatedStorySection index={1}>
-        <PhilosophyPhase
-          accentColor="red"
-          paragraphs={philosophyContent.paragraphs}
-          highlightWords={philosophyContent.highlightWords}
-          sectionIndex={1}
-        />
-      </AnimatedStorySection>
+      {/* Hero Section */}
+      <section className="min-h-screen flex items-center justify-center px-6 py-20">
+        <div className="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="scroll-reveal">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-500/10 border border-red-500/20 mb-6">
+              <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+              <span className="text-xs font-bold text-red-500 tracking-wide uppercase">
+                Open for Opportunities
+              </span>
+            </div>
 
-      <AnimatedStorySection index={2}>
-        <TimelinePhase accentColor="red" items={experienceContent} sectionIndex={2} />
-      </AnimatedStorySection>
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-black mb-6 leading-tight">
+              {heroContent.headline.line1}
+              <br />
+              <span className="text-red-500">{heroContent.headline.highlighted}</span>
+              <br />
+              {heroContent.headline.line2}
+            </h1>
 
-      <AnimatedStorySection index={3}>
-        <ProjectsPhase accentColor="red" projects={projectsContent} sectionIndex={3} />
-      </AnimatedStorySection>
+            <p className="text-xl text-gray-400 mb-8 leading-relaxed">{heroContent.subtitle}</p>
 
-      <AnimatedStorySection index={4}>
-        <GitHubStatsPhase accentColor="red" username="YashSensei" sectionIndex={4} />
-      </AnimatedStorySection>
+            <div className="flex gap-4">
+              <a
+                href="#contact"
+                className="px-6 py-3 bg-red-500 text-white font-bold rounded-lg hover:bg-red-600 transition-colors"
+              >
+                Let's Talk →
+              </a>
+              <a
+                href="#experience"
+                className="px-6 py-3 border border-gray-700 text-white font-bold rounded-lg hover:border-red-500 transition-colors"
+              >
+                View Work
+              </a>
+            </div>
+          </div>
 
-      <AnimatedStorySection index={5}>
-        <SkillsPhase accentColor="red" categories={skillsContent} sectionIndex={5} />
-      </AnimatedStorySection>
+          <div className="flex justify-center lg:justify-end scroll-reveal delay-1">
+            <div className="relative w-full max-w-md aspect-[3/4] rounded-2xl overflow-hidden border-2 border-gray-800 hover:border-red-500/50 transition-colors duration-300">
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0b] via-transparent to-transparent z-10 opacity-60" />
+              <img
+                src="/myimages/mypotraitforgrowthpage.jpeg"
+                alt="Yash Agrawal"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
 
-      <AnimatedStorySection index={6}>
-        <ContactPhase
-          accentColor="red"
-          email={contactContent.email}
-          socials={contactContent.socials}
-          sectionIndex={6}
-        />
-      </AnimatedStorySection>
-    </ScrollNarrativeContainer>
+      {/* Stats Section */}
+      <section ref={statsRef} className="py-16 border-t border-b border-gray-800">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <StatCounter
+              target={160}
+              suffix="k+"
+              label="Users in 3 Days"
+              started={countersStarted}
+            />
+            <StatCounter
+              target={3}
+              suffix=" Days"
+              label="Viral Timeline"
+              started={countersStarted}
+            />
+            <StatCounter target={5} suffix="+" label="Client Accounts" started={countersStarted} />
+            <StatCounter target={1} suffix="M+" label="Total Reach" started={countersStarted} />
+          </div>
+        </div>
+      </section>
+
+      {/* Philosophy Section */}
+      <section className="py-20 px-6">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center scroll-reveal">
+            My Approach
+          </h2>
+          <div className="space-y-6">
+            {philosophyContent.paragraphs.map((para, i) => (
+              <p
+                key={i}
+                className={`text-lg md:text-xl text-gray-300 leading-relaxed scroll-reveal delay-${i + 1}`}
+              >
+                {para}
+              </p>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Experience Section */}
+      <section
+        className="py-20 px-6 bg-gradient-to-b from-transparent via-gray-900/20 to-transparent"
+        id="experience"
+      >
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center scroll-reveal">
+            Experience
+          </h2>
+          <div className="space-y-6">
+            {experienceContent.map((item, i) => (
+              <div
+                key={i}
+                className={`bg-[#18181b]/50 backdrop-blur-sm p-6 md:p-8 rounded-xl border border-gray-800 hover:border-red-500/30 transition-all duration-300 scroll-reveal delay-${i + 1}`}
+              >
+                <div className="flex flex-wrap justify-between items-start gap-4 mb-4">
+                  <div>
+                    <div
+                      className={`text-sm font-bold uppercase tracking-wider mb-1 ${item.isCurrent ? "text-red-400" : "text-gray-500"}`}
+                    >
+                      {item.period}
+                    </div>
+                    <h3 className="text-xl md:text-2xl font-bold">{item.title}</h3>
+                    <p className="text-gray-400 font-medium">{item.company}</p>
+                  </div>
+                  {item.isCurrent && (
+                    <span className="px-3 py-1 bg-red-500/10 text-red-400 text-sm font-medium rounded-full border border-red-500/20">
+                      Current
+                    </span>
+                  )}
+                </div>
+                <p className="text-gray-300 mb-6 leading-relaxed">{item.description}</p>
+                <div className="flex flex-wrap gap-2">
+                  {item.skills.map((skill) => (
+                    <span
+                      key={skill}
+                      className="px-3 py-1 bg-gray-800/50 text-gray-300 text-sm rounded-lg border border-gray-700/50"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Projects Section */}
+      <section className="py-20 px-6">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center scroll-reveal">
+            Key Projects
+          </h2>
+          <div className="grid md:grid-cols-2 gap-6">
+            {projectsContent.map((project, i) => (
+              <div
+                key={i}
+                className={`group bg-[#18181b]/50 backdrop-blur-sm p-6 md:p-8 rounded-xl border border-gray-800 hover:border-red-500/50 transition-all duration-300 scroll-reveal delay-${i + 1}`}
+              >
+                <div className="flex justify-between items-start mb-4">
+                  <div>
+                    <h3 className="text-xl font-bold mb-1 group-hover:text-red-400 transition-colors">
+                      {project.name}
+                    </h3>
+                    {project.highlight && (
+                      <span className="text-sm font-medium text-red-400">{project.highlight}</span>
+                    )}
+                  </div>
+                  {project.liveUrl && (
+                    <a
+                      href={project.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-2 bg-red-500/10 rounded-lg text-red-400 hover:bg-red-500/20 transition-colors border border-red-500/20"
+                    >
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                        />
+                      </svg>
+                    </a>
+                  )}
+                </div>
+                <p className="text-gray-300 mb-6 leading-relaxed">{project.description}</p>
+                <div className="flex flex-wrap gap-2">
+                  {project.tech.map((tech) => (
+                    <span
+                      key={tech}
+                      className="px-3 py-1 bg-red-500/5 border border-red-500/20 text-red-400/80 text-sm rounded-lg"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Skills Section */}
+      <section className="py-20 px-6 bg-gradient-to-b from-transparent via-gray-900/20 to-transparent">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center scroll-reveal">
+            Core Skills
+          </h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            {skillsContent.map((category, i) => (
+              <div key={category.name} className={`scroll-reveal delay-${i + 1}`}>
+                <h3 className="text-xl font-bold text-red-400 mb-4 uppercase tracking-wider">
+                  {category.name}
+                </h3>
+                <div className="space-y-2">
+                  {category.items.map((skill) => (
+                    <div
+                      key={skill}
+                      className="px-4 py-2 bg-white/5 border border-red-500/20 rounded-lg text-gray-300 hover:border-red-500/40 transition-colors"
+                    >
+                      {skill}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact">
+        <ContactFooter accentColor="red" sticky />
+      </section>
+    </div>
   );
 }
