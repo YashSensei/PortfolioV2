@@ -89,22 +89,40 @@ const EXPERIENCE_STATES = [
 
 const PROJECTS_DATA = [
   {
-    name: "URL Shortener",
-    tech: "Node.js • Redis • Docker",
-    description: "Scalable URL shortening with Redis-based rate limiting.",
-    link: "https://github.com/YashSensei/url-shortner",
+    name: "Omium.ai",
+    tech: "Next.js • TypeScript",
+    description: "Website for a fault-tolerant AI OS built to monitor and cure AI workflows.",
+    live: "https://omium.ai",
+    image: "/projects_assets/omiumai.png",
   },
   {
-    name: "Chatify",
-    tech: "MERN • Socket.io • JWT",
-    description: "Real-time chat with presence tracking and instant delivery.",
-    link: "https://github.com/YashSensei/Chatify",
+    name: "MegaLLM.io",
+    tech: "API Gateway • Node.js",
+    description:
+      "Unified gateway for 70+ LLMs. One API key for Claude, GPT-5, Gemini, Llama with built-in analytics and smart fallbacks.",
+    live: "https://megallm.io",
+    image: "/projects_assets/megallm.png",
   },
   {
     name: "AlgoWars",
     tech: "System Design • WebSockets",
     description: "1v1 competitive coding platform with ELO matchmaking.",
-    link: null,
+    github: "https://github.com/YashSensei/AlgoWars",
+    image: "/projects_assets/algowarsscreenshot.png",
+  },
+  {
+    name: "Chatify",
+    tech: "MERN • Socket.io • JWT",
+    description: "Real-time chat with presence tracking and instant delivery.",
+    github: "https://github.com/YashSensei/Chatify",
+    live: "https://mern-stack-project-vefu.onrender.com/login",
+    image: "/projects_assets/chatify.png",
+  },
+  {
+    name: "URL Shortener",
+    tech: "Node.js • Redis • Docker",
+    description: "Scalable URL shortening with Redis-based rate limiting.",
+    github: "https://github.com/YashSensei/url-shortner",
   },
 ];
 
@@ -677,10 +695,11 @@ function ExperienceContent({
 }
 
 /**
- * Projects Section
+ * Projects Section - Accordion-style vertical cards
  */
 function ProjectsSection() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -691,10 +710,10 @@ function ProjectsSection() {
 
   return (
     <section ref={containerRef} className="min-h-screen py-32 px-6 bg-[#0a0a0b]">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         {/* Section header */}
         <motion.div
-          className="text-center mb-20"
+          className="text-center mb-16"
           style={{
             opacity: useTransform(progress, [0, 0.15], [0, 1]),
             y: useTransform(progress, [0, 0.15], [30, 0]),
@@ -704,12 +723,25 @@ function ProjectsSection() {
           <div className="h-1 w-20 bg-blue-500 mx-auto rounded-full" />
         </motion.div>
 
-        {/* Projects grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Accordion cards container */}
+        <motion.div
+          className="flex gap-3 h-[400px] md:h-[450px]"
+          style={{
+            opacity: useTransform(progress, [0.1, 0.25], [0, 1]),
+          }}
+        >
           {PROJECTS_DATA.map((project, i) => (
-            <ProjectCard key={i} project={project} index={i} progress={progress} />
+            <ProjectCard
+              key={i}
+              project={project}
+              index={i}
+              isHovered={hoveredIndex === i}
+              isAnyHovered={hoveredIndex !== null}
+              onHover={() => setHoveredIndex(i)}
+              onLeave={() => setHoveredIndex(null)}
+            />
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
@@ -718,54 +750,141 @@ function ProjectsSection() {
 function ProjectCard({
   project,
   index,
-  progress,
+  isHovered,
+  isAnyHovered,
+  onHover,
+  onLeave,
 }: {
   project: (typeof PROJECTS_DATA)[0];
   index: number;
-  progress: ReturnType<typeof useSpring>;
+  isHovered: boolean;
+  isAnyHovered: boolean;
+  onHover: () => void;
+  onLeave: () => void;
 }) {
-  const start = 0.15 + index * 0.1;
-  const end = start + 0.2;
-
-  const cardProgress = useTransform(progress, [start, end], [0, 1]);
-
-  const CardWrapper = project.link ? motion.a : motion.div;
-  const linkProps = project.link
-    ? { href: project.link, target: "_blank", rel: "noopener noreferrer" }
-    : {};
+  const hasLinks = project.github || project.live;
 
   return (
-    <CardWrapper
-      {...linkProps}
-      className="group bg-[#111113] p-6 rounded-2xl border border-gray-800 hover:border-blue-500/50 transition-all duration-300 cursor-pointer"
-      style={{
-        opacity: useTransform(cardProgress, [0, 0.5], [0, 1]),
-        y: useTransform(cardProgress, [0, 0.5], [30, 0]),
-        scale: useTransform(cardProgress, [0, 0.5], [0.95, 1]),
-        willChange: "transform, opacity",
+    <motion.div
+      className="relative h-full cursor-pointer"
+      onMouseEnter={onHover}
+      onMouseLeave={onLeave}
+      animate={{
+        flex: isHovered ? 4 : isAnyHovered ? 0.5 : 1,
       }}
-      whileHover={{ y: -5, scale: 1.02 }}
+      transition={{
+        duration: 0.5,
+        ease: [0.25, 0.1, 0.25, 1],
+      }}
     >
-      <h3 className="text-xl font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">
-        {project.name}
-      </h3>
-      <p className="text-blue-400 text-xs font-medium mb-3">{project.tech}</p>
-      <p className="text-gray-400 text-sm leading-relaxed">{project.description}</p>
+      <div
+        className={`block h-full bg-[#111113] rounded-2xl border overflow-hidden transition-colors duration-300 ${
+          isHovered ? "border-blue-500/50" : "border-gray-800"
+        }`}
+      >
+        {/* Background image - visible when expanded */}
+        {project.image && (
+          <motion.div
+            className="absolute inset-0"
+            animate={{
+              opacity: isHovered ? 1 : 0,
+            }}
+            transition={{ duration: 0.4 }}
+          >
+            <img src={project.image} alt={project.name} className="w-full h-full object-cover" />
+            {/* Gradient overlay for text readability */}
+            <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-black/40" />
+          </motion.div>
+        )}
 
-      {project.link && (
-        <div className="mt-4 flex items-center gap-2 text-gray-500 group-hover:text-blue-400 transition-colors">
-          <span className="text-xs">View on GitHub</span>
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-            />
-          </svg>
+        {/* Vertical name - visible when collapsed */}
+        <motion.div
+          className="absolute inset-0 flex items-center justify-center"
+          animate={{
+            opacity: isHovered ? 0 : 1,
+          }}
+          transition={{ duration: 0.3 }}
+        >
+          <span
+            className="text-xl md:text-2xl font-bold text-white tracking-widest whitespace-nowrap"
+            style={{
+              writingMode: "vertical-rl",
+              textOrientation: "mixed",
+              transform: "rotate(180deg)",
+            }}
+          >
+            {project.name}
+          </span>
+        </motion.div>
+
+        {/* Expanded content - visible on hover */}
+        <motion.div
+          className="absolute inset-0 p-6 md:p-8 flex flex-col justify-between"
+          animate={{
+            opacity: isHovered ? 1 : 0,
+          }}
+          transition={{ duration: 0.3, delay: isHovered ? 0.1 : 0 }}
+        >
+          <div>
+            <h3 className="text-2xl md:text-3xl font-bold text-white mb-3">{project.name}</h3>
+            <p className="text-blue-400 text-sm font-medium mb-4">{project.tech}</p>
+            <p className="text-gray-400 text-sm md:text-base leading-relaxed">
+              {project.description}
+            </p>
+          </div>
+
+          {hasLinks && (
+            <div className="flex items-center gap-4 mt-4">
+              {project.live && (
+                <a
+                  href={project.live}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <span className="text-sm font-medium">Visit Site</span>
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                    />
+                  </svg>
+                </a>
+              )}
+              {project.github && (
+                <a
+                  href={project.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <span className="text-sm font-medium">GitHub</span>
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+                  </svg>
+                </a>
+              )}
+            </div>
+          )}
+        </motion.div>
+
+        {/* Index number decoration */}
+        <div
+          className={`absolute bottom-4 text-6xl md:text-7xl font-black transition-colors duration-300 ${
+            isHovered ? "right-6 text-blue-500/20" : "left-1/2 -translate-x-1/2 text-white/5"
+          }`}
+          style={{
+            writingMode: isHovered ? "horizontal-tb" : "vertical-rl",
+          }}
+        >
+          0{index + 1}
         </div>
-      )}
-    </CardWrapper>
+      </div>
+    </motion.div>
   );
 }
 
