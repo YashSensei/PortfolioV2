@@ -9,7 +9,15 @@ import { PortraitReveal, CinematicOverlay, GlitchText } from "@/components/cinem
 
 /**
  * Tech Page - Cinematic Scroll-Driven Experience
- * Inspired by zerotrillion.com's storytelling approach
+ *
+ * Color Palette:
+ * - Mocha Brown: #7B4F3B (primary accent)
+ * - Espresso Dark: #2B1B17 (background)
+ * - Cream White: #F5F1EC (primary text)
+ * - Warm Taupe: #A68A7F (secondary text)
+ * - Soft Beige: #D8CFC7 (muted text)
+ * - Muted Gold: #C2A66F (accent)
+ * - Olive Grey: #6F7365 (subtle accent)
  */
 
 // ============================================================================
@@ -17,20 +25,43 @@ import { PortraitReveal, CinematicOverlay, GlitchText } from "@/components/cinem
 // ============================================================================
 
 const HERO_DATA = {
-  name: "Yash Agrawal",
-  title: "Full Stack Developer",
-  tagline: "Building systems that scale.",
-  subtitle: "From 0 to 190k users: I build what matters.",
+  greeting: "Hey. I'm Yash,",
+  titleLine1: "A Full Stack",
+  titleScript: "& Product",
+  titleLine2: "DEVELOPER",
+  description:
+    "Transforming ideas into scalable systems—APIs, real-time features, and products that captivate users and deliver results.",
+  stats: [
+    { value: "190k+", label: "Users Scaled" },
+    { value: "5+", label: "Projects Shipped" },
+    { value: "2+", label: "Years Experience" },
+    { value: "3", label: "Companies" },
+  ],
+  services: [
+    { title: "API ARCHITECTURE", desc: "Scalable backends built for performance and reliability." },
+    {
+      title: "REAL-TIME SYSTEMS",
+      desc: "WebSocket-powered features for instant user experiences.",
+    },
+    { title: "FULL STACK APPS", desc: "End-to-end development from database to deployment." },
+    { title: "PRODUCT DEVELOPMENT", desc: "From 0 to 1, turning ideas into shipped products." },
+  ],
 };
 
-const PHILOSOPHY_LINES = [
-  "Code is more than syntax.",
-  "It's the language of problem-solving.",
-  "Clean architecture. Scalable systems.",
-  "User-centric design.",
-  "Every commit is intentional.",
-  "Every system designed to evolve.",
-];
+const ABOUT_DATA = {
+  bio: "I'm a full-stack developer who loves building things that matter. Started coding to solve problems, stayed because there's nothing like shipping a product that actually helps people.",
+  highlights: [
+    { label: "Based in", value: "India" },
+    { label: "Experience", value: "2+ Years" },
+    { label: "Focus", value: "Scalable Systems" },
+    { label: "Currently", value: "Building MegaLLM" },
+  ],
+  passions: [
+    "Obsessed with clean APIs and developer experience",
+    "Love the 0→1 journey of building products",
+    "Always learning - currently deep into Go and system design",
+  ],
+};
 
 /**
  * Experience data structured for scroll-driven narrative
@@ -137,158 +168,167 @@ const SKILLS_DATA = [
 // ============================================================================
 
 /**
- * Hero Section - Full viewport intro with glitch text
+ * Hero Section - Magazine-style layout with bookmark image
  */
 function HeroSection() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [animationsComplete, setAnimationsComplete] = useState(0);
-  const [isVisible, setIsVisible] = useState(true);
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"],
-  });
-
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95]);
-  const y = useTransform(scrollYProgress, [0, 0.5], [0, -50]);
-
-  // Track visibility for replay animation
-  useEffect(() => {
-    const unsubscribe = scrollYProgress.on("change", (value) => {
-      // Hero is visible when scroll progress is less than 0.4 (still mostly in view)
-      const shouldBeVisible = value < 0.4;
-      setIsVisible(shouldBeVisible);
-    });
-    return () => unsubscribe();
-  }, [scrollYProgress]);
-
-  const handleComplete = () => {
-    setAnimationsComplete((prev) => prev + 1);
-  };
-
-  const allComplete = animationsComplete >= 4;
-
   return (
-    <motion.section
-      ref={containerRef}
-      className="relative h-screen flex items-center justify-center overflow-hidden"
-      style={{ opacity, scale, y }}
-    >
-      {/* Video background */}
-      <div className="absolute inset-0 z-0">
-        <video autoPlay muted loop playsInline className="w-full h-full object-cover">
-          <source src="/assets/270448_small.mp4" type="video/mp4" />
-        </video>
-        {/* Dim overlay */}
-        <div className="absolute inset-0 bg-black/75" />
+    <section className="relative h-screen bg-[#2B1B17] overflow-hidden">
+      {/* Center Bookmark Image - Starts from top */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 z-10">
+        <motion.div
+          className="relative"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.6 }}
+        >
+          {/* Bookmark shape with rounded bottom */}
+          <div
+            className="relative w-[300px] md:w-[380px] lg:w-[420px] h-[70vh] md:h-[75vh] overflow-hidden"
+            style={{
+              borderRadius: "0 0 200px 200px",
+            }}
+          >
+            <img
+              src="/myimages/mypotraitfortechpage.jpeg"
+              alt="Yash Agrawal"
+              className="w-full h-full object-cover object-top"
+            />
+          </div>
+        </motion.div>
       </div>
 
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-blue-950/20 via-transparent to-transparent z-[1]" />
+      {/* Navigation - On top of everything */}
+      <nav className="relative z-30 flex items-center justify-between px-8 md:px-16 py-6">
+        {/* Logo */}
+        <div className="flex items-center gap-2">
+          <span className="w-3 h-3 rounded-full bg-[#C2A66F]" />
+          <span className="text-[#F5F1EC] font-bold text-lg tracking-wide">YASH</span>
+        </div>
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
-        {/* Text content with glitch effect - ALL start at once */}
-        <div className="space-y-8">
-          {/* Title */}
-          <div className="text-blue-400 text-sm font-medium tracking-widest uppercase h-6">
-            <GlitchText
-              trigger={isVisible}
-              delay={100}
-              glitchPercentage={0.4}
-              targetDuration={800}
-              glitchIterations={3}
-              onComplete={handleComplete}
+        {/* Menu Button */}
+        <button className="flex items-center gap-2 bg-[#F5F1EC]/10 hover:bg-[#F5F1EC]/20 transition-colors rounded-full px-5 py-2.5">
+          <span className="text-[#F5F1EC] text-sm font-medium">MENU</span>
+          <div className="flex flex-col gap-1">
+            <span className="w-4 h-0.5 bg-[#F5F1EC]" />
+            <span className="w-4 h-0.5 bg-[#F5F1EC]" />
+          </div>
+        </button>
+      </nav>
+
+      {/* Main Content Grid */}
+      <div className="relative z-20 h-full max-w-7xl mx-auto px-8 md:px-16">
+        <div className="grid grid-cols-1 lg:grid-cols-3 h-full items-center">
+          {/* Left Column - Text */}
+          <div className="space-y-5 pt-16 lg:pt-0">
+            <motion.p
+              className="text-[#A68A7F] text-lg md:text-xl"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
             >
-              {HERO_DATA.title}
-            </GlitchText>
+              {HERO_DATA.greeting}
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+            >
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-[#F5F1EC] leading-[0.95]">
+                {HERO_DATA.titleLine1}
+              </h1>
+              <p
+                className="text-4xl md:text-5xl lg:text-6xl text-[#C2A66F] leading-[0.95] mt-1"
+                style={{ fontFamily: "Georgia, serif", fontStyle: "italic" }}
+              >
+                {HERO_DATA.titleScript}
+              </p>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-[#F5F1EC] leading-[0.95] mt-1">
+                {HERO_DATA.titleLine2}
+              </h1>
+            </motion.div>
+
+            <motion.p
+              className="text-[#A68A7F] text-sm md:text-base leading-relaxed max-w-xs"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+            >
+              {HERO_DATA.description}
+            </motion.p>
+
+            <motion.a
+              href="#contact"
+              className="inline-flex items-center gap-3 bg-[#F5F1EC] text-[#2B1B17] font-bold px-5 py-2.5 rounded-full hover:bg-[#C2A66F] transition-colors group"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+            >
+              <span className="text-sm">CONTACT ME</span>
+              <span className="w-7 h-7 rounded-full bg-[#2B1B17] text-[#F5F1EC] flex items-center justify-center">
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17 8l4 4m0 0l-4 4m4-4H3"
+                  />
+                </svg>
+              </span>
+            </motion.a>
           </div>
 
-          {/* Name */}
-          <h1 className="text-5xl md:text-7xl font-black text-white leading-tight min-h-[1.2em] whitespace-nowrap">
-            <GlitchText
-              trigger={isVisible}
-              delay={100}
-              glitchPercentage={0.4}
-              targetDuration={1000}
-              glitchIterations={4}
-              onComplete={handleComplete}
-            >
-              {HERO_DATA.name}
-            </GlitchText>
-          </h1>
+          {/* Center Column - Empty (image is absolutely positioned) */}
+          <div className="hidden lg:block" />
 
-          {/* Tagline */}
-          <p className="text-2xl md:text-3xl text-gray-300 font-light min-h-[1.5em]">
-            <GlitchText
-              trigger={isVisible}
-              delay={100}
-              glitchPercentage={0.4}
-              targetDuration={1000}
-              glitchIterations={3}
-              onComplete={handleComplete}
-            >
-              {HERO_DATA.tagline}
-            </GlitchText>
-          </p>
-
-          {/* Subtitle */}
-          <p className="text-lg text-gray-500 min-h-[1.5em]">
-            <GlitchText
-              trigger={isVisible}
-              delay={100}
-              glitchPercentage={0.4}
-              targetDuration={1200}
-              glitchIterations={2}
-              onComplete={handleComplete}
-            >
-              {HERO_DATA.subtitle}
-            </GlitchText>
-          </p>
-        </div>
-
-        {/* Portrait - shows immediately with page load */}
-        <div className="hidden md:block">
-          <PortraitReveal
-            src="/myimages/mypotraitfortechpage.jpeg"
-            alt="Yash Agrawal"
-            className="w-full max-w-xs mx-auto aspect-[4/5]"
-            accentColor="blue"
-          />
+          {/* Right Column - Stats */}
+          <div className="hidden lg:flex flex-col items-end space-y-8">
+            {HERO_DATA.stats.map((stat, i) => (
+              <motion.div
+                key={i}
+                className="text-right"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.4 + i * 0.1 }}
+              >
+                <p className="text-3xl md:text-4xl font-black text-[#F5F1EC]">{stat.value}</p>
+                <p className="text-[#6F7365] text-xs uppercase tracking-wider">{stat.label}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* Scroll indicator - shows after all text animates */}
+      {/* Bottom Services Bar */}
       <motion.div
-        className="absolute bottom-12 left-1/2 -translate-x-1/2"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: allComplete ? 1 : 0 }}
-        transition={{ delay: 0.3, duration: 0.5 }}
+        className="absolute bottom-0 left-0 right-0 z-20 border-t border-[#7B4F3B]/30"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.7 }}
       >
-        <motion.div
-          className="flex flex-col items-center gap-2 text-gray-500"
-          animate={{ y: [0, 8, 0] }}
-          transition={{ repeat: Infinity, duration: 2 }}
-        >
-          <span className="text-xs tracking-widest uppercase">Scroll</span>
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M19 14l-7 7m0 0l-7-7m7 7V3"
-            />
-          </svg>
-        </motion.div>
+        <div className="max-w-7xl mx-auto px-8 md:px-16 py-5">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+            {HERO_DATA.services.map((service, i) => (
+              <div key={i} className="space-y-1">
+                <h3 className="text-[#F5F1EC] font-bold text-xs uppercase tracking-wider">
+                  {service.title}
+                </h3>
+                <p className="text-[#6F7365] text-xs leading-relaxed hidden md:block">
+                  {service.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
       </motion.div>
-    </motion.section>
+    </section>
   );
 }
 
 /**
- * Philosophy Section - Scroll-driven text reveal
+ * About Section - Personal intro with highlights
  */
-function PhilosophySection() {
+function AboutSection() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const { scrollYProgress } = useScroll({
@@ -298,91 +338,73 @@ function PhilosophySection() {
 
   const progress = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
 
+  const headerOpacity = useTransform(progress, [0, 0.2], [0, 1]);
+  const headerY = useTransform(progress, [0, 0.2], [50, 0]);
+  const contentOpacity = useTransform(progress, [0.1, 0.3], [0, 1]);
+  const contentY = useTransform(progress, [0.1, 0.3], [30, 0]);
+
   return (
-    <section ref={containerRef} className="min-h-[200vh] relative">
-      {/* Background image with dim overlay */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-fixed"
-        style={{ backgroundImage: "url('/assets/phd1.webp')" }}
-      >
-        {/* Dark overlay for readability */}
-        <div className="absolute inset-0 bg-black/80" />
+    <section ref={containerRef} className="min-h-screen relative py-32">
+      {/* Animated background */}
+      <div className="absolute inset-0 z-0">
+        <AnimatedGridBackground gridSize={80} gridOpacity={0.04} showOrbs={true} />
       </div>
 
-      <div className="sticky top-0 h-screen flex items-center justify-center px-6 relative z-10">
-        <div className="max-w-4xl mx-auto text-center space-y-6">
-          {PHILOSOPHY_LINES.map((line, i) => {
-            const lineStart = i / PHILOSOPHY_LINES.length;
-            const lineEnd = (i + 1) / PHILOSOPHY_LINES.length;
+      <div className="relative z-10 max-w-6xl mx-auto px-6">
+        {/* Section header */}
+        <motion.div className="text-center mb-16" style={{ opacity: headerOpacity, y: headerY }}>
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">About Me</h2>
+          <div className="h-1 w-20 bg-amber-300 mx-auto rounded-full" />
+        </motion.div>
 
-            return (
-              <PhilosophyLine
+        <motion.div
+          className="grid md:grid-cols-2 gap-12 items-center"
+          style={{ opacity: contentOpacity, y: contentY }}
+        >
+          {/* Left - Bio */}
+          <div className="space-y-8">
+            <p className="text-xl md:text-2xl text-gray-300 leading-relaxed font-light">
+              {ABOUT_DATA.bio}
+            </p>
+
+            {/* Passions list */}
+            <div className="space-y-4">
+              {ABOUT_DATA.passions.map((passion, i) => (
+                <motion.div
+                  key={i}
+                  className="flex items-start gap-3"
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.1 }}
+                  viewport={{ once: true }}
+                >
+                  <span className="text-[#C2A66F] mt-1">→</span>
+                  <span className="text-[#A68A7F]">{passion}</span>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          {/* Right - Highlights Grid */}
+          <div className="grid grid-cols-2 gap-4">
+            {ABOUT_DATA.highlights.map((item, i) => (
+              <motion.div
                 key={i}
-                line={line}
-                progress={progress}
-                start={lineStart}
-                end={lineEnd}
-              />
-            );
-          })}
-        </div>
+                className="bg-[#3D2A24] border border-[#7B4F3B]/30 rounded-2xl p-6 hover:border-amber-300/50 transition-colors"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1 }}
+                viewport={{ once: true }}
+                whileHover={{ scale: 1.02 }}
+              >
+                <p className="text-sm text-gray-500 uppercase tracking-wider mb-2">{item.label}</p>
+                <p className="text-xl font-bold text-white">{item.value}</p>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
       </div>
     </section>
-  );
-}
-
-function PhilosophyLine({
-  line,
-  progress,
-  start,
-  end,
-}: {
-  line: string;
-  progress: ReturnType<typeof useSpring>;
-  start: number;
-  end: number;
-}) {
-  const [isVisible, setIsVisible] = useState(false);
-  const lineProgress = useTransform(progress, [start * 0.8, end * 0.8], [0, 1]);
-
-  const opacity = useTransform(lineProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0.5]);
-  const y = useTransform(lineProgress, [0, 0.5, 1], [40, 0, -20]);
-  const scale = useTransform(lineProgress, [0, 0.3, 1], [0.95, 1, 1]);
-
-  // Track visibility - trigger when entering, reset when leaving
-  useEffect(() => {
-    const unsubscribe = lineProgress.on("change", (value) => {
-      const shouldBeVisible = value > 0.1 && value < 0.9;
-      setIsVisible(shouldBeVisible);
-    });
-    return () => unsubscribe();
-  }, [lineProgress]);
-
-  // Highlight keywords
-  const isHighlight =
-    line.includes("problem-solving") || line.includes("scale") || line.includes("intentional");
-
-  return (
-    <motion.p
-      className={`text-2xl md:text-4xl font-light leading-relaxed ${
-        isHighlight ? "text-blue-400" : "text-gray-300"
-      }`}
-      style={{
-        opacity,
-        y,
-        scale,
-        willChange: "transform, opacity",
-      }}
-    >
-      <GlitchText
-        trigger={isVisible}
-        glitchPercentage={0.3}
-        targetDuration={800}
-        glitchIterations={3}
-      >
-        {line}
-      </GlitchText>
-    </motion.p>
   );
 }
 
@@ -447,9 +469,9 @@ function ExperienceSection() {
               key={i}
               className={`w-2 h-2 rounded-full transition-all duration-500 ${
                 i === activeIndex
-                  ? "bg-blue-500 scale-125"
+                  ? "bg-amber-300 scale-125"
                   : i < activeIndex
-                    ? "bg-blue-500/50"
+                    ? "bg-amber-300/50"
                     : "bg-white/20"
               }`}
             />
@@ -553,8 +575,8 @@ function ExperienceBackground({
           className="absolute inset-0"
           style={{
             backgroundImage: `
-              linear-gradient(to right, rgba(59, 130, 246, 0.8) 1px, transparent 1px),
-              linear-gradient(to bottom, rgba(59, 130, 246, 0.8) 1px, transparent 1px)
+              linear-gradient(to right, rgba(251, 191, 36, 0.8) 1px, transparent 1px),
+              linear-gradient(to bottom, rgba(251, 191, 36, 0.8) 1px, transparent 1px)
             `,
             backgroundSize: `${getGridSize()}px ${getGridSize()}px`,
           }}
@@ -573,8 +595,8 @@ function ExperienceBackground({
           className="absolute inset-0"
           style={{
             backgroundImage: `
-              linear-gradient(to right, rgba(59, 130, 246, 0.6) 1px, transparent 1px),
-              linear-gradient(to bottom, rgba(59, 130, 246, 0.6) 1px, transparent 1px)
+              linear-gradient(to right, rgba(251, 191, 36, 0.6) 1px, transparent 1px),
+              linear-gradient(to bottom, rgba(251, 191, 36, 0.6) 1px, transparent 1px)
             `,
             backgroundSize: `${getGridSize() * 2}px ${getGridSize() * 2}px`,
           }}
@@ -587,7 +609,7 @@ function ExperienceBackground({
         <motion.div
           className="absolute -top-1/4 -left-1/4 w-1/2 h-1/2 rounded-full transition-opacity duration-1000"
           style={{
-            background: `radial-gradient(circle, rgba(59, 130, 246, ${currentExp.bgIntensity * 0.25}) 0%, transparent 70%)`,
+            background: `radial-gradient(circle, rgba(251, 191, 36, ${currentExp.bgIntensity * 0.25}) 0%, transparent 70%)`,
           }}
           animate={{
             scale: [1, 1.1, 1],
@@ -604,7 +626,7 @@ function ExperienceBackground({
         <motion.div
           className="absolute -bottom-1/4 -right-1/4 w-1/2 h-1/2 rounded-full transition-opacity duration-1000"
           style={{
-            background: `radial-gradient(circle, rgba(59, 130, 246, ${currentExp.bgIntensity * 0.2}) 0%, transparent 70%)`,
+            background: `radial-gradient(circle, rgba(251, 191, 36, ${currentExp.bgIntensity * 0.2}) 0%, transparent 70%)`,
           }}
           animate={{
             scale: [1, 1.15, 1],
@@ -660,7 +682,7 @@ function ExperienceContent({
           }}
         >
           {/* Period - small, quiet */}
-          <span className="text-blue-500/60 text-sm font-medium tracking-wider mb-4">
+          <span className="text-[#C2A66F]/60 text-sm font-medium tracking-wider mb-4">
             {exp.period}
           </span>
 
@@ -668,13 +690,13 @@ function ExperienceContent({
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2">{exp.role}</h2>
 
           {/* Company */}
-          <p className="text-xl md:text-2xl text-gray-400 mb-8">{exp.company}</p>
+          <p className="text-xl md:text-2xl text-[#A68A7F] mb-8">{exp.company}</p>
 
           {/* Headline - the story */}
           <p className="text-2xl md:text-3xl text-white font-light mb-4 max-w-xl">{exp.headline}</p>
 
           {/* Subtext */}
-          <p className="text-lg text-gray-400 mb-8 max-w-lg">{exp.subtext}</p>
+          <p className="text-lg text-[#A68A7F] mb-8 max-w-lg">{exp.subtext}</p>
 
           {/* Metadata - small, quiet */}
           <p className="text-sm text-gray-500 tracking-wide">{exp.metadata}</p>
@@ -695,7 +717,97 @@ function ExperienceContent({
 }
 
 /**
- * Projects Section - Accordion-style vertical cards
+ * Animated Grid Background - Reusable component for consistent section backgrounds
+ */
+function AnimatedGridBackground({
+  gridSize = 60,
+  gridOpacity = 0.08,
+  showOrbs = true,
+}: {
+  gridSize?: number;
+  gridOpacity?: number;
+  showOrbs?: boolean;
+}) {
+  return (
+    <div className="absolute inset-0 overflow-hidden">
+      {/* Base gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black via-[#0a0a0f] to-black" />
+
+      {/* Grid layer */}
+      <div
+        className="absolute inset-0"
+        style={{
+          opacity: gridOpacity,
+          backgroundImage: `
+            linear-gradient(to right, rgba(251, 191, 36, 0.8) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(251, 191, 36, 0.8) 1px, transparent 1px)
+          `,
+          backgroundSize: `${gridSize}px ${gridSize}px`,
+        }}
+      />
+
+      {/* Secondary grid layer */}
+      <div
+        className="absolute inset-0"
+        style={{
+          opacity: gridOpacity * 0.5,
+          backgroundImage: `
+            linear-gradient(to right, rgba(251, 191, 36, 0.6) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(251, 191, 36, 0.6) 1px, transparent 1px)
+          `,
+          backgroundSize: `${gridSize * 2}px ${gridSize * 2}px`,
+        }}
+      />
+
+      {/* Floating orbs */}
+      {showOrbs && (
+        <>
+          <motion.div
+            className="absolute -top-1/4 -left-1/4 w-1/2 h-1/2 rounded-full"
+            style={{
+              background: "radial-gradient(circle, rgba(251, 191, 36, 0.1) 0%, transparent 70%)",
+            }}
+            animate={{
+              scale: [1, 1.1, 1],
+              x: [0, 20, 0],
+            }}
+            transition={{
+              duration: 20,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+          />
+          <motion.div
+            className="absolute -bottom-1/4 -right-1/4 w-1/2 h-1/2 rounded-full"
+            style={{
+              background: "radial-gradient(circle, rgba(251, 191, 36, 0.08) 0%, transparent 70%)",
+            }}
+            animate={{
+              scale: [1, 1.15, 1],
+              y: [0, -30, 0],
+            }}
+            transition={{
+              duration: 25,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+          />
+        </>
+      )}
+
+      {/* Vignette overlay */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: "radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.4) 100%)",
+        }}
+      />
+    </div>
+  );
+}
+
+/**
+ * Projects Section - Accordion-style vertical cards with sticky scroll
  */
 function ProjectsSection() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -703,45 +815,54 @@ function ProjectsSection() {
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start end", "end start"],
+    offset: ["start start", "end end"],
   });
 
-  const progress = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
+  const headerOpacity = useTransform(scrollYProgress, [0, 0.15], [0, 1]);
+  const headerY = useTransform(scrollYProgress, [0, 0.15], [30, 0]);
+  const cardsOpacity = useTransform(scrollYProgress, [0.1, 0.25], [0, 1]);
 
   return (
-    <section ref={containerRef} className="min-h-screen py-32 px-6 bg-[#0a0a0b]">
-      <div className="max-w-6xl mx-auto">
-        {/* Section header */}
-        <motion.div
-          className="text-center mb-16"
-          style={{
-            opacity: useTransform(progress, [0, 0.15], [0, 1]),
-            y: useTransform(progress, [0, 0.15], [30, 0]),
-          }}
-        >
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Projects</h2>
-          <div className="h-1 w-20 bg-blue-500 mx-auto rounded-full" />
-        </motion.div>
+    <section ref={containerRef} className="relative bg-black" style={{ height: "200vh" }}>
+      {/* Sticky container */}
+      <div className="sticky top-0 h-screen w-full overflow-hidden">
+        {/* Animated background */}
+        <AnimatedGridBackground gridSize={50} gridOpacity={0.06} />
 
-        {/* Accordion cards container */}
-        <motion.div
-          className="flex gap-3 h-[400px] md:h-[450px]"
-          style={{
-            opacity: useTransform(progress, [0.1, 0.25], [0, 1]),
-          }}
-        >
-          {PROJECTS_DATA.map((project, i) => (
-            <ProjectCard
-              key={i}
-              project={project}
-              index={i}
-              isHovered={hoveredIndex === i}
-              isAnyHovered={hoveredIndex !== null}
-              onHover={() => setHoveredIndex(i)}
-              onLeave={() => setHoveredIndex(null)}
-            />
-          ))}
-        </motion.div>
+        {/* Content */}
+        <div className="relative z-10 h-full flex flex-col items-center justify-center px-6">
+          {/* Section header */}
+          <motion.div
+            className="text-center mb-12"
+            style={{
+              opacity: headerOpacity,
+              y: headerY,
+            }}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Projects</h2>
+            <div className="h-1 w-20 bg-amber-300 mx-auto rounded-full" />
+          </motion.div>
+
+          {/* Accordion cards container */}
+          <motion.div
+            className="flex gap-3 h-[400px] md:h-[450px] w-full max-w-6xl"
+            style={{
+              opacity: cardsOpacity,
+            }}
+          >
+            {PROJECTS_DATA.map((project, i) => (
+              <ProjectCard
+                key={i}
+                project={project}
+                index={i}
+                isHovered={hoveredIndex === i}
+                isAnyHovered={hoveredIndex !== null}
+                onHover={() => setHoveredIndex(i)}
+                onLeave={() => setHoveredIndex(null)}
+              />
+            ))}
+          </motion.div>
+        </div>
       </div>
     </section>
   );
@@ -778,8 +899,8 @@ function ProjectCard({
       }}
     >
       <div
-        className={`block h-full bg-[#111113] rounded-2xl border overflow-hidden transition-colors duration-300 ${
-          isHovered ? "border-blue-500/50" : "border-gray-800"
+        className={`block h-full bg-[#3D2A24] rounded-2xl border overflow-hidden transition-colors duration-300 ${
+          isHovered ? "border-amber-300/50" : "border-[#7B4F3B]/30"
         }`}
       >
         {/* Background image - visible when expanded */}
@@ -827,8 +948,8 @@ function ProjectCard({
         >
           <div>
             <h3 className="text-2xl md:text-3xl font-bold text-white mb-3">{project.name}</h3>
-            <p className="text-blue-400 text-sm font-medium mb-4">{project.tech}</p>
-            <p className="text-gray-400 text-sm md:text-base leading-relaxed">
+            <p className="text-[#C2A66F] text-sm font-medium mb-4">{project.tech}</p>
+            <p className="text-[#A68A7F] text-sm md:text-base leading-relaxed">
               {project.description}
             </p>
           </div>
@@ -840,7 +961,7 @@ function ProjectCard({
                   href={project.live}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors"
+                  className="flex items-center gap-2 text-[#C2A66F] hover:text-[#F5F1EC] transition-colors"
                   onClick={(e) => e.stopPropagation()}
                 >
                   <span className="text-sm font-medium">Visit Site</span>
@@ -859,7 +980,7 @@ function ProjectCard({
                   href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+                  className="flex items-center gap-2 text-[#A68A7F] hover:text-white transition-colors"
                   onClick={(e) => e.stopPropagation()}
                 >
                   <span className="text-sm font-medium">GitHub</span>
@@ -875,7 +996,7 @@ function ProjectCard({
         {/* Index number decoration */}
         <div
           className={`absolute bottom-4 text-6xl md:text-7xl font-black transition-colors duration-300 ${
-            isHovered ? "right-6 text-blue-500/20" : "left-1/2 -translate-x-1/2 text-white/5"
+            isHovered ? "right-6 text-[#C2A66F]/20" : "left-1/2 -translate-x-1/2 text-white/5"
           }`}
           style={{
             writingMode: isHovered ? "horizontal-tb" : "vertical-rl",
@@ -889,7 +1010,7 @@ function ProjectCard({
 }
 
 /**
- * Skills Section - with parallax scroll-away effect to reveal footer
+ * Skills Section - with animated background and scroll-away effect
  */
 function SkillsSection() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -908,9 +1029,14 @@ function SkillsSection() {
   const sectionY = useTransform(scrollYProgress, [0.6, 0.9], [0, -100]);
 
   return (
-    <section ref={containerRef} className="min-h-screen py-32 px-6 relative z-20 bg-black">
+    <section ref={containerRef} className="min-h-screen py-32 px-6 relative z-20">
+      {/* Animated background */}
+      <div className="absolute inset-0 z-0">
+        <AnimatedGridBackground gridSize={70} gridOpacity={0.05} showOrbs={false} />
+      </div>
+
       <motion.div
-        className="max-w-4xl mx-auto"
+        className="max-w-4xl mx-auto relative z-10"
         style={{
           opacity: sectionOpacity,
           y: sectionY,
@@ -925,7 +1051,7 @@ function SkillsSection() {
           }}
         >
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Stack</h2>
-          <div className="h-1 w-20 bg-blue-500 mx-auto rounded-full" />
+          <div className="h-1 w-20 bg-amber-300 mx-auto rounded-full" />
         </motion.div>
 
         {/* Skills categories */}
@@ -960,7 +1086,7 @@ function SkillCategory({
         {category.items.map((skill, j) => (
           <motion.span
             key={j}
-            className="px-4 py-2 bg-[#111113] border border-gray-800 rounded-xl text-gray-300 text-sm font-medium hover:border-blue-500/50 hover:text-blue-400 transition-colors"
+            className="px-4 py-2 bg-[#3D2A24] border border-[#7B4F3B]/30 rounded-xl text-gray-300 text-sm font-medium hover:border-amber-300/50 hover:text-[#C2A66F] transition-colors"
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ delay: j * 0.05 }}
@@ -1015,7 +1141,7 @@ function EscapeNav() {
           onClick={triggerExit}
           className="flex items-center gap-2 text-white/30 hover:text-white/60 transition-colors group"
         >
-          <kbd className="px-2 py-1 text-xs rounded border border-blue-500/30 group-hover:border-blue-500/60 bg-white/5">
+          <kbd className="px-2 py-1 text-xs rounded border border-amber-300/30 group-hover:border-amber-300/60 bg-white/5">
             ESC
           </kbd>
           <span className="text-xs tracking-wide opacity-0 group-hover:opacity-100 transition-opacity">
@@ -1027,7 +1153,7 @@ function EscapeNav() {
       {/* Exit overlay */}
       {isExiting && (
         <motion.div
-          className="fixed inset-0 z-[100] bg-blue-900"
+          className="fixed inset-0 z-[100] bg-amber-900"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
@@ -1043,7 +1169,7 @@ function EscapeNav() {
 
 export default function TechPage() {
   return (
-    <main className="bg-[#0a0a0b] text-white min-h-screen">
+    <main className="bg-[#2B1B17] text-white min-h-screen">
       {/* Cinematic overlays */}
       <CinematicOverlay grainIntensity={0.04} vignetteIntensity={0.25} />
 
@@ -1055,7 +1181,7 @@ export default function TechPage() {
 
       {/* Sections */}
       <HeroSection />
-      <PhilosophySection />
+      <AboutSection />
       <ExperienceSection />
       <ProjectsSection />
       <SkillsSection />
