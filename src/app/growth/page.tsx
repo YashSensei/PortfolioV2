@@ -287,7 +287,7 @@ export default function GrowthPage() {
             <div className="relative w-full max-w-md aspect-[3/4] rounded-2xl overflow-hidden border-2 border-gray-800 hover:border-red-500/50 transition-colors duration-300">
               <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0b] via-transparent to-transparent z-10 opacity-60" />
               <img
-                src="/myimages/mypotraitforgrowthpage.jpeg"
+                src="/myimages/mypotraitfortechpage.jpeg"
                 alt="Yash Agrawal"
                 className="w-full h-full object-cover"
               />
