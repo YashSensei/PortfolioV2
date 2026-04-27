@@ -119,9 +119,14 @@ export default function HeroPhase({
                 />
               </svg>
             </button>
-            <button className="px-6 md:px-8 py-3 md:py-3.5 rounded-lg text-sm font-bold border border-gray-700 hover:border-gray-500 text-white transition-colors">
+            <a
+              href="/Yash-Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-6 md:px-8 py-3 md:py-3.5 rounded-lg text-sm font-bold border border-gray-700 hover:border-gray-500 text-white transition-colors"
+            >
               View Resume
-            </button>
+            </a>
           </motion.div>
         </motion.div>
 

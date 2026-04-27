@@ -22,7 +22,7 @@ export default function ResumeButton({ accentColor }: ResumeButtonProps) {
 
   return (
     <motion.a
-      href="/assets/Yash_Agrawal_CV.pdf"
+      href="/Yash-Resume.pdf"
       target="_blank"
       rel="noopener noreferrer"
       className={`fixed top-6 right-6 z-50 flex items-center gap-2 px-4 py-2 rounded-full border backdrop-blur-sm transition-all duration-300 ${bgClass}`}

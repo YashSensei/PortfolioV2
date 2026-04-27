@@ -38,13 +38,15 @@ This is a Next.js 16 portfolio site with two parallel "story paths" accessible v
 - **Tech page** (`/tech`): Framer Motion with scroll-linked animations (`useScroll`, `useTransform`, `useSpring`). Sections use sticky positioning with scroll progress to drive crossfade transitions.
 - **Growth page** (`/growth`): IntersectionObserver-based scroll reveals with CSS transitions (`.scroll-reveal` class pattern).
 
+Both `framer-motion` and `gsap` (with `@gsap/react`) are installed. Framer Motion is the default; reach for GSAP only when you need timeline sequencing or DOM-mutation behavior Framer can't express.
+
 **Cinematic Components** (`src/components/cinematic/`): Reusable visual effects:
 - `GlitchText` - Character-by-character text reveal with glitch effect
 - `ImageReveal`, `PortraitReveal` - Progressive image reveals
 - `ScrollScene` - Scroll-driven scene container with progress tracking
 - `FilmGrain`, `Vignette`, `CinematicOverlay` - Visual overlay effects
 
-**Scroll Navigation** (`src/components/scroll-narrative/`): Alternative scroll system that intercepts wheel/touch events to create "virtual scroll" sections without actual DOM scrolling. Uses `useScrollProgress` hook from `src/hooks/`.
+**Scroll Navigation** (`src/components/scroll-narrative/`): Alternative scroll system that intercepts wheel/touch events (and ArrowUp/ArrowDown/Space) to create "virtual scroll" sections without actual DOM scrolling. `ScrollNarrativeContainer` owns the scroll state via the `useScrollProgress` hook (`src/hooks/`) and exposes it through `useScrollContext()` to children. Discrete sections live in `scroll-narrative/phases/` (HeroPhase, ProjectsPhase, etc.) and read `currentSection`/`sectionProgress` from context to drive their own animations. The container also handles ESC-to-exit (animated overlay → `router.push("/")`). Use the exported `interpolate(progress, inputRange, outputRange)` helper from `useScrollProgress.ts` for mapping section progress to animated values.
 
 **Accent Color System**: Components support `accentColor` prop (`"blue"` | `"red"`) for theming based on chosen path. Constants in `src/lib/constants.ts`.
 
@@ -60,5 +62,12 @@ This is a Next.js 16 portfolio site with two parallel "story paths" accessible v
 
 - Prettier: 100 char width, double quotes, trailing commas (es5)
 - TypeScript strict mode with `@typescript-eslint` rules
-- Use `cn()` from `src/lib/utils.ts` for conditional Tailwind classes
+- Path alias: `@/*` → `src/*` (configured in `tsconfig.json`); prefer `@/...` imports over relative paths.
+- Tailwind CSS v4 (configured via `@tailwindcss/postcss`, no `tailwind.config.js`). Theme tokens live in `src/app/globals.css`.
+- Use `cn()` from `src/lib/utils.ts` for conditional Tailwind classes (wraps `clsx` + `tailwind-merge`).
 - Prefer `"use client"` directive for components with animations or interactivity
+- Lint rules to keep in mind: `no-console` warns (only `console.warn`/`console.error` allowed), `eqeqeq` is enforced, `consistent-type-imports` warns — use `import type { ... }` for type-only imports.
+
+## Known Stubs
+
+- `src/components/ContactFooter.tsx` simulates submission with a `setTimeout` — there is no backend. `todo.md` tracks the intended EmailJS / API-route integration. Don't claim the form is functional.
