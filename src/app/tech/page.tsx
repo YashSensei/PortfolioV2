@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * /tech — "The Commit Trail"
+ * /tech - "The Commit Trail"
  *
  * A horizontal, side-scrolling developer zine. A git commit narrative runs
  * through editorial paper/colour-blocked panels: git init → whoami → commit log

@@ -10,7 +10,7 @@ export default function HeroPanel({ index }: { index: number }) {
   const { scrollToIndex } = useHorizontal();
   return (
     <Panel index={index} label="init" variant="paper" width="100vw">
-      {/* Ghost word — kept high and faint so it doesn't crowd the name */}
+      {/* Ghost word - kept high and faint so it doesn't crowd the name */}
       <GhostText className="absolute right-[-1%] top-[3%] text-[15vw] opacity-60 lg:text-[10vw]">
         PORTFOLIO
       </GhostText>
@@ -36,7 +36,7 @@ export default function HeroPanel({ index }: { index: number }) {
           <Reveal delay={0.15}>
             <p className="mt-7 max-w-xl font-grotesk text-lg font-medium leading-snug text-ink lg:text-xl">
               Full-stack developer &amp; early operator. I&apos;ve helped scale{" "}
-              <span className="text-cobalt">two 0→1 products</span>—one to 190k users—owning
+              <span className="text-cobalt">two 0→1 products</span> - one to 190k users - owning
               backend, frontend, product &amp; GTM.
             </p>
           </Reveal>

@@ -11,8 +11,8 @@ type Tool = "draw" | "spray" | "fill" | "erase";
 const TOOLS: { id: Tool; label: string; dot: string }[] = [
   { id: "draw", label: "Pencil", dot: "bg-sage" },
   { id: "spray", label: "Spray", dot: "bg-butter" },
-  { id: "fill", label: "Fill", dot: "bg-coral" },
-  { id: "erase", label: "Eraser", dot: "bg-sky" },
+  { id: "fill", label: "Fill", dot: "bg-sky" },
+  { id: "erase", label: "Eraser", dot: "bg-coral" },
 ];
 
 const SIZES = [4, 10, 20, 34];
@@ -20,12 +20,12 @@ const SIZES = [4, 10, 20, 34];
 const PALETTE = [
   "#faf5ec",
   "#1f1d1a",
-  "#2f6df0",
   "#e4572e",
-  "#3f7a5e",
   "#f2b63c",
   "#4a7ba6",
+  "#3f7a5e",
   "#f0c9b8",
+  "#2f6df0",
   "#ffffff",
   "#ff2e2e",
   "#00c853",
@@ -260,11 +260,11 @@ export default function DrawPanel({ index }: { index: number }) {
 
         {/* Heading / hint */}
         <div className="pointer-events-none absolute left-1/2 top-[10%] z-30 hidden -translate-x-1/2 flex-col items-center gap-3 text-center lg:flex">
-          <Sticker tone="cobalt" rotate={-2} className="pointer-events-auto">
-            {"// scratchpad"}
+          <Sticker tone="coral" rotate={-2} className="pointer-events-auto">
+            {"// the studio"}
           </Sticker>
           <p className="font-grotesk text-sm font-medium text-cream/60">
-            the last commit is yours - <span className="text-cobalt">drag to draw.</span>
+            go make something loud - <span className="text-coral">drag to draw.</span>
           </p>
         </div>
 
@@ -278,7 +278,7 @@ export default function DrawPanel({ index }: { index: number }) {
                 onClick={() => setTool(t.id)}
                 className={cn(
                   "flex items-center gap-1.5 rounded-full border-2 border-ink px-2.5 py-1 font-grotesk text-[11px] font-bold uppercase tracking-[0.06em] shadow-hard transition-transform hover:-translate-y-0.5",
-                  tool === t.id ? "bg-cobalt text-cream" : "bg-paper text-ink"
+                  tool === t.id ? "bg-coral text-cream" : "bg-paper text-ink"
                 )}
               >
                 <span className={cn("h-2 w-2 rounded-full border border-ink", t.dot)} />
@@ -287,7 +287,7 @@ export default function DrawPanel({ index }: { index: number }) {
             ))}
             <button
               onClick={reset}
-              className="flex items-center gap-1.5 rounded-full border-2 border-ink bg-coral px-2.5 py-1 font-grotesk text-[11px] font-bold uppercase tracking-[0.06em] text-cream shadow-hard transition-transform hover:-translate-y-0.5"
+              className="flex items-center gap-1.5 rounded-full border-2 border-ink bg-ink px-2.5 py-1 font-grotesk text-[11px] font-bold uppercase tracking-[0.06em] text-cream shadow-hard transition-transform hover:-translate-y-0.5"
             >
               <span className="h-2 w-2 rounded-full border border-cream/60 bg-cream/30" />
               Reset
@@ -301,7 +301,7 @@ export default function DrawPanel({ index }: { index: number }) {
                   onClick={() => setWeight(s)}
                   className={cn(
                     "flex h-7 w-7 items-center justify-center rounded-full border-2 transition-colors",
-                    weight === s ? "border-cobalt bg-cobalt/10" : "border-ink/20 hover:border-ink"
+                    weight === s ? "border-coral bg-coral/10" : "border-ink/20 hover:border-ink"
                   )}
                   aria-label={`Brush size ${s}`}
                 >
@@ -325,7 +325,7 @@ export default function DrawPanel({ index }: { index: number }) {
                 className={cn(
                   "h-5 w-5 rounded-full border-2 transition-transform hover:scale-110",
                   color === c
-                    ? "border-cobalt ring-2 ring-cobalt ring-offset-1 ring-offset-cream"
+                    ? "border-coral ring-2 ring-coral ring-offset-1 ring-offset-cream"
                     : "border-ink"
                 )}
               />

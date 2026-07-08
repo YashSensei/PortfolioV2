@@ -38,6 +38,10 @@ function CampaignPoster({ campaign, i }: { campaign: Campaign; i: number }) {
       {/* Body */}
       <div className="p-5">
         <h3 className="display text-2xl leading-[0.95] text-ink">{campaign.name}</h3>
+        <p className="mt-1.5 flex items-center gap-1.5 font-grotesk text-xs font-bold uppercase tracking-[0.08em] text-coral">
+          <span className="inline-block h-2 w-2 rotate-45 bg-coral" />
+          {campaign.result}
+        </p>
         <p className="mt-3 font-grotesk text-sm leading-relaxed text-inksoft">
           {campaign.description}
         </p>

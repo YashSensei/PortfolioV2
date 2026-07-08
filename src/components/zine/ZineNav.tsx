@@ -55,7 +55,7 @@ export default function ZineNav({ items, accent, monogram = "YA" }: ZineNavProps
 
   return (
     <>
-      {/* Monogram — top-left, doubles as "back home" */}
+      {/* Monogram - top-left, doubles as "back home" */}
       <button
         onClick={() => setExiting(true)}
         aria-label="Back to home"
@@ -69,7 +69,7 @@ export default function ZineNav({ items, accent, monogram = "YA" }: ZineNavProps
         </span>
       </button>
 
-      {/* Desktop sticker tabs — right edge */}
+      {/* Desktop sticker tabs - right edge */}
       <nav className="fixed right-0 top-1/2 z-50 hidden -translate-y-1/2 flex-col items-end gap-2 pr-3 lg:flex">
         {items.map((item, i) => {
           const active = activePanel.index === item.index;

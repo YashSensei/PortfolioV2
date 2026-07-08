@@ -68,7 +68,7 @@ export default function Panel({
         },
       });
 
-      // Reveal trigger — flips shown once the panel edges into view
+      // Reveal trigger - flips shown once the panel edges into view
       ScrollTrigger.create({
         trigger: ref.current,
         containerAnimation: container,

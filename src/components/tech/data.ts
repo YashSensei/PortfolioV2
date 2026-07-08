@@ -1,4 +1,4 @@
-// /tech — "The Commit Timeline" content
+// /tech - "The Commit Timeline" content
 
 export const TECH_ACCENT = {
   hex: "#60a5fa",
@@ -10,7 +10,7 @@ export const HERO = {
   name: "YASH AGRAWAL",
   role: "Full-Stack Developer & Early Operator",
   description:
-    "Full-stack developer & early operator. I've helped scale two 0→1 products—one to 190k users—owning backend, frontend, product & GTM.",
+    "Full-stack developer & early operator. I've helped scale two 0→1 products - one to 190k users - owning backend, frontend, product & GTM.",
   stats: [
     { value: "190k+", label: "users scaled" },
     { value: "2", label: "products 0→1" },
@@ -22,10 +22,10 @@ export const HERO = {
 
 export const ABOUT = {
   heading: "I build things that matter.",
-  bio: "I'm a full-stack developer and early operator. I've helped take two 0→1 products off the ground—one to 190k users—owning everything from backend systems to frontend architecture, product, and go-to-market.",
+  bio: "I'm a full-stack developer and early operator. I've helped take two 0→1 products off the ground - one to 190k users - owning everything from backend systems to frontend architecture, product, and go-to-market.",
   passions: [
-    "I own backend, frontend, product & GTM — all at once",
-    "Love the 0→1 grind — helped scale two products from zero",
+    "I own backend, frontend, product & GTM - all at once",
+    "Love the 0→1 grind - helped scale two products from zero",
     "BITS Pilani CS · Qualified Scaler NSET '24 (100% learnability)",
   ],
   highlights: [
@@ -115,7 +115,7 @@ export const EXPERIENCE: Commit[] = [
     metadata: ["The Residency SF '26", "Lighthouse 100", "Frontend + GTM"],
     bullets: [
       "Joined at 0 and built the complete frontend architecture from scratch",
-      "Optimized performance & SEO — Lighthouse score of 100",
+      "Optimized performance & SEO - Lighthouse score of 100",
       "Ran GTM pipelines driving early acquisition via Reddit & X",
       "Assisted backend debugging during early-stage scaling",
     ],
@@ -150,7 +150,7 @@ export const PROJECTS: Project[] = [
     name: "Pods.ml",
     tech: ["Next.js", "Pelican + Wings", "Orchestration", "Billing"],
     description:
-      "One-click deploy platform for AI agents, sandboxes & game servers. Pick a template, hit deploy, get a running pod with a URL. Custom Next.js console over Pelican Panel + Wings — auth, billing, per-pod subdomains, an in-browser terminal & live metrics.",
+      "One-click deploy platform for AI agents, sandboxes & game servers. Pick a template, hit deploy, get a running pod with a URL. Custom Next.js console over Pelican Panel + Wings - auth, billing, per-pod subdomains, an in-browser terminal & live metrics.",
     image: "/projects_assets/pods.png",
     liveUrl: "https://pods.ml",
   },

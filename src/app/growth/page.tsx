@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * /growth — "The Growth Log"
+ * /growth - "The Growth Log"
  *
  * Same horizontal zine architecture as /tech, themed coral (the red pill):
  * intro → approach → track record → campaigns → toolkit → contact.
@@ -20,6 +20,7 @@ import ExperiencePanel from "@/components/growth/ExperiencePanel";
 import CampaignsPanel from "@/components/growth/CampaignsPanel";
 import SkillsPanel from "@/components/growth/SkillsPanel";
 import ContactPanel from "@/components/growth/ContactPanel";
+import DrawPanel from "@/components/growth/DrawPanel";
 
 const PANEL_COUNT = 6;
 
@@ -30,6 +31,7 @@ const NAV_ITEMS: NavItem[] = [
   { label: "campaigns", index: 3 },
   { label: "toolkit", index: 4 },
   { label: "contact", index: 5 },
+  { label: "draw", index: 6, vertical: true },
 ];
 
 export default function GrowthPage() {
@@ -42,6 +44,7 @@ export default function GrowthPage() {
             <ZineNav items={NAV_ITEMS} accent="coral" monogram="YA" />
           </>
         }
+        after={<DrawPanel index={6} />}
       >
         <HeroPanel index={0} />
         <ApproachPanel index={1} />

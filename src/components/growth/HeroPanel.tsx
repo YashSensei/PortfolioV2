@@ -1,10 +1,13 @@
 "use client";
 
-import { Panel } from "@/components/horizontal";
+import { Panel, useHorizontal } from "@/components/horizontal";
 import { Reveal, Sticker, GhostText, U, TapedPhoto, CommitLine } from "@/components/zine";
 import { HERO } from "./data";
 
+const CONTACT_INDEX = 5;
+
 export default function HeroPanel({ index }: { index: number }) {
+  const { scrollToIndex } = useHorizontal();
   return (
     <Panel index={index} label="intro" variant="paper" width="100vw">
       {/* Ghost word */}
@@ -32,7 +35,7 @@ export default function HeroPanel({ index }: { index: number }) {
 
           <Reveal delay={0.15}>
             <p className="mt-4 font-grotesk text-lg font-semibold text-coral lg:text-xl">
-              {HERO.role} — <span className="text-ink">0 to 160k in 3 days.</span>
+              {HERO.role} - <span className="text-ink">0 to 160k in 3 days.</span>
             </p>
           </Reveal>
 
@@ -45,13 +48,13 @@ export default function HeroPanel({ index }: { index: number }) {
           {/* CTAs */}
           <Reveal delay={0.28}>
             <div className="mt-7 flex flex-wrap items-center gap-4">
-              <a
-                href="#contact"
+              <button
+                onClick={() => scrollToIndex(CONTACT_INDEX)}
                 className="group inline-flex items-center gap-2 rounded-full bg-ink px-7 py-4 font-grotesk text-sm font-bold uppercase tracking-[0.14em] text-cream shadow-hard-coral transition-transform hover:-translate-y-0.5 hover:bg-coral"
               >
                 Let&apos;s talk
                 <span className="transition-transform group-hover:translate-x-1">→</span>
-              </a>
+              </button>
               <a
                 href="/Yash-Resume.pdf"
                 target="_blank"
