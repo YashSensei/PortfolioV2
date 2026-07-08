@@ -1,8 +1,7 @@
 "use client";
 
 import { Panel } from "@/components/horizontal";
-import { Reveal, Sticker, GhostText, U, TapedPhoto, RailNode } from "@/components/zine";
-import { RAIL_Y } from "@/components/zine/RailNode";
+import { Reveal, Sticker, GhostText, U, TapedPhoto, CommitLine } from "@/components/zine";
 import { HERO, ABOUT } from "./data";
 
 export default function HeroPanel({ index }: { index: number }) {
@@ -33,8 +32,9 @@ export default function HeroPanel({ index }: { index: number }) {
 
           <Reveal delay={0.15}>
             <p className="mt-7 max-w-xl font-grotesk text-lg font-medium leading-snug text-ink lg:text-xl">
-              A full-stack &amp; product developer turning ideas into scalable systems—
-              <span className="text-cobalt">APIs, real-time features,</span> and products that ship.
+              Full-stack developer &amp; early operator. I&apos;ve helped scale{" "}
+              <span className="text-cobalt">two 0→1 products</span>—one to 190k users—owning
+              backend, frontend, product &amp; GTM.
             </p>
           </Reveal>
 
@@ -91,20 +91,14 @@ export default function HeroPanel({ index }: { index: number }) {
         </div>
       </div>
 
-      {/* Rail + first commit (runs along the bottom) */}
-      <div
-        className="pointer-events-none absolute inset-x-0 hidden lg:block"
-        style={{ top: RAIL_Y }}
-      >
-        <div className="h-0.5 w-full bg-ink/20" />
-        <RailNode
-          hash={HERO.node.hash}
-          message={HERO.node.message}
-          accent="cobalt"
-          labelSide="above"
-          className="absolute left-[45%] top-0"
-        />
-      </div>
+      {/* Commit timeline */}
+      <CommitLine
+        segments={[
+          { hash: HERO.node.hash, message: HERO.node.message },
+          { message: "git init yash" },
+        ]}
+        accent="cobalt"
+      />
     </Panel>
   );
 }

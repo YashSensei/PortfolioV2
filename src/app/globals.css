@@ -1,5 +1,23 @@
 @import "tailwindcss";
 
+/*
+ * Fonts:
+ *  - Headings / names -> Hakobi (drop your licensed hakobi.woff2 into /public/fonts/;
+ *    falls back to Anton, a free condensed-heavy display face, until then)
+ *  - Body / UI        -> Poppins
+ *  - Code / terminal  -> Geist Mono
+ */
+@font-face {
+  font-family: "Hakobi";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src:
+    local("Hakobi"),
+    url("/fonts/hakobi.woff2") format("woff2"),
+    url("/fonts/hakobi.woff") format("woff");
+}
+
 :root {
   --background: #000000;
   --foreground: #ffffff;
@@ -11,13 +29,13 @@
   --color-foreground: var(--foreground);
 
   /* Base type */
-  --font-sans: var(--font-instrument-sans);
+  --font-sans: var(--font-poppins);
   --font-mono: var(--font-geist-mono);
 
   /* Zine editorial type system */
-  --font-display: var(--font-archivo-black);
-  --font-grotesk: var(--font-space-grotesk);
-  --font-body: var(--font-instrument-sans);
+  --font-display: "Hakobi", var(--font-anton);
+  --font-grotesk: var(--font-poppins);
+  --font-body: var(--font-poppins);
 
   /* ---- The Paper Trail palette ---- */
   --color-paper: #faf5ec;
@@ -90,22 +108,22 @@ html.lenis body {
 
 /* ---------- Zine type helpers ---------- */
 .font-display {
-  font-family: var(--font-display), Impact, sans-serif;
+  font-family: "Hakobi", var(--font-anton), Impact, sans-serif;
 }
 
 .display {
-  font-family: var(--font-display), Impact, sans-serif;
+  font-family: "Hakobi", var(--font-anton), Impact, sans-serif;
   text-transform: uppercase;
-  line-height: 0.85;
-  letter-spacing: -0.02em;
+  line-height: 0.9;
+  letter-spacing: -0.01em;
 }
 
 .font-grotesk {
-  font-family: var(--font-grotesk), ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
 }
 
 .sticker {
-  font-family: var(--font-grotesk), ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -114,7 +132,7 @@ html.lenis body {
   font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.12em;
   line-height: 1;
 }
 

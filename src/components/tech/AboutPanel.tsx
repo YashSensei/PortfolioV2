@@ -2,9 +2,8 @@
 
 import { motion } from "framer-motion";
 import { Panel } from "@/components/horizontal";
-import { Reveal, Sticker, GhostText, U, RailNode } from "@/components/zine";
+import { Reveal, Sticker, GhostText, U, CommitLine } from "@/components/zine";
 import { usePanelShown } from "@/components/horizontal/PanelShown";
-import { RAIL_Y } from "@/components/zine/RailNode";
 import { ABOUT } from "./data";
 
 function WhoamiCard() {
@@ -32,11 +31,12 @@ function WhoamiCard() {
           <p className="text-cream/50">$ whoami</p>
           <p className="text-cobalt">yash agrawal</p>
           <p className="pt-1 text-cream/50">$ cat role.txt</p>
-          <p className="text-cream">full-stack + product developer</p>
+          <p className="text-cream">full-stack dev + early operator</p>
           <p className="pt-1 text-cream/50">$ stats --short</p>
-          <p className="text-sage">location ......... India</p>
-          <p className="text-sage">experience ....... 2+ years</p>
-          <p className="text-sage">building ......... MegaLLM (0→190k)</p>
+          <p className="text-sage">location ..... India</p>
+          <p className="text-sage">studying ..... BITS Pilani (CS &apos;27)</p>
+          <p className="text-sage">scaled ....... 2 products · 0→190k</p>
+          <p className="text-sage">now .......... Omium · The Residency SF&apos;26</p>
           <p className="pt-2 text-cream/40">
             ${" "}
             <span className="animate-caret inline-block h-[1em] w-[0.5em] translate-y-0.5 bg-cream/70" />
@@ -49,15 +49,15 @@ function WhoamiCard() {
 
 export default function AboutPanel({ index }: { index: number }) {
   return (
-    <Panel index={index} label="whoami" variant="paper" width="128vw">
+    <Panel index={index} label="whoami" variant="paper" width="100vw">
       {/* Ghost word — sits high & centred so the terminal card never hides it */}
       <GhostText className="absolute left-1/2 top-[3%] -translate-x-1/2 text-[20vw] opacity-50 lg:text-[13vw]">
         WHOAMI
       </GhostText>
 
-      <div className="grid w-full items-center gap-10 lg:grid-cols-[0.62fr_1.38fr] lg:gap-10">
+      <div className="grid w-full items-center gap-10 lg:grid-cols-[0.52fr_1fr] lg:gap-12">
         {/* whoami terminal card */}
-        <div className="order-2 w-full lg:order-1 lg:max-w-[26vw]">
+        <div className="order-2 w-full lg:order-1 lg:max-w-[24vw]">
           <WhoamiCard />
           <p className="mt-5 text-center font-grotesk text-[10px] font-bold uppercase tracking-[0.16em] text-inksoft">
             fig. 01 — identity · @YashSensei
@@ -65,7 +65,7 @@ export default function AboutPanel({ index }: { index: number }) {
         </div>
 
         {/* Text */}
-        <div className="order-1 lg:order-2 lg:pr-[6vw]">
+        <div className="order-1 lg:order-2">
           <Reveal>
             <Sticker tone="sage" rotate={-2} animate className="mb-5">
               {"// whoami"}
@@ -130,20 +130,11 @@ export default function AboutPanel({ index }: { index: number }) {
         </div>
       </div>
 
-      {/* Rail + node (runs along the bottom) */}
-      <div
-        className="pointer-events-none absolute inset-x-0 hidden lg:block"
-        style={{ top: RAIL_Y }}
-      >
-        <div className="h-0.5 w-full bg-ink/20" />
-        <RailNode
-          hash={ABOUT.node.hash}
-          message={ABOUT.node.message}
-          accent="cobalt"
-          labelSide="above"
-          className="absolute left-[62%] top-0"
-        />
-      </div>
+      {/* Commit timeline */}
+      <CommitLine
+        segments={[{ hash: ABOUT.node.hash, message: ABOUT.node.message }, { message: "whoami" }]}
+        accent="cobalt"
+      />
     </Panel>
   );
 }

@@ -1,35 +1,26 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Archivo_Black, Space_Grotesk, Instrument_Sans } from "next/font/google";
+import { Geist_Mono, Anton, Poppins } from "next/font/google";
 import "./globals.css";
 import Oneko from "@/components/Oneko";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
 
-// --- "Zine" editorial type system (ported from the paper-trail design) ---
-const archivoBlack = Archivo_Black({
-  variable: "--font-archivo-black",
+// Display / headings — Hakobi (self-hosted via @font-face in globals.css);
+// Anton is bundled as a near-identical condensed-heavy fallback.
+const anton = Anton({
+  variable: "--font-anton",
   subsets: ["latin"],
   weight: "400",
 });
 
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
+// Body / UI content — Poppins
+const poppins = Poppins({
+  variable: "--font-poppins",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-});
-
-const instrumentSans = Instrument_Sans({
-  variable: "--font-instrument-sans",
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
 });
 
 export const metadata: Metadata = {
@@ -104,7 +95,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${archivoBlack.variable} ${spaceGrotesk.variable} ${instrumentSans.variable} antialiased bg-black text-white`}
+        className={`${geistMono.variable} ${anton.variable} ${poppins.variable} antialiased bg-black text-white`}
       >
         {children}
         <Oneko />

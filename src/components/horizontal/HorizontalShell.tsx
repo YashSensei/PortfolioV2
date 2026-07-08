@@ -57,11 +57,38 @@ export default function HorizontalShell({
     };
   }, []);
 
-  // Refresh triggers once everything (images) has loaded
+  // Keep the horizontal scroll distance correct as fonts / images / late layout
+  // settle in. A stale (too-large) scrollWidth would over-translate the track and
+  // leave a blank strip after the last panel — this prevents that.
   useEffect(() => {
     const refresh = () => ScrollTrigger.refresh();
     window.addEventListener("load", refresh);
-    return () => window.removeEventListener("load", refresh);
+
+    // Re-measure after web fonts swap in (Archivo Black etc. change layout width)
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(refresh).catch(() => {});
+    }
+
+    // A few staggered refreshes catch anything that settles just after mount
+    const timers = [200, 600, 1200].map((t) => window.setTimeout(refresh, t));
+
+    // And react to any change in the track's rendered width
+    let ro: ResizeObserver | null = null;
+    const track = trackRef.current;
+    if (track && "ResizeObserver" in window) {
+      let raf = 0;
+      ro = new ResizeObserver(() => {
+        cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(refresh);
+      });
+      ro.observe(track);
+    }
+
+    return () => {
+      window.removeEventListener("load", refresh);
+      timers.forEach(clearTimeout);
+      ro?.disconnect();
+    };
   }, []);
 
   useGSAP(
@@ -78,7 +105,7 @@ export default function HorizontalShell({
 
       // Desktop: pin the wrapper and scrub the track horizontally
       mm.add("(min-width: 1024px)", () => {
-        const getDistance = () => track.scrollWidth - window.innerWidth;
+        const getDistance = () => Math.max(0, track.scrollWidth - window.innerWidth);
 
         const tween = gsap.to(track, {
           x: () => -getDistance(),

@@ -4,8 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { Panel } from "@/components/horizontal";
-import { Reveal, Sticker, GhostText, U, RailNode } from "@/components/zine";
-import { RAIL_Y } from "@/components/zine/RailNode";
+import { Reveal, Sticker, GhostText, U, CommitLine } from "@/components/zine";
 import { CONTACT } from "./data";
 
 export default function ContactPanel({ index }: { index: number }) {
@@ -23,21 +22,22 @@ export default function ContactPanel({ index }: { index: number }) {
 
   return (
     <Panel index={index} label="contact" variant="ink" width="100vw" id="contact">
+      {/* Ghost word — centred behind the scene */}
       <GhostText
         tone="cream"
-        className="absolute -left-2 top-[6%] text-[26vw] opacity-30 lg:text-[17vw]"
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-[22vw] opacity-20 lg:text-[15vw]"
       >
         HELLO
       </GhostText>
 
-      <div className="w-full max-w-4xl">
+      <div className="w-full max-w-2xl">
         <Reveal>
-          <Sticker tone="cobalt" rotate={-3} animate className="mb-6 font-mono">
+          <Sticker tone="cobalt" rotate={-3} animate className="mb-5 font-mono">
             HEAD → main
           </Sticker>
         </Reveal>
 
-        <h2 className="display text-[clamp(2.8rem,9vw,7rem)] text-cream">
+        <h2 className="display text-[clamp(2.6rem,7vw,5.5rem)] text-cream">
           The next commit
           <br />
           is{" "}
@@ -48,17 +48,17 @@ export default function ContactPanel({ index }: { index: number }) {
         </h2>
 
         <Reveal delay={0.15}>
-          <p className="mt-8 max-w-xl font-grotesk text-lg leading-relaxed text-cream/70">
+          <p className="mt-6 max-w-xl font-grotesk text-base leading-relaxed text-cream/70">
             {CONTACT.subtext}
           </p>
         </Reveal>
 
         {/* Email CTA */}
         <Reveal delay={0.25}>
-          <div className="relative mt-10 flex flex-wrap items-center gap-4">
+          <div className="relative mt-7 flex flex-wrap items-center gap-4">
             <button
               onClick={copyEmail}
-              className="group inline-flex items-center gap-2 rounded-full bg-cream px-7 py-4 font-grotesk text-sm font-bold uppercase tracking-[0.14em] text-ink shadow-hard-cobalt transition-transform hover:-translate-y-0.5 hover:bg-cobalt hover:text-cream"
+              className="group inline-flex items-center gap-2 rounded-full bg-cream px-6 py-3.5 font-grotesk text-sm font-bold uppercase tracking-[0.14em] text-ink shadow-hard-cobalt transition-transform hover:-translate-y-0.5 hover:bg-cobalt hover:text-cream"
             >
               {CONTACT.email}
               <span className="transition-transform group-hover:translate-x-1">→</span>
@@ -84,9 +84,9 @@ export default function ContactPanel({ index }: { index: number }) {
           </div>
         </Reveal>
 
-        {/* Socials */}
+        {/* Socials — stacked below the email */}
         <Reveal delay={0.35}>
-          <div className="mt-10 flex flex-wrap gap-3">
+          <div className="mt-7 flex flex-wrap gap-3">
             {CONTACT.socials.map((social, i) => (
               <a key={social.name} href={social.href} target="_blank" rel="noopener noreferrer">
                 <Sticker
@@ -112,7 +112,7 @@ export default function ContactPanel({ index }: { index: number }) {
 
         {/* Footer */}
         <Reveal delay={0.45}>
-          <div className="mt-14 flex flex-wrap items-center gap-x-8 gap-y-2 font-grotesk text-xs text-cream/40">
+          <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-2 font-grotesk text-xs text-cream/40">
             <Link href="/" className="transition-colors hover:text-cream">
               ← choose a different path
             </Link>
@@ -121,22 +121,12 @@ export default function ContactPanel({ index }: { index: number }) {
         </Reveal>
       </div>
 
-      {/* HEAD node (bottom rail) */}
-      <div
-        className="pointer-events-none absolute inset-x-0 hidden lg:block"
-        style={{ top: RAIL_Y }}
-      >
-        <div className="h-0.5 w-1/2 bg-cream/25" />
-        <RailNode
-          hash="HEAD"
-          message="what we build next"
-          accent="cobalt"
-          onDark
-          head
-          labelSide="above"
-          className="absolute left-[50%] top-0"
-        />
-      </div>
+      {/* Commit timeline — the story ends at HEAD */}
+      <CommitLine
+        segments={[{ hash: "HEAD", message: "what we build next", head: true }]}
+        accent="cobalt"
+        onDark
+      />
     </Panel>
   );
 }

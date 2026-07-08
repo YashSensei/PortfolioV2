@@ -2,9 +2,8 @@
 
 import { motion } from "framer-motion";
 import { Panel } from "@/components/horizontal";
-import { Reveal, Sticker, GhostText } from "@/components/zine";
+import { Reveal, Sticker, GhostText, CommitLine } from "@/components/zine";
 import { usePanelShown } from "@/components/horizontal/PanelShown";
-import { RAIL_Y } from "@/components/zine/RailNode";
 import { STACK } from "./data";
 
 const rot = (i: number) => [-6, 4, -3, 5, -5, 3, -4, 6][i % 8];
@@ -53,7 +52,7 @@ export default function StackPanel({ index }: { index: number }) {
       <div className="w-full">
         <Reveal>
           <Sticker tone="ink" rotate={-3} animate className="mb-6 font-mono">
-            cat stack.json
+            yash&apos;s stack.json
           </Sticker>
         </Reveal>
 
@@ -86,10 +85,11 @@ export default function StackPanel({ index }: { index: number }) {
         </div>
       </div>
 
-      {/* Bottom rail (continues the commit timeline) */}
-      <div
-        className="pointer-events-none absolute inset-x-0 hidden h-0.5 bg-cream/25 lg:block"
-        style={{ top: RAIL_Y }}
+      {/* Commit timeline */}
+      <CommitLine
+        segments={[{ message: "cat stack.json" }, { message: "6 categories" }]}
+        accent="cobalt"
+        onDark
       />
     </Panel>
   );

@@ -3,10 +3,9 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Panel } from "@/components/horizontal";
-import { Reveal, Sticker, GhostText, U } from "@/components/zine";
+import { Reveal, Sticker, GhostText, U, CommitLine } from "@/components/zine";
 import { usePanelShown } from "@/components/horizontal/PanelShown";
 import { EASE } from "@/components/zine/ui";
-import { RAIL_Y } from "@/components/zine/RailNode";
 import { PROJECTS } from "./data";
 
 const CARD_ROTATE = [-2.5, 2, -1.5, 2.5, -2];
@@ -19,7 +18,7 @@ function ProjectPolaroid({ project, i }: { project: (typeof PROJECTS)[number]; i
       animate={shown ? { opacity: 1, y: 0, rotate: CARD_ROTATE[i % CARD_ROTATE.length] } : {}}
       transition={{ duration: 0.7, ease: EASE, delay: i * 0.05 }}
       whileHover={{ y: -10, rotate: 0, transition: { duration: 0.3 } }}
-      className="relative w-full flex-shrink-0 border-2 border-ink bg-cream p-4 shadow-hard-lg lg:w-[32vw]"
+      className="relative w-full flex-shrink-0 border-2 border-ink bg-cream p-4 shadow-hard-lg lg:w-[34vw]"
     >
       {/* index */}
       <span className="absolute -right-3 -top-8 font-display text-6xl text-ink/10 lg:text-7xl">
@@ -33,12 +32,13 @@ function ProjectPolaroid({ project, i }: { project: (typeof PROJECTS)[number]; i
             src={project.image}
             alt={project.name}
             fill
-            sizes="(min-width: 1024px) 32vw, 90vw"
+            sizes="(min-width: 1024px) 34vw, 90vw"
             className="object-cover object-top"
           />
         ) : (
-          <div className="dot-grid flex h-full items-center justify-center bg-paper">
-            <span className="font-mono text-sm text-cobalt">{"{ pure backend }"}</span>
+          <div className="dot-grid flex h-full flex-col items-center justify-center gap-1 bg-paper">
+            <span className="font-display text-lg uppercase text-ink/70">{project.name}</span>
+            <span className="font-mono text-[10px] text-cobalt">{"// preview soon"}</span>
           </div>
         )}
       </div>
@@ -96,12 +96,12 @@ function ProjectPolaroid({ project, i }: { project: (typeof PROJECTS)[number]; i
 
 export default function ProjectsPanel({ index }: { index: number }) {
   return (
-    <Panel index={index} label="builds" variant="paper" width="205vw">
+    <Panel index={index} label="builds" variant="paper" width="178vw">
       <GhostText className="absolute right-8 top-[6%] text-[24vw] lg:text-[15vw]">BUILDS</GhostText>
 
-      <div className="flex h-full w-full flex-col lg:flex-row lg:items-center lg:gap-14">
+      <div className="flex h-full w-full flex-col lg:flex-row lg:items-center lg:gap-16">
         {/* Intro */}
-        <div className="mb-12 max-w-sm flex-shrink-0 lg:mb-0 lg:w-[26vw]">
+        <div className="mb-12 max-w-sm flex-shrink-0 lg:mb-0 lg:w-[28vw]">
           <Reveal>
             <Sticker tone="cobalt" rotate={-3} animate className="mb-5 font-mono">
               git checkout -b builds
@@ -116,7 +116,7 @@ export default function ProjectsPanel({ index }: { index: number }) {
           </h2>
           <Reveal delay={0.15}>
             <p className="mt-6 font-grotesk text-lg leading-relaxed text-inksoft">
-              Branched off, built, and merged back into main. Five that I&apos;m proud of.
+              Branched off, built, and merged back into main. Three I&apos;m proud of.
             </p>
           </Reveal>
           <Reveal delay={0.25}>
@@ -125,17 +125,17 @@ export default function ProjectsPanel({ index }: { index: number }) {
         </div>
 
         {/* Polaroid row */}
-        <div className="flex flex-col gap-14 lg:flex-row lg:items-center lg:gap-12 lg:pr-[8vw]">
+        <div className="flex flex-col gap-14 lg:flex-row lg:items-center lg:gap-14 lg:pr-[8vw]">
           {PROJECTS.map((project, i) => (
             <ProjectPolaroid key={project.hash} project={project} i={i} />
           ))}
         </div>
       </div>
 
-      {/* Bottom rail (continues the commit timeline) */}
-      <div
-        className="pointer-events-none absolute inset-x-0 hidden h-0.5 bg-ink/20 lg:block"
-        style={{ top: RAIL_Y }}
+      {/* Commit timeline */}
+      <CommitLine
+        segments={[{ message: "git checkout -b builds" }, { message: "git merge --no-ff" }]}
+        accent="cobalt"
       />
     </Panel>
   );

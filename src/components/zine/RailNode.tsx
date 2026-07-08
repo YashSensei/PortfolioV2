@@ -8,7 +8,8 @@ import { usePanelShown } from "@/components/horizontal/PanelShown";
 export const RAIL_Y = "86%";
 
 interface RailNodeProps {
-  hash: string;
+  /** commit hash; leave empty for a command-style node ("$ git log ...") */
+  hash?: string;
   message: string;
   /** dot fill + accent */
   accent?: "coral" | "cobalt" | "butter";
@@ -39,6 +40,8 @@ export default function RailNode({
   className,
 }: RailNodeProps) {
   const shown = usePanelShown();
+  const accentText = accent === "coral" ? "text-coral" : "text-cobalt";
+  const isCommand = !hash && !head;
 
   return (
     <div className={cn("relative", className)}>
@@ -75,7 +78,8 @@ export default function RailNode({
         <span className={cn("h-5 w-0.5", onDark ? "bg-cream/40" : "bg-ink/30")} />
         <span
           className={cn(
-            "whitespace-nowrap border-2 border-ink px-2 py-1 font-grotesk text-[10px] font-bold uppercase tracking-[0.1em] shadow-hard",
+            "whitespace-nowrap border-2 border-ink px-2 py-1 text-[10px] font-bold tracking-[0.1em] shadow-hard",
+            isCommand ? "font-mono" : "font-grotesk uppercase",
             head
               ? accent === "coral"
                 ? "bg-coral text-cream"
@@ -83,11 +87,18 @@ export default function RailNode({
               : "bg-cream text-ink"
           )}
         >
-          <span className={accent === "coral" ? "text-coral" : "text-cobalt"}>
-            {head ? "" : hash}
-          </span>
-          {!head && <span className="mx-1 text-ink/30">·</span>}
-          <span className={head ? "" : "text-ink"}>{message}</span>
+          {isCommand ? (
+            <>
+              <span className={accentText}>$ </span>
+              <span className="text-ink">{message}</span>
+            </>
+          ) : (
+            <>
+              <span className={accentText}>{head ? "" : hash}</span>
+              {!head && <span className="mx-1 text-ink/30">·</span>}
+              <span className={head ? "" : "text-ink"}>{message}</span>
+            </>
+          )}
         </span>
       </motion.div>
     </div>
