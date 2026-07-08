@@ -167,6 +167,14 @@ export function GhostText({
 }
 
 /* ---------- Hand-drawn underline ---------- */
+const U_STROKE: Record<string, string> = {
+  coral: "#e4572e",
+  cobalt: "#2f6df0",
+  butter: "#f2b63c",
+  sky: "#4a7ba6",
+  cream: "#fff9f0",
+};
+
 export function U({
   color = "coral",
   className,
@@ -175,25 +183,30 @@ export function U({
   className?: string;
 }) {
   const shown = usePanelShown();
-  const stroke = `var(--color-${color})`;
   return (
     <motion.svg
       aria-hidden
-      viewBox="0 0 200 20"
+      viewBox="0 0 200 16"
+      height="16"
       preserveAspectRatio="none"
-      className={cn("absolute -bottom-3 left-0 h-3 w-full", className)}
+      fill="none"
+      className={cn("pointer-events-none absolute -bottom-2 left-0 h-4 w-full", className)}
       initial="hidden"
       animate={shownState(shown)}
     >
       <motion.path
         d="M3 10 C 45 3, 90 14, 130 7 S 185 5, 197 9"
         fill="none"
-        stroke={stroke}
+        stroke={U_STROKE[color] ?? color}
         strokeWidth={8}
         strokeLinecap="round"
         variants={{
-          hidden: { pathLength: 0 },
-          visible: { pathLength: 1, transition: { duration: 0.7, ease: EASE, delay: 0.35 } },
+          hidden: { pathLength: 0, opacity: 0 },
+          visible: {
+            pathLength: 1,
+            opacity: 1,
+            transition: { duration: 0.8, ease: EASE, delay: 0.35 },
+          },
         }}
       />
     </motion.svg>

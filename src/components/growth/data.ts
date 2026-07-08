@@ -1,4 +1,4 @@
-// /growth — "The Growth Log" content (coral accent)
+// /growth - "The Growth Log" content (coral accent)
 
 export const HERO = {
   badge: "Open for opportunities",
@@ -100,6 +100,7 @@ export interface Campaign {
   highlight: string;
   name: string;
   description: string;
+  result: string;
   tech: string[];
   liveUrl?: string;
 }
@@ -109,7 +110,8 @@ export const CAMPAIGNS: Campaign[] = [
     highlight: "160K / 3 DAYS",
     name: "MegaLLM Viral Launch",
     description:
-      "Identified a Russian Telegram influencer, pitched the product, and secured a partnership. Her promotion to her community drove explosive growth — 0 to 160k users in just 3 days.",
+      "Identified a Russian Telegram influencer, pitched the product, and secured a partnership. Her promotion to her community drove explosive growth - 0 to 160k users in just 3 days.",
+    result: "0 → 160,000 users in 72 hours",
     tech: ["Outreach", "Telegram", "Influencer Marketing", "Referral"],
   },
   {
@@ -117,6 +119,7 @@ export const CAMPAIGNS: Campaign[] = [
     name: "MegaLLM X Account",
     description:
       "Running the official X presence for MegaLLM. Building brand voice, engaging the AI community, and driving organic awareness.",
+    result: "Official @megallmio channel",
     tech: ["X / Twitter", "Content", "Community"],
     liveUrl: "https://x.com/megallmio",
   },
@@ -125,6 +128,7 @@ export const CAMPAIGNS: Campaign[] = [
     name: "Freelance X Management",
     description:
       "Handled multiple client X accounts. Posting schedules, content themes, and engagement strategies tailored to each brand's audience.",
+    result: "5+ brand accounts grown",
     tech: ["Social Media", "Brand Strategy", "Content Planning"],
   },
   {
@@ -132,6 +136,7 @@ export const CAMPAIGNS: Campaign[] = [
     name: "Startup Growth Infra",
     description:
       "Built the growth foundation for an early-stage startup. Distribution pipelines, target channels, and a full go-to-market strategy.",
+    result: "GTM built from zero",
     tech: ["GTM Strategy", "Pipeline Design", "Distribution"],
   },
 ];
@@ -154,6 +159,10 @@ export const SKILLS = {
     {
       name: "Strategy",
       items: ["Distribution Planning", "GTM Strategy", "Pipeline Building", "Growth Experiments"],
+    },
+    {
+      name: "Channels & Tools",
+      items: ["Telegram", "X / Twitter", "Reddit", "Referral Systems", "Analytics"],
     },
   ],
 } as const;

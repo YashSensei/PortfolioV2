@@ -22,7 +22,7 @@ export default function ContactPanel({ index }: { index: number }) {
 
   return (
     <Panel index={index} label="contact" variant="ink" width="100vw" id="contact">
-      {/* Ghost word — centred behind the scene */}
+      {/* Ghost word - centred behind the scene */}
       <GhostText
         tone="cream"
         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-[22vw] opacity-20 lg:text-[15vw]"
@@ -122,7 +122,7 @@ export default function ContactPanel({ index }: { index: number }) {
         </Reveal>
       </div>
 
-      {/* Growth timeline — ends on the next move */}
+      {/* Growth timeline - ends on the next move */}
       <CommitLine
         segments={[{ hash: "NEXT", message: "your viral moment", head: true }]}
         accent="coral"

@@ -22,7 +22,7 @@ interface HorizontalShellProps {
   underlay?: ReactNode;
   /** Rendered outside the pinned wrapper, above the track (fixed HUD OK) */
   overlay?: ReactNode;
-  /** Rendered after the pinned wrapper (a vertical section) — creates the L-shaped scroll */
+  /** Rendered after the pinned wrapper (a vertical section) - creates the L-shaped scroll */
   after?: ReactNode;
   className?: string;
 }
@@ -62,7 +62,7 @@ export default function HorizontalShell({
 
   // Keep the horizontal scroll distance correct as fonts / images / late layout
   // settle in. A stale (too-large) scrollWidth would over-translate the track and
-  // leave a blank strip after the last panel — this prevents that.
+  // leave a blank strip after the last panel - this prevents that.
   useEffect(() => {
     const refresh = () => ScrollTrigger.refresh();
     window.addEventListener("load", refresh);

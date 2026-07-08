@@ -8,7 +8,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-// Display / headings — Hakobi (self-hosted via @font-face in globals.css);
+// Display / headings - Hakobi (self-hosted via @font-face in globals.css);
 // Anton is bundled as a near-identical condensed-heavy fallback.
 const anton = Anton({
   variable: "--font-anton",
@@ -16,7 +16,7 @@ const anton = Anton({
   weight: "400",
 });
 
-// Body / UI content — Poppins
+// Body / UI content - Poppins
 const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],

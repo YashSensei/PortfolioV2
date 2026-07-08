@@ -22,7 +22,7 @@ export default function ContactPanel({ index }: { index: number }) {
 
   return (
     <Panel index={index} label="contact" variant="ink" width="100vw" id="contact">
-      {/* Ghost word — centred behind the scene */}
+      {/* Ghost word - centred behind the scene */}
       <GhostText
         tone="cream"
         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-[22vw] opacity-20 lg:text-[15vw]"
@@ -84,7 +84,7 @@ export default function ContactPanel({ index }: { index: number }) {
           </div>
         </Reveal>
 
-        {/* Socials — stacked below the email */}
+        {/* Socials - stacked below the email */}
         <Reveal delay={0.35}>
           <div className="mt-7 flex flex-wrap gap-3">
             {CONTACT.socials.map((social, i) => (
@@ -121,7 +121,7 @@ export default function ContactPanel({ index }: { index: number }) {
         </Reveal>
       </div>
 
-      {/* Commit timeline — the story ends at HEAD */}
+      {/* Commit timeline - the story ends at HEAD */}
       <CommitLine
         segments={[{ hash: "HEAD", message: "what we build next", head: true }]}
         accent="cobalt"

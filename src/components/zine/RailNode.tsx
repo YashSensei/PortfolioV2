@@ -28,7 +28,7 @@ const ACCENT_DOT: Record<string, string> = {
 
 /**
  * A commit node marker that sits on the rail line.
- * Pops in (spring) when the panel is shown — reads like a commit landing on main.
+ * Pops in (spring) when the panel is shown - reads like a commit landing on main.
  */
 export default function RailNode({
   hash,

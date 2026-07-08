@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Panel } from "@/components/horizontal";
-import { Reveal, Sticker, GhostText, CommitLine } from "@/components/zine";
+import { Reveal, Sticker, GhostText, CommitLine, U } from "@/components/zine";
 import { usePanelShown } from "@/components/horizontal/PanelShown";
 import { SKILLS } from "./data";
 
@@ -41,7 +41,7 @@ function SkillPill({
 export default function SkillsPanel({ index }: { index: number }) {
   let pillIdx = 0;
   return (
-    <Panel index={index} label="toolkit" variant="sky" width="100vw">
+    <Panel index={index} label="toolkit" variant="sky" width="112vw">
       <GhostText
         tone="cream"
         className="absolute left-4 top-[8%] text-[24vw] opacity-40 lg:text-[15vw]"
@@ -56,9 +56,15 @@ export default function SkillsPanel({ index }: { index: number }) {
           </Sticker>
         </Reveal>
 
-        <h2 className="display text-[clamp(2.6rem,8vw,6rem)] text-cream">The playbook.</h2>
+        <h2 className="display text-[clamp(2.6rem,8vw,6rem)] text-cream">
+          The{" "}
+          <span className="relative inline-block">
+            playbook.
+            <U color="cream" />
+          </span>
+        </h2>
 
-        <div className="mt-12 grid gap-10 lg:grid-cols-3 lg:gap-12 lg:pr-[7vw]">
+        <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-10 lg:pr-[8vw]">
           {SKILLS.categories.map((category, ci) => (
             <div key={category.name}>
               <Reveal delay={ci * 0.08}>

@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Panel } from "@/components/horizontal";
-import { Reveal, Sticker, GhostText, CommitLine } from "@/components/zine";
+import { Reveal, Sticker, GhostText, CommitLine, U } from "@/components/zine";
 import { usePanelShown } from "@/components/horizontal/PanelShown";
 import { EASE } from "@/components/zine/ui";
 import { EXPERIENCE, type Role } from "./data";
@@ -96,7 +96,10 @@ export default function ExperiencePanel({ index }: { index: number }) {
           <h2 className="display text-[clamp(2.6rem,7vw,5rem)] text-ink">
             Where I&apos;ve
             <br />
-            <span className="text-coral">made noise.</span>
+            <span className="relative inline-block text-coral">
+              made noise.
+              <U color="coral" />
+            </span>
           </h2>
           <Reveal delay={0.15}>
             <p className="mt-6 font-grotesk text-lg leading-relaxed text-inksoft">

@@ -13,7 +13,7 @@ export interface ActivePanel {
 export interface HorizontalContextValue {
   /** "horizontal" on desktop (pinned track), "vertical" on mobile, "pending" before hydration */
   mode: HorizontalMode;
-  /** The scrubbed animation translating the track — pass as `containerAnimation` to nested ScrollTriggers */
+  /** The scrubbed animation translating the track - pass as `containerAnimation` to nested ScrollTriggers */
   containerAnimation: gsap.core.Animation | null;
   /** True once the mode has been resolved (safe to build panel animations) */
   ready: boolean;

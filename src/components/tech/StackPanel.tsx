@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Panel } from "@/components/horizontal";
-import { Reveal, Sticker, GhostText, CommitLine } from "@/components/zine";
+import { Reveal, Sticker, GhostText, CommitLine, U } from "@/components/zine";
 import { usePanelShown } from "@/components/horizontal/PanelShown";
 import { STACK } from "./data";
 
@@ -56,7 +56,13 @@ export default function StackPanel({ index }: { index: number }) {
           </Sticker>
         </Reveal>
 
-        <h2 className="display text-[clamp(2.6rem,8vw,6rem)] text-cream">The toolbox.</h2>
+        <h2 className="display text-[clamp(2.6rem,8vw,6rem)] text-cream">
+          The{" "}
+          <span className="relative inline-block">
+            toolbox.
+            <U color="cream" />
+          </span>
+        </h2>
 
         <div className="mt-12 grid gap-10 lg:grid-cols-3 lg:gap-12 lg:pr-[7vw]">
           {STACK.categories.map((category, ci) => (

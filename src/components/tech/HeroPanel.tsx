@@ -1,13 +1,16 @@
 "use client";
 
-import { Panel } from "@/components/horizontal";
+import { Panel, useHorizontal } from "@/components/horizontal";
 import { Reveal, Sticker, GhostText, U, TapedPhoto, CommitLine } from "@/components/zine";
 import { HERO, ABOUT } from "./data";
 
+const CONTACT_INDEX = 5;
+
 export default function HeroPanel({ index }: { index: number }) {
+  const { scrollToIndex } = useHorizontal();
   return (
     <Panel index={index} label="init" variant="paper" width="100vw">
-      {/* Ghost word — kept high and faint so it doesn't crowd the name */}
+      {/* Ghost word - kept high and faint so it doesn't crowd the name */}
       <GhostText className="absolute right-[-1%] top-[3%] text-[15vw] opacity-60 lg:text-[10vw]">
         PORTFOLIO
       </GhostText>
@@ -33,7 +36,7 @@ export default function HeroPanel({ index }: { index: number }) {
           <Reveal delay={0.15}>
             <p className="mt-7 max-w-xl font-grotesk text-lg font-medium leading-snug text-ink lg:text-xl">
               Full-stack developer &amp; early operator. I&apos;ve helped scale{" "}
-              <span className="text-cobalt">two 0→1 products</span>—one to 190k users—owning
+              <span className="text-cobalt">two 0→1 products</span> - one to 190k users - owning
               backend, frontend, product &amp; GTM.
             </p>
           </Reveal>
@@ -41,13 +44,13 @@ export default function HeroPanel({ index }: { index: number }) {
           {/* CTAs */}
           <Reveal delay={0.25}>
             <div className="mt-7 flex flex-wrap items-center gap-4">
-              <a
-                href="#contact"
+              <button
+                onClick={() => scrollToIndex(CONTACT_INDEX)}
                 className="group inline-flex items-center gap-2 rounded-full bg-ink px-7 py-4 font-grotesk text-sm font-bold uppercase tracking-[0.14em] text-cream shadow-hard-cobalt transition-transform hover:-translate-y-0.5 hover:bg-cobalt"
               >
                 Let&apos;s build
                 <span className="transition-transform group-hover:translate-x-1">→</span>
-              </a>
+              </button>
               <a
                 href="/Yash-Resume.pdf"
                 target="_blank"

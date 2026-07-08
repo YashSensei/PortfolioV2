@@ -50,7 +50,7 @@ function WhoamiCard() {
 export default function AboutPanel({ index }: { index: number }) {
   return (
     <Panel index={index} label="whoami" variant="paper" width="100vw">
-      {/* Ghost word — sits high & centred so the terminal card never hides it */}
+      {/* Ghost word - sits high & centred so the terminal card never hides it */}
       <GhostText className="absolute left-1/2 top-[3%] -translate-x-1/2 text-[20vw] opacity-50 lg:text-[13vw]">
         WHOAMI
       </GhostText>
@@ -60,7 +60,7 @@ export default function AboutPanel({ index }: { index: number }) {
         <div className="order-2 w-full lg:order-1 lg:max-w-[24vw]">
           <WhoamiCard />
           <p className="mt-5 text-center font-grotesk text-[10px] font-bold uppercase tracking-[0.16em] text-inksoft">
-            fig. 01 — identity · @YashSensei
+            fig. 01 - identity · @YashSensei
           </p>
         </div>
 
