@@ -13,8 +13,8 @@ export interface ActivePanel {
 export interface HorizontalContextValue {
   /** "horizontal" on desktop (pinned track), "vertical" on mobile, "pending" before hydration */
   mode: HorizontalMode;
-  /** The scrubbed tween translating the track — pass as `containerAnimation` to nested ScrollTriggers */
-  containerAnimation: gsap.core.Tween | null;
+  /** The scrubbed animation translating the track — pass as `containerAnimation` to nested ScrollTriggers */
+  containerAnimation: gsap.core.Animation | null;
   /** True once the mode has been resolved (safe to build panel animations) */
   ready: boolean;
   activePanel: ActivePanel;
@@ -24,6 +24,8 @@ export interface HorizontalContextValue {
   onProgress: (cb: (progress: number) => void) => () => void;
   /** Smoothly scroll so the given panel index is in view */
   scrollToIndex: (index: number) => void;
+  /** Smoothly scroll to the very end (the vertical section after the pin) */
+  scrollToEnd: () => void;
 }
 
 export const HorizontalContext = createContext<HorizontalContextValue | null>(null);

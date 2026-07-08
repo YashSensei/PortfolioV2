@@ -22,6 +22,8 @@ interface HorizontalShellProps {
   underlay?: ReactNode;
   /** Rendered outside the pinned wrapper, above the track (fixed HUD OK) */
   overlay?: ReactNode;
+  /** Rendered after the pinned wrapper (a vertical section) — creates the L-shaped scroll */
+  after?: ReactNode;
   className?: string;
 }
 
@@ -30,12 +32,13 @@ export default function HorizontalShell({
   panelCount,
   underlay,
   overlay,
+  after,
   className,
 }: HorizontalShellProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const [mode, setMode] = useState<HorizontalMode>("pending");
-  const [containerAnimation, setContainerAnimation] = useState<gsap.core.Tween | null>(null);
+  const [containerAnimation, setContainerAnimation] = useState<gsap.core.Animation | null>(null);
   const [activePanel, setActivePanel] = useState<ActivePanel>({ index: 0, label: "" });
   const progressCallbacks = useRef(new Set<(p: number) => void>());
   const scrollTriggerRef = useRef<ScrollTrigger | null>(null);
@@ -103,25 +106,35 @@ export default function HorizontalShell({
 
       const mm = gsap.matchMedia();
 
-      // Desktop: pin the wrapper and scrub the track horizontally
+      // Desktop: pin the wrapper and scrub the track horizontally, then hold the
+      // last panel flush briefly before the vertical section takes over. A single
+      // pinning tween drives it; a clamped ease finishes the horizontal move a bit
+      // early and holds, so `end` includes the extra hold distance.
       mm.add("(min-width: 1024px)", () => {
         const getDistance = () => Math.max(0, track.scrollWidth - window.innerWidth);
+        const getHold = () => window.innerHeight * 0.9;
+
+        // Fraction of the pinned scroll spent on the horizontal move (the rest holds).
+        let moveFraction = 1;
+        const recompute = () => {
+          const d = getDistance();
+          moveFraction = d / (d + getHold());
+        };
+        recompute();
 
         const tween = gsap.to(track, {
           x: () => -getDistance(),
-          ease: "none",
+          ease: (p: number) => (moveFraction > 0 ? Math.min(1, p / moveFraction) : 1),
           scrollTrigger: {
             trigger: wrapper,
             pin: true,
             scrub: 1,
             start: "top top",
-            end: () => "+=" + getDistance(),
+            end: () => "+=" + (getDistance() + getHold()),
             invalidateOnRefresh: true,
             anticipatePin: 1,
+            onRefresh: recompute,
             onUpdate: (self) => emit(self.progress),
-            onRefreshInit: (self) => {
-              scrollTriggerRef.current = self;
-            },
           },
         });
 
@@ -130,6 +143,8 @@ export default function HorizontalShell({
         setMode("horizontal");
 
         return () => {
+          tween.scrollTrigger?.kill();
+          tween.kill();
           scrollTriggerRef.current = null;
           setContainerAnimation(null);
         };
@@ -177,6 +192,10 @@ export default function HorizontalShell({
           panel.scrollIntoView({ behavior: "smooth", block: "start" });
         }
       },
+      scrollToEnd: () => {
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        window.scrollTo({ top: max, behavior: "smooth" });
+      },
     }),
     [mode, containerAnimation, activePanel, panelCount]
   );
@@ -192,6 +211,7 @@ export default function HorizontalShell({
             {children}
           </div>
         </div>
+        {after}
         {overlay}
       </div>
     </HorizontalContext.Provider>
