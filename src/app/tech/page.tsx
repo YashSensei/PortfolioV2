@@ -24,6 +24,7 @@ import ExperiencePanel from "@/components/tech/ExperiencePanel";
 import ProjectsPanel from "@/components/tech/ProjectsPanel";
 import StackPanel from "@/components/tech/StackPanel";
 import ContactPanel from "@/components/tech/ContactPanel";
+import DrawPanel from "@/components/tech/DrawPanel";
 
 const PANEL_COUNT = 6;
 
@@ -34,6 +35,7 @@ const NAV_ITEMS: NavItem[] = [
   { label: "builds", index: 3 },
   { label: "stack", index: 4 },
   { label: "contact", index: 5 },
+  { label: "draw", index: 6, vertical: true },
 ];
 
 export default function TechPage() {
@@ -46,6 +48,7 @@ export default function TechPage() {
             <ZineNav items={NAV_ITEMS} accent="cobalt" monogram="YA" />
           </>
         }
+        after={<DrawPanel index={6} />}
       >
         <HeroPanel index={0} />
         <AboutPanel index={1} />

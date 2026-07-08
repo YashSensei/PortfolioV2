@@ -9,6 +9,8 @@ import { useHorizontal } from "@/components/horizontal";
 export interface NavItem {
   label: string;
   index: number;
+  /** true if this tab targets the vertical section after the horizontal pin */
+  vertical?: boolean;
 }
 
 interface ZineNavProps {
@@ -21,7 +23,7 @@ const TAB_TONES = ["bg-blush text-ink", "bg-butter text-ink", "bg-paper text-ink
 
 export default function ZineNav({ items, accent, monogram = "YA" }: ZineNavProps) {
   const router = useRouter();
-  const { activePanel, scrollToIndex } = useHorizontal();
+  const { activePanel, scrollToIndex, scrollToEnd } = useHorizontal();
   const [menuOpen, setMenuOpen] = useState(false);
   const [exiting, setExiting] = useState(false);
 
@@ -45,9 +47,10 @@ export default function ZineNav({ items, accent, monogram = "YA" }: ZineNavProps
     return () => clearTimeout(t);
   }, [exiting, router]);
 
-  const go = (index: number) => {
+  const go = (item: NavItem) => {
     setMenuOpen(false);
-    scrollToIndex(index);
+    if (item.vertical) scrollToEnd();
+    else scrollToIndex(item.index);
   };
 
   return (
@@ -73,7 +76,7 @@ export default function ZineNav({ items, accent, monogram = "YA" }: ZineNavProps
           return (
             <motion.button
               key={item.label}
-              onClick={() => go(item.index)}
+              onClick={() => go(item)}
               initial={false}
               animate={{
                 x: active ? -6 : 0,
@@ -124,7 +127,7 @@ export default function ZineNav({ items, accent, monogram = "YA" }: ZineNavProps
             {items.map((item, i) => (
               <motion.button
                 key={item.label}
-                onClick={() => go(item.index)}
+                onClick={() => go(item)}
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.05 * i }}
