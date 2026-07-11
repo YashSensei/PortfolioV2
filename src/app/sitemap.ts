@@ -1,23 +1,22 @@
 import type { MetadataRoute } from "next";
+import { SITE_URL } from "@/lib/seo";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://www.yashagrawal.me";
-
   return [
     {
-      url: baseUrl,
+      url: SITE_URL,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 1,
     },
     {
-      url: `${baseUrl}/tech`,
+      url: `${SITE_URL}/tech`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/growth`,
+      url: `${SITE_URL}/growth`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.9,

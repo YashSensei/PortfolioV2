@@ -3,4 +3,4 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://yashagrawal.me/sitemap.xml
+Sitemap: https://www.yashagrawal.me/sitemap.xml

@@ -2,6 +2,15 @@
 import { Geist_Mono, Anton, Poppins } from "next/font/google";
 import "./globals.css";
 import Oneko from "@/components/Oneko";
+import {
+  AUTHOR_NAME,
+  DEFAULT_OG_IMAGE,
+  INDEXABLE_ROBOTS,
+  PERSON_ID,
+  SITE_NAME,
+  SITE_URL,
+  TWITTER_CREATOR,
+} from "@/lib/seo";
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -64,46 +73,30 @@ export const metadata: Metadata = {
     "TypeScript",
     "Portfolio",
   ],
-  authors: [{ name: "Yash Agrawal", url: "https://www.yashagrawal.me" }],
-  creator: "Yash Agrawal",
-  metadataBase: new URL("https://www.yashagrawal.me"),
-  alternates: { canonical: "/" },
+  authors: [{ name: AUTHOR_NAME, url: SITE_URL }],
+  creator: AUTHOR_NAME,
+  publisher: AUTHOR_NAME,
+  metadataBase: new URL(SITE_URL),
+  alternates: { canonical: SITE_URL },
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://www.yashagrawal.me",
-    siteName: "Yash Agrawal Portfolio",
+    url: SITE_URL,
+    siteName: SITE_NAME,
     title: "Yash Agrawal | Full Stack Developer & Growth Operator",
     description:
       "Full Stack Developer & Growth Operator. Built AlgoWars, Pods.ml, KiriX & MegaLLM (0 to 190k users). BITS Pilani, Scaler NSET.",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Yash Agrawal - Full Stack Developer & Growth Operator",
-      },
-    ],
+    images: [DEFAULT_OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
     title: "Yash Agrawal | Full Stack Developer & Growth Operator",
     description:
       "Built AlgoWars, Pods.ml, KiriX & MegaLLM (0 to 190k users). BITS Pilani, Scaler NSET.",
-    creator: "@Yash__Sensei",
+    creator: TWITTER_CREATOR,
     images: ["/og-image.png"],
   },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
+  robots: INDEXABLE_ROBOTS,
   verification: GOOGLE_SITE_VERIFICATION ? { google: GOOGLE_SITE_VERIFICATION } : undefined,
   icons: {
     icon: "/favicon.ico",
@@ -112,38 +105,91 @@ export const metadata: Metadata = {
   },
 };
 
-// Structured data so Google links the entity "Yash Agrawal" to his projects,
-// school and social profiles (helps queries like "yash agrawal algowars").
-const personJsonLd = {
+// Structured data so search engines link the entity "Yash Agrawal" to his
+// projects, school, employers and social profiles. This is what powers rich
+// results and queries like "yash agrawal algowars" / "yash agrawal pods".
+const structuredData = {
   "@context": "https://schema.org",
-  "@type": "Person",
-  name: "Yash Agrawal",
-  alternateName: "YashSensei",
-  url: "https://www.yashagrawal.me",
-  image: "https://www.yashagrawal.me/og-image.png",
-  jobTitle: "Full Stack Developer & Growth Operator",
-  alumniOf: {
-    "@type": "CollegeOrUniversity",
-    name: "BITS Pilani",
-  },
-  knowsAbout: [
-    "AlgoWars",
-    "Pods.ml",
-    "KiriX",
-    "MegaLLM",
-    "Matiks",
-    "Omium",
-    "Health Nivaran",
-    "Scaler NSET",
-    "React",
-    "Next.js",
-    "Node.js",
-    "Growth Marketing",
-  ],
-  sameAs: [
-    "https://github.com/YashSensei",
-    "https://x.com/Yash__Sensei",
-    "https://linkedin.com/in/yash-agrawal-208841307",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": PERSON_ID,
+      name: "Yash Agrawal",
+      alternateName: ["YashSensei", "Yash"],
+      url: SITE_URL,
+      image: `${SITE_URL}/og-image.png`,
+      jobTitle: "Full Stack Developer & Growth Operator",
+      description:
+        "Full Stack Developer & Growth Operator who has scaled two 0 to 1 products, one to 190k users. Creator of AlgoWars, Pods.ml and KiriX.",
+      email: "yashagrawalrkt123@gmail.com",
+      alumniOf: { "@type": "CollegeOrUniversity", name: "BITS Pilani" },
+      worksFor: { "@type": "Organization", name: "Omium (The Residency SF)" },
+      knowsAbout: [
+        "AlgoWars",
+        "Pods.ml",
+        "KiriX",
+        "MegaLLM",
+        "Matiks",
+        "Omium",
+        "Health Nivaran",
+        "Scaler NSET",
+        "React",
+        "Next.js",
+        "Node.js",
+        "Go",
+        "Growth Marketing",
+      ],
+      sameAs: [
+        "https://github.com/YashSensei",
+        "https://x.com/Yash__Sensei",
+        "https://linkedin.com/in/yash-agrawal-208841307",
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${SITE_URL}/#website`,
+      url: SITE_URL,
+      name: "Yash Agrawal",
+      alternateName: SITE_NAME,
+      inLanguage: "en",
+      author: { "@id": PERSON_ID },
+      publisher: { "@id": PERSON_ID },
+    },
+    {
+      "@type": "ProfilePage",
+      "@id": `${SITE_URL}/#profilepage`,
+      url: SITE_URL,
+      name: "Yash Agrawal - Portfolio",
+      about: { "@id": PERSON_ID },
+      isPartOf: { "@id": `${SITE_URL}/#website` },
+    },
+    {
+      "@type": "SoftwareSourceCode",
+      name: "AlgoWars",
+      url: "https://algowars.online",
+      author: { "@id": PERSON_ID },
+      programmingLanguage: "TypeScript",
+      description:
+        "Real-time 1v1 competitive coding duel platform with matchmaking and rating-based logic, by Yash Agrawal.",
+    },
+    {
+      "@type": "SoftwareApplication",
+      name: "Pods.ml",
+      url: "https://pods.ml",
+      applicationCategory: "DeveloperApplication",
+      operatingSystem: "Web",
+      author: { "@id": PERSON_ID },
+      description:
+        "One-click deploy platform for AI agents, sandboxes and game servers, built by Yash Agrawal.",
+    },
+    {
+      "@type": "SoftwareSourceCode",
+      name: "KiriX",
+      url: "https://github.com/YashSensei/KiriX",
+      author: { "@id": PERSON_ID },
+      description:
+        "Cross-platform AI data vault with natural-language retrieval and AES-256 encryption, by Yash Agrawal.",
+    },
   ],
 };
 
@@ -159,7 +205,7 @@ export default function RootLayout({
       >
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
         {children}
         <Oneko />

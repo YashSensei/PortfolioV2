@@ -19,11 +19,21 @@ import CampaignsPanel from "@/components/growth/CampaignsPanel";
 import SkillsPanel from "@/components/growth/SkillsPanel";
 import ContactPanel from "@/components/growth/ContactPanel";
 import DrawPanel from "@/components/growth/DrawPanel";
+import {
+  DEFAULT_OG_IMAGE,
+  INDEXABLE_ROBOTS,
+  SITE_NAME,
+  SITE_URL,
+  TWITTER_CREATOR,
+} from "@/lib/seo";
+
+const title = "Growth & Operations - 0 to 160k Users in 3 Days";
+const description =
+  "Yash Agrawal's growth work: took MegaLLM from 0 to 160k users in 3 days via influencer outreach, ran the @megallmio X account, freelance social growth for 5+ brands, and built GTM from scratch for early-stage startups.";
 
 export const metadata: Metadata = {
-  title: "Growth & Operations - 0 to 160k Users in 3 Days",
-  description:
-    "Yash Agrawal's growth work: took MegaLLM from 0 to 160k users in 3 days via influencer outreach, ran the @megallmio X account, freelance social growth for 5+ brands, and built GTM from scratch for early-stage startups.",
+  title,
+  description,
   keywords: [
     "Yash Agrawal",
     "Yash Agrawal growth",
@@ -38,12 +48,22 @@ export const metadata: Metadata = {
     "MegaLLM",
     "0 to 160k users",
   ],
-  alternates: { canonical: "/growth" },
+  robots: INDEXABLE_ROBOTS,
+  alternates: { canonical: `${SITE_URL}/growth` },
   openGraph: {
+    type: "website",
+    locale: "en_US",
+    siteName: SITE_NAME,
     title: "Yash Agrawal - Growth & Operations | 0 to 160k in 3 days",
-    description:
-      "Growth work by Yash Agrawal: MegaLLM 0 to 160k users in 3 days, influencer outreach, social & GTM.",
-    url: "/growth",
+    description,
+    url: `${SITE_URL}/growth`,
+    images: [DEFAULT_OG_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Yash Agrawal - Growth & Operations | 0 to 160k Users",
+    description,
+    creator: TWITTER_CREATOR,
     images: ["/og-image.png"],
   },
 };

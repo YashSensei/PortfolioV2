@@ -20,11 +20,21 @@ import ProjectsPanel from "@/components/tech/ProjectsPanel";
 import StackPanel from "@/components/tech/StackPanel";
 import ContactPanel from "@/components/tech/ContactPanel";
 import DrawPanel from "@/components/tech/DrawPanel";
+import {
+  DEFAULT_OG_IMAGE,
+  INDEXABLE_ROBOTS,
+  SITE_NAME,
+  SITE_URL,
+  TWITTER_CREATOR,
+} from "@/lib/seo";
+
+const title = "Full Stack Developer - AlgoWars, Pods.ml, KiriX & MegaLLM";
+const description =
+  "Yash Agrawal's engineering work: AlgoWars (real-time coding duels), Pods.ml (one-click AI agent & game-server deploys), KiriX (AI data vault), plus scaling MegaLLM to 190k users and building at Omium (The Residency SF), Matiks and Health Nivaran. BITS Pilani CS, Scaler NSET 2024.";
 
 export const metadata: Metadata = {
-  title: "Full Stack Developer - AlgoWars, Pods.ml, KiriX & MegaLLM",
-  description:
-    "Yash Agrawal's engineering work: AlgoWars (real-time coding duels), Pods.ml (one-click AI agent & game-server deploys), KiriX (AI data vault), plus scaling MegaLLM to 190k users and building at Omium (The Residency SF), Matiks and Health Nivaran. BITS Pilani CS, Scaler NSET 2024.",
+  title,
+  description,
   keywords: [
     "Yash Agrawal",
     "Yash Agrawal developer",
@@ -48,12 +58,22 @@ export const metadata: Metadata = {
     "Node.js",
     "Go",
   ],
-  alternates: { canonical: "/tech" },
+  robots: INDEXABLE_ROBOTS,
+  alternates: { canonical: `${SITE_URL}/tech` },
   openGraph: {
+    type: "website",
+    locale: "en_US",
+    siteName: SITE_NAME,
     title: "Yash Agrawal - Full Stack Developer | AlgoWars, Pods.ml, MegaLLM",
-    description:
-      "Engineering work by Yash Agrawal: AlgoWars, Pods.ml, KiriX, MegaLLM (0 to 190k users), Omium, Matiks. BITS Pilani CS, Scaler NSET.",
-    url: "/tech",
+    description,
+    url: `${SITE_URL}/tech`,
+    images: [DEFAULT_OG_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Yash Agrawal - Full Stack Developer | AlgoWars, Pods.ml, KiriX",
+    description,
+    creator: TWITTER_CREATOR,
     images: ["/og-image.png"],
   },
 };
