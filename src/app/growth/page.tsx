@@ -1,16 +1,14 @@
-"use client";
-
 /**
  * /growth - "The Growth Log"
  *
  * Same horizontal zine architecture as /tech, themed coral (the red pill):
- * intro → approach → track record → campaigns → toolkit → contact.
- * A growth/momentum timeline runs along the bottom of every panel.
+ * intro -> approach -> track record -> campaigns -> toolkit -> contact.
  *
  * Desktop: GSAP ScrollTrigger pinned horizontal scrub + Lenis smoothing.
  * Mobile: clean vertical stacking of the same panels.
  */
 
+import type { Metadata } from "next";
 import { HorizontalShell } from "@/components/horizontal";
 import { ZineNav } from "@/components/zine";
 import type { NavItem } from "@/components/zine/ZineNav";
@@ -21,6 +19,34 @@ import CampaignsPanel from "@/components/growth/CampaignsPanel";
 import SkillsPanel from "@/components/growth/SkillsPanel";
 import ContactPanel from "@/components/growth/ContactPanel";
 import DrawPanel from "@/components/growth/DrawPanel";
+
+export const metadata: Metadata = {
+  title: "Growth & Operations - 0 to 160k Users in 3 Days",
+  description:
+    "Yash Agrawal's growth work: took MegaLLM from 0 to 160k users in 3 days via influencer outreach, ran the @megallmio X account, freelance social growth for 5+ brands, and built GTM from scratch for early-stage startups.",
+  keywords: [
+    "Yash Agrawal",
+    "Yash Agrawal growth",
+    "Yash Agrawal MegaLLM",
+    "Yash Agrawal viral",
+    "Yash Agrawal operations",
+    "Yash Agrawal marketing",
+    "Growth & Operations",
+    "Influencer Outreach",
+    "Viral Growth",
+    "GTM Strategy",
+    "MegaLLM",
+    "0 to 160k users",
+  ],
+  alternates: { canonical: "/growth" },
+  openGraph: {
+    title: "Yash Agrawal - Growth & Operations | 0 to 160k in 3 days",
+    description:
+      "Growth work by Yash Agrawal: MegaLLM 0 to 160k users in 3 days, influencer outreach, social & GTM.",
+    url: "/growth",
+    images: ["/og-image.png"],
+  },
+};
 
 const PANEL_COUNT = 6;
 
