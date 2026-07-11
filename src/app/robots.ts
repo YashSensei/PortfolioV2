@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://yashagrawal.me/sitemap.xml",
-    host: "https://yashagrawal.me",
+    sitemap: "https://www.yashagrawal.me/sitemap.xml",
+    host: "https://www.yashagrawal.me",
   };
 }

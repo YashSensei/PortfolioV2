@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { Geist_Mono, Anton, Poppins } from "next/font/google";
 import "./globals.css";
 import Oneko from "@/components/Oneko";
@@ -64,14 +64,14 @@ export const metadata: Metadata = {
     "TypeScript",
     "Portfolio",
   ],
-  authors: [{ name: "Yash Agrawal", url: "https://yashagrawal.me" }],
+  authors: [{ name: "Yash Agrawal", url: "https://www.yashagrawal.me" }],
   creator: "Yash Agrawal",
-  metadataBase: new URL("https://yashagrawal.me"),
+  metadataBase: new URL("https://www.yashagrawal.me"),
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://yashagrawal.me",
+    url: "https://www.yashagrawal.me",
     siteName: "Yash Agrawal Portfolio",
     title: "Yash Agrawal | Full Stack Developer & Growth Operator",
     description:
@@ -119,8 +119,8 @@ const personJsonLd = {
   "@type": "Person",
   name: "Yash Agrawal",
   alternateName: "YashSensei",
-  url: "https://yashagrawal.me",
-  image: "https://yashagrawal.me/og-image.png",
+  url: "https://www.yashagrawal.me",
+  image: "https://www.yashagrawal.me/og-image.png",
   jobTitle: "Full Stack Developer & Growth Operator",
   alumniOf: {
     "@type": "CollegeOrUniversity",
