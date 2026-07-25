@@ -137,15 +137,6 @@ export interface Project {
 
 export const PROJECTS: Project[] = [
   {
-    hash: "a1607a2",
-    name: "AlgoWars",
-    tech: ["System Design", "Backend Architecture", "WebSockets"],
-    description:
-      "Real-time 1v1 coding duel platform with matchmaking and rating-based logic. Backend built for scalable problem distribution and low-latency concurrent matches.",
-    image: "/projects_assets/algowars.png",
-    liveUrl: "https://algowars.online",
-  },
-  {
     hash: "b00d5f1",
     name: "Pods.ml",
     tech: ["Next.js", "Pelican + Wings", "Orchestration", "Billing"],
@@ -153,6 +144,15 @@ export const PROJECTS: Project[] = [
       "One-click deploy platform for AI agents, sandboxes & game servers. Pick a template, hit deploy, get a running pod with a URL. Custom Next.js console over Pelican Panel + Wings - auth, billing, per-pod subdomains, an in-browser terminal & live metrics.",
     image: "/projects_assets/pods.png",
     liveUrl: "https://pods.ml",
+  },
+  {
+    hash: "a1607a2",
+    name: "AlgoWars",
+    tech: ["System Design", "Backend Architecture", "WebSockets"],
+    description:
+      "Real-time 1v1 coding duel platform with matchmaking and rating-based logic. Backend built for scalable problem distribution and low-latency concurrent matches.",
+    image: "/projects_assets/algowars.png",
+    liveUrl: "https://algowars.online",
   },
   {
     hash: "6b17a10",
