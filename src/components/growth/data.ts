@@ -7,13 +7,13 @@ export const HERO = {
   description:
     "I find the right people, craft the right message, and make products go viral. Strategic outreach, influencer partnerships, and relentless execution.",
   stats: [
-    { value: "160k+", label: "users in 3 days" },
+    { value: "190k+", label: "users in 3 days" },
     { value: "3 Days", label: "viral timeline" },
     { value: "5+", label: "client accounts" },
     { value: "1M+", label: "total reach" },
   ],
   portrait: "/myimages/mypotraitfortechpage.jpeg",
-  node: { metric: "0 → 160K", message: "the launch" },
+  node: { metric: "0 → 190K", message: "the launch" },
 } as const;
 
 export const APPROACH = {
@@ -53,18 +53,17 @@ export interface Role {
 
 export const EXPERIENCE: Role[] = [
   {
-    metric: "0 → 160K",
-    period: "Oct 2025 – Present",
+    metric: "0 → 190K",
+    period: "Oct 2025 – Jan 2026",
     role: "Growth & Operations",
     company: "MegaLLM.io",
-    headline: "0 to 160k in 3 days.",
+    headline: "0 to 190k in 3 days.",
     bullets: [
       "Led outreach & operations end-to-end",
-      "Partnered a Russian Telegram influencer → 0 to 160k users in 3 days",
+      "Partnered a Russian Telegram influencer → 0 to 190k users in 3 days",
       "Ran the @megallmio X account & growth initiatives",
     ],
     skills: ["Influencer Outreach", "Operations", "Viral Growth"],
-    isCurrent: true,
     url: "https://x.com/megallmio",
   },
   {
@@ -107,11 +106,11 @@ export interface Campaign {
 
 export const CAMPAIGNS: Campaign[] = [
   {
-    highlight: "160K / 3 DAYS",
+    highlight: "190K / 3 DAYS",
     name: "MegaLLM Viral Launch",
     description:
-      "Identified a Russian Telegram influencer, pitched the product, and secured a partnership. Her promotion to her community drove explosive growth - 0 to 160k users in just 3 days.",
-    result: "0 → 160,000 users in 72 hours",
+      "Identified a Russian Telegram influencer, pitched the product, and secured a partnership. Her promotion to her community drove explosive growth - 0 to 190k users in just 3 days.",
+    result: "0 → 190,000 users in 72 hours",
     tech: ["Outreach", "Telegram", "Influencer Marketing", "Referral"],
   },
   {

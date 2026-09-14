@@ -118,7 +118,7 @@ export default function CampaignsPanel({ index }: { index: number }) {
       <CommitLine
         segments={[
           { hash: "1M+", message: "total reach" },
-          { hash: "160K", message: "in 3 days" },
+          { hash: "190K", message: "in 3 days" },
         ]}
         accent="coral"
       />

@@ -27,9 +27,9 @@ import {
   TWITTER_CREATOR,
 } from "@/lib/seo";
 
-const title = "Growth & Operations - 0 to 160k Users in 3 Days";
+const title = "Growth & Operations - 0 to 190k Users in 3 Days";
 const description =
-  "Yash Agrawal's growth work: took MegaLLM from 0 to 160k users in 3 days via influencer outreach, ran the @megallmio X account, freelance social growth for 5+ brands, and built GTM from scratch for early-stage startups.";
+  "Yash Agrawal's growth work: took MegaLLM from 0 to 190k users in 3 days via influencer outreach, ran the @megallmio X account, freelance social growth for 5+ brands, and built GTM from scratch for early-stage startups.";
 
 export const metadata: Metadata = {
   title,
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     "Viral Growth",
     "GTM Strategy",
     "MegaLLM",
-    "0 to 160k users",
+    "0 to 190k users",
   ],
   robots: INDEXABLE_ROBOTS,
   alternates: { canonical: `${SITE_URL}/growth` },
@@ -54,14 +54,14 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     siteName: SITE_NAME,
-    title: "Yash Agrawal - Growth & Operations | 0 to 160k in 3 days",
+    title: "Yash Agrawal - Growth & Operations | 0 to 190k in 3 days",
     description,
     url: `${SITE_URL}/growth`,
     images: [DEFAULT_OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Yash Agrawal - Growth & Operations | 0 to 160k Users",
+    title: "Yash Agrawal - Growth & Operations | 0 to 190k Users",
     description,
     creator: TWITTER_CREATOR,
     images: ["/og-image.png"],

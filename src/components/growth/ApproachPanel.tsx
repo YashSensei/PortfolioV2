@@ -31,7 +31,7 @@ function DMCard() {
             love it. sending it out now →
           </p>
           <p className="pt-1 text-center font-mono text-[11px] text-coral">
-            + 160,000 users · 3 days
+            + 190,000 users · 3 days
           </p>
         </div>
       </div>

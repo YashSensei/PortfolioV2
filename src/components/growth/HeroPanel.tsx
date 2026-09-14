@@ -35,7 +35,7 @@ export default function HeroPanel({ index }: { index: number }) {
 
           <Reveal delay={0.15}>
             <p className="mt-4 font-grotesk text-lg font-semibold text-coral lg:text-xl">
-              {HERO.role} - <span className="text-ink">0 to 160k in 3 days.</span>
+              {HERO.role} - <span className="text-ink">0 to 190k in 3 days.</span>
             </p>
           </Reveal>
 
