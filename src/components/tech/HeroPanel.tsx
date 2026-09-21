@@ -1,5 +1,6 @@
 "use client";
 
+import { Github } from "lucide-react";
 import { Panel, useHorizontal } from "@/components/horizontal";
 import { Reveal, Sticker, GhostText, U, TapedPhoto, CommitLine } from "@/components/zine";
 import { HERO, ABOUT } from "./data";
@@ -43,10 +44,10 @@ export default function HeroPanel({ index }: { index: number }) {
 
           {/* CTAs */}
           <Reveal delay={0.25}>
-            <div className="mt-7 flex flex-wrap items-center gap-4">
+            <div className="mt-7 flex flex-wrap items-center gap-3 xl:gap-4">
               <button
                 onClick={() => scrollToIndex(CONTACT_INDEX)}
-                className="group inline-flex items-center gap-2 rounded-full bg-ink px-7 py-4 font-grotesk text-sm font-bold uppercase tracking-[0.14em] text-cream shadow-hard-cobalt transition-transform hover:-translate-y-0.5 hover:bg-cobalt"
+                className="group inline-flex items-center gap-2 rounded-full bg-ink px-5 py-3.5 font-grotesk text-xs font-bold uppercase tracking-[0.14em] text-cream shadow-hard-cobalt transition-transform hover:-translate-y-0.5 hover:bg-cobalt xl:px-7 xl:py-4 xl:text-sm"
               >
                 Let&apos;s build
                 <span className="transition-transform group-hover:translate-x-1">→</span>
@@ -55,16 +56,25 @@ export default function HeroPanel({ index }: { index: number }) {
                 href="/Yash-Resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border-2 border-ink px-7 py-4 font-grotesk text-sm font-bold uppercase tracking-[0.14em] text-ink transition-colors hover:bg-ink hover:text-cream"
+                className="inline-flex items-center gap-2 rounded-full border-2 border-ink px-5 py-3.5 font-grotesk text-xs font-bold uppercase tracking-[0.14em] text-ink transition-colors hover:bg-ink hover:text-cream xl:px-7 xl:py-4 xl:text-sm"
               >
                 Résumé
+              </a>
+              <a
+                href="https://github.com/YashSensei"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border-2 border-ink px-5 py-3.5 font-grotesk text-xs font-bold uppercase tracking-[0.14em] text-ink transition-colors hover:bg-ink hover:text-cream xl:px-7 xl:py-4 xl:text-sm"
+              >
+                <Github aria-hidden="true" className="h-4 w-4" />
+                GitHub
               </a>
             </div>
           </Reveal>
 
           {/* Stats */}
           <Reveal delay={0.35}>
-            <div className="mt-10 grid max-w-lg grid-cols-2 gap-x-8 gap-y-4 border-t-2 border-ink pt-5 sm:grid-cols-4">
+            <div className="mt-8 grid max-w-lg grid-cols-2 gap-x-8 gap-y-4 border-t-2 border-ink pt-5 sm:grid-cols-4 lg:mt-6">
               {HERO.stats.map((stat) => (
                 <div key={stat.label}>
                   <div className="font-grotesk text-[clamp(1.6rem,4vw,2.4rem)] font-bold leading-none text-ink">
