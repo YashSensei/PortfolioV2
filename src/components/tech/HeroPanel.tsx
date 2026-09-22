@@ -53,7 +53,7 @@ export default function HeroPanel({ index }: { index: number }) {
                 <span className="transition-transform group-hover:translate-x-1">→</span>
               </button>
               <a
-                href="/Yash-Resume.pdf"
+                href="/Yash-Tech-Resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-full border-2 border-ink px-5 py-3.5 font-grotesk text-xs font-bold uppercase tracking-[0.14em] text-ink transition-colors hover:bg-ink hover:text-cream xl:px-7 xl:py-4 xl:text-sm"

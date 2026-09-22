@@ -209,5 +209,5 @@ export const CONTACT = {
     { name: "LinkedIn", href: "https://linkedin.com/in/yash-agrawal-208841307" },
     { name: "X / Twitter", href: "https://x.com/Yash__Sensei" },
   ],
-  resume: "/Yash-Resume.pdf",
+  resume: "/Yash-Tech-Resume.pdf",
 } as const;
